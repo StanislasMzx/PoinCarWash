@@ -28,7 +28,7 @@
   <p align="center">
     project_description
     <br />
-    <a href="https://gitlab.telecomnancy.univ-lorraine.fr/ppii2_2223/ppii2-grp_07/docs"><strong>Explore the docs »</strong></a>
+    <a href="https://gitlab.telecomnancy.univ-lorraine.fr/ppii2_2223/ppii2-grp_07/-/tree/main/docs"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://gitlab.telecomnancy.univ-lorraine.fr/ppii2_2223/ppii2-grp_07">View Demo</a>
