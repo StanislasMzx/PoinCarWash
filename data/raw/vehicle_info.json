@@ -1,0 +1,1492 @@
+[
+    {
+        "name": "Tesla Model 3 ",
+        "range": "380",
+        "fast_charge": "630"
+    },
+    {
+        "name": "Tesla Model Y ",
+        "range": "345",
+        "fast_charge": "580"
+    },
+    {
+        "name": "Tesla Model 3 Long Range Dual Motor",
+        "range": "485",
+        "fast_charge": "750"
+    },
+    {
+        "name": "BYD ATTO 3 ",
+        "range": "320",
+        "fast_charge": "300"
+    },
+    {
+        "name": "MG MG4 Electric 64 kWh",
+        "range": "365",
+        "fast_charge": "450"
+    },
+    {
+        "name": "Tesla Model S Plaid",
+        "range": "550",
+        "fast_charge": "770"
+    },
+    {
+        "name": "BMW i4 eDrive40",
+        "range": "470",
+        "fast_charge": "730"
+    },
+    {
+        "name": "Tesla Model Y Performance",
+        "range": "415",
+        "fast_charge": "640"
+    },
+    {
+        "name": "Kia Niro EV ",
+        "range": "380",
+        "fast_charge": "380"
+    },
+    {
+        "name": "BMW iX1 xDrive30",
+        "range": "355",
+        "fast_charge": "510"
+    },
+    {
+        "name": "Mercedes EQS 450+",
+        "range": "640",
+        "fast_charge": "960"
+    },
+    {
+        "name": "BMW iX xDrive40",
+        "range": "360",
+        "fast_charge": "480"
+    },
+    {
+        "name": "BYD HAN ",
+        "range": "465",
+        "fast_charge": "450"
+    },
+    {
+        "name": "Kia EV6 GT",
+        "range": "370",
+        "fast_charge": "970"
+    },
+    {
+        "name": "Audi Q8 e-tron 55 quattro",
+        "range": "495",
+        "fast_charge": "670"
+    },
+    {
+        "name": "Lexus RZ 450e",
+        "range": "310",
+        "fast_charge": "460"
+    },
+    {
+        "name": "Mercedes EQE 350+",
+        "range": "525",
+        "fast_charge": "780"
+    },
+    {
+        "name": "Skoda Enyaq iV 80",
+        "range": "420",
+        "fast_charge": "530"
+    },
+    {
+        "name": "BMW i7 xDrive60",
+        "range": "510",
+        "fast_charge": "760"
+    },
+    {
+        "name": "Hyundai Kona Electric 64 kWh",
+        "range": "395",
+        "fast_charge": "370"
+    },
+    {
+        "name": "Tesla Model S Dual Motor",
+        "range": "570",
+        "fast_charge": "790"
+    },
+    {
+        "name": "Hyundai IONIQ 6 Long Range AWD",
+        "range": "440",
+        "fast_charge": "1150"
+    },
+    {
+        "name": "Tesla Model 3 Performance",
+        "range": "460",
+        "fast_charge": "710"
+    },
+    {
+        "name": "Dacia Spring Electric 45",
+        "range": "165",
+        "fast_charge": "180"
+    },
+    {
+        "name": "Hongqi E-HS9 99 kWh",
+        "range": "355",
+        "fast_charge": "410"
+    },
+    {
+        "name": "BMW iX xDrive50",
+        "range": "505",
+        "fast_charge": "680"
+    },
+    {
+        "name": "Nissan Ariya 87kWh",
+        "range": "445",
+        "fast_charge": "530"
+    },
+    {
+        "name": "Audi Q4 e-tron 40",
+        "range": "405",
+        "fast_charge": "510"
+    },
+    {
+        "name": "MG ZS EV Long Range",
+        "range": "365",
+        "fast_charge": "410"
+    },
+    {
+        "name": "BMW i4 eDrive35",
+        "range": "400",
+        "fast_charge": "540"
+    },
+    {
+        "name": "Volkswagen ID. Buzz Pro",
+        "range": "330",
+        "fast_charge": "460"
+    },
+    {
+        "name": "BMW iX3 ",
+        "range": "385",
+        "fast_charge": "520"
+    },
+    {
+        "name": "Renault Megane E-Tech EV60 220hp",
+        "range": "360",
+        "fast_charge": "500"
+    },
+    {
+        "name": "BYD TANG ",
+        "range": "350",
+        "fast_charge": "330"
+    },
+    {
+        "name": "BMW i4 M50",
+        "range": "435",
+        "fast_charge": "670"
+    },
+    {
+        "name": "Audi e-tron GT RS",
+        "range": "405",
+        "fast_charge": "1000"
+    },
+    {
+        "name": "Mercedes EQC 400 4MATIC",
+        "range": "370",
+        "fast_charge": "440"
+    },
+    {
+        "name": "Kia EV6 Long Range 2WD",
+        "range": "410",
+        "fast_charge": "1070"
+    },
+    {
+        "name": "Fiat 500e Hatchback 42 kWh",
+        "range": "235",
+        "fast_charge": "390"
+    },
+    {
+        "name": "Renault Zoe ZE50 R110",
+        "range": "315",
+        "fast_charge": "230"
+    },
+    {
+        "name": "Hyundai IONIQ 6 Long Range 2WD",
+        "range": "475",
+        "fast_charge": "1240"
+    },
+    {
+        "name": "Toyota bZ4X FWD",
+        "range": "335",
+        "fast_charge": "500"
+    },
+    {
+        "name": "Smart #1 ",
+        "range": "350",
+        "fast_charge": "520"
+    },
+    {
+        "name": "Hyundai Kona Electric 65 kWh",
+        "range": "400",
+        "fast_charge": "410"
+    },
+    {
+        "name": "Mercedes EQS 580 4MATIC",
+        "range": "605",
+        "fast_charge": "900"
+    },
+    {
+        "name": "Tesla Model X Plaid",
+        "range": "455",
+        "fast_charge": "630"
+    },
+    {
+        "name": "Nissan Leaf ",
+        "range": "235",
+        "fast_charge": "230"
+    },
+    {
+        "name": "MG MG4 Electric 51 kWh",
+        "range": "300",
+        "fast_charge": "340"
+    },
+    {
+        "name": "Fisker Ocean One",
+        "range": "510",
+        "fast_charge": "730"
+    },
+    {
+        "name": "Volkswagen ID.4 Pro",
+        "range": "410",
+        "fast_charge": "520"
+    },
+    {
+        "name": "Lucid Air Dream Edition R",
+        "range": "685",
+        "fast_charge": "870"
+    },
+    {
+        "name": "Peugeot e-208 ",
+        "range": "285",
+        "fast_charge": "460"
+    },
+    {
+        "name": "Opel Astra Electric",
+        "range": "310",
+        "fast_charge": "500"
+    },
+    {
+        "name": "Hyundai IONIQ 5 Long Range 2WD",
+        "range": "390",
+        "fast_charge": "1020"
+    },
+    {
+        "name": "Audi Q8 e-tron Sportback 55 quattro",
+        "range": "525",
+        "fast_charge": "710"
+    },
+    {
+        "name": "MG MG5 Electric Long Range",
+        "range": "335",
+        "fast_charge": "330"
+    },
+    {
+        "name": "Kia EV6 Long Range AWD",
+        "range": "400",
+        "fast_charge": "1050"
+    },
+    {
+        "name": "Volkswagen ID.4 Pro Performance",
+        "range": "410",
+        "fast_charge": "520"
+    },
+    {
+        "name": "Mercedes EQB 350 4MATIC",
+        "range": "335",
+        "fast_charge": "480"
+    },
+    {
+        "name": "Mini Cooper SE ",
+        "range": "180",
+        "fast_charge": "260"
+    },
+    {
+        "name": "CUPRA Born 150 kW - 58 kWh",
+        "range": "350",
+        "fast_charge": "470"
+    },
+    {
+        "name": "Volkswagen ID.4 Pure",
+        "range": "285",
+        "fast_charge": "360"
+    },
+    {
+        "name": "Mazda MX-30 ",
+        "range": "170",
+        "fast_charge": "210"
+    },
+    {
+        "name": "Hyundai IONIQ 6 Standard Range 2WD",
+        "range": "360",
+        "fast_charge": "880"
+    },
+    {
+        "name": "Porsche Taycan Turbo S",
+        "range": "400",
+        "fast_charge": "980"
+    },
+    {
+        "name": "Volkswagen ID.3 Pro Performance",
+        "range": "350",
+        "fast_charge": "470"
+    },
+    {
+        "name": "Jeep Avenger Electric 1st Edition",
+        "range": "295",
+        "fast_charge": "470"
+    },
+    {
+        "name": "Jeep Avenger Electric ",
+        "range": "300",
+        "fast_charge": "480"
+    },
+    {
+        "name": "Subaru Solterra AWD",
+        "range": "320",
+        "fast_charge": "480"
+    },
+    {
+        "name": "Tesla Model X Dual Motor",
+        "range": "470",
+        "fast_charge": "650"
+    },
+    {
+        "name": "BMW iX M60",
+        "range": "485",
+        "fast_charge": "650"
+    },
+    {
+        "name": "Hyundai IONIQ 5 Standard Range 2WD",
+        "range": "295",
+        "fast_charge": "720"
+    },
+    {
+        "name": "Volvo XC40 Recharge Single Motor",
+        "range": "335",
+        "fast_charge": "500"
+    },
+    {
+        "name": "Skoda Enyaq iV 60",
+        "range": "325",
+        "fast_charge": "440"
+    },
+    {
+        "name": "MG Marvel R ",
+        "range": "335",
+        "fast_charge": "400"
+    },
+    {
+        "name": "Rolls-Royce Spectre ",
+        "range": "455",
+        "fast_charge": "540"
+    },
+    {
+        "name": "Mercedes EQB 250",
+        "range": "345",
+        "fast_charge": "500"
+    },
+    {
+        "name": "CUPRA Born 170 kW - 77 kWh",
+        "range": "450",
+        "fast_charge": "570"
+    },
+    {
+        "name": "Citroen e-C4 X ",
+        "range": "265",
+        "fast_charge": "420"
+    },
+    {
+        "name": "Hyundai IONIQ 5 Long Range AWD",
+        "range": "385",
+        "fast_charge": "1010"
+    },
+    {
+        "name": "Polestar 2 Long Range Single Motor",
+        "range": "440",
+        "fast_charge": "680"
+    },
+    {
+        "name": "Citroen e-C4 ",
+        "range": "265",
+        "fast_charge": "420"
+    },
+    {
+        "name": "Mercedes EQE 300",
+        "range": "515",
+        "fast_charge": "650"
+    },
+    {
+        "name": "Renault Zoe ZE50 R135",
+        "range": "310",
+        "fast_charge": "230"
+    },
+    {
+        "name": "Peugeot e-2008 SUV ",
+        "range": "255",
+        "fast_charge": "410"
+    },
+    {
+        "name": "Mercedes EQA 250+",
+        "range": "375",
+        "fast_charge": "520"
+    },
+    {
+        "name": "Dacia Spring Electric 65 Extreme",
+        "range": "160",
+        "fast_charge": "170"
+    },
+    {
+        "name": "Audi Q8 e-tron 50 quattro",
+        "range": "415",
+        "fast_charge": "580"
+    },
+    {
+        "name": "Volkswagen ID.5 Pro",
+        "range": "430",
+        "fast_charge": "540"
+    },
+    {
+        "name": "Renault Twingo Electric",
+        "range": "130",
+        "fast_charge": ""
+    },
+    {
+        "name": "Audi Q4 e-tron 35",
+        "range": "285",
+        "fast_charge": "360"
+    },
+    {
+        "name": "Lotus Eletre ",
+        "range": "520",
+        "fast_charge": "1090"
+    },
+    {
+        "name": "Volvo XC40 Recharge Twin Motor",
+        "range": "380",
+        "fast_charge": "590"
+    },
+    {
+        "name": "Hyundai Kona Electric 39 kWh",
+        "range": "250",
+        "fast_charge": "220"
+    },
+    {
+        "name": "NIO ET5 100 kWh",
+        "range": "495",
+        "fast_charge": "520"
+    },
+    {
+        "name": "Mercedes EQE SUV 350+",
+        "range": "470",
+        "fast_charge": "700"
+    },
+    {
+        "name": "Nissan Leaf e+",
+        "range": "340",
+        "fast_charge": "240"
+    },
+    {
+        "name": "Peugeot e-308 ",
+        "range": "310",
+        "fast_charge": "460"
+    },
+    {
+        "name": "Audi SQ8 e-tron ",
+        "range": "445",
+        "fast_charge": "600"
+    },
+    {
+        "name": "Opel Mokka-e ",
+        "range": "255",
+        "fast_charge": "410"
+    },
+    {
+        "name": "Abarth 500e Scorpionissima",
+        "range": "225",
+        "fast_charge": "370"
+    },
+    {
+        "name": "Volkswagen ID.5 GTX",
+        "range": "405",
+        "fast_charge": "560"
+    },
+    {
+        "name": "MG Marvel R Performance",
+        "range": "330",
+        "fast_charge": "390"
+    },
+    {
+        "name": "Opel Corsa-e ",
+        "range": "285",
+        "fast_charge": "460"
+    },
+    {
+        "name": "Audi Q4 e-tron 50 quattro",
+        "range": "385",
+        "fast_charge": "490"
+    },
+    {
+        "name": "Polestar 3 Long Range Dual motor",
+        "range": "490",
+        "fast_charge": "640"
+    },
+    {
+        "name": "Polestar 2 Standard Range Single Motor",
+        "range": "385",
+        "fast_charge": "620"
+    },
+    {
+        "name": "XPENG P7 RWD Long Range",
+        "range": "500",
+        "fast_charge": "700"
+    },
+    {
+        "name": "MG ZS EV Standard Range",
+        "range": "270",
+        "fast_charge": "260"
+    },
+    {
+        "name": "Fisker Ocean Ultra",
+        "range": "505",
+        "fast_charge": "730"
+    },
+    {
+        "name": "Skoda Enyaq Coupe iV RS",
+        "range": "405",
+        "fast_charge": "560"
+    },
+    {
+        "name": "Porsche Taycan ",
+        "range": "410",
+        "fast_charge": "1010"
+    },
+    {
+        "name": "Volkswagen ID.3 Pro S - 4 Seats",
+        "range": "450",
+        "fast_charge": "570"
+    },
+    {
+        "name": "Volvo EX90 Twin Motor Performance",
+        "range": "440",
+        "fast_charge": "570"
+    },
+    {
+        "name": "Fisker Ocean Sport",
+        "range": "380",
+        "fast_charge": "480"
+    },
+    {
+        "name": "Mercedes EQS SUV 580 4MATIC",
+        "range": "485",
+        "fast_charge": "630"
+    },
+    {
+        "name": "NIO ET7 75 kWh",
+        "range": "400",
+        "fast_charge": "540"
+    },
+    {
+        "name": "Lexus UX 300e",
+        "range": "235",
+        "fast_charge": "150"
+    },
+    {
+        "name": "Honda e Advance",
+        "range": "170",
+        "fast_charge": "180"
+    },
+    {
+        "name": "Skoda Enyaq Coupe iV 80",
+        "range": "445",
+        "fast_charge": "560"
+    },
+    {
+        "name": "Volkswagen e-Up! ",
+        "range": "205",
+        "fast_charge": "170"
+    },
+    {
+        "name": "Mercedes EQV 300 Long",
+        "range": "305",
+        "fast_charge": "310"
+    },
+    {
+        "name": "Mercedes EQB 300 4MATIC",
+        "range": "335",
+        "fast_charge": "480"
+    },
+    {
+        "name": "Smart EQ fortwo coupe",
+        "range": "100",
+        "fast_charge": ""
+    },
+    {
+        "name": "Volvo XC40 Recharge Single Motor ER",
+        "range": "385",
+        "fast_charge": "590"
+    },
+    {
+        "name": "Polestar 2 Long Range Dual Motor",
+        "range": "420",
+        "fast_charge": "650"
+    },
+    {
+        "name": "Lucid Air Grand Touring",
+        "range": "665",
+        "fast_charge": "840"
+    },
+    {
+        "name": "Audi e-tron GT quattro",
+        "range": "420",
+        "fast_charge": "1030"
+    },
+    {
+        "name": "NIO EL7 100 kWh",
+        "range": "430",
+        "fast_charge": "450"
+    },
+    {
+        "name": "Hyundai Kona Electric 48 kWh",
+        "range": "300",
+        "fast_charge": "290"
+    },
+    {
+        "name": "Volkswagen ID.5 Pro Performance",
+        "range": "430",
+        "fast_charge": "540"
+    },
+    {
+        "name": "Volkswagen ID.4 GTX",
+        "range": "400",
+        "fast_charge": "560"
+    },
+    {
+        "name": "Jaguar I-Pace EV400",
+        "range": "380",
+        "fast_charge": "360"
+    },
+    {
+        "name": "Volvo EX90 Twin Motor",
+        "range": "455",
+        "fast_charge": "590"
+    },
+    {
+        "name": "Toyota bZ4X AWD",
+        "range": "330",
+        "fast_charge": "490"
+    },
+    {
+        "name": "Nissan Ariya e-4ORCE 87kWh",
+        "range": "420",
+        "fast_charge": "500"
+    },
+    {
+        "name": "VinFast VF 9 Extended Range",
+        "range": "520",
+        "fast_charge": "520"
+    },
+    {
+        "name": "Lucid Air Pure",
+        "range": "560",
+        "fast_charge": "980"
+    },
+    {
+        "name": "Mercedes EQA 350 4MATIC",
+        "range": "350",
+        "fast_charge": "500"
+    },
+    {
+        "name": "Maserati GranTurismo Folgore",
+        "range": "425",
+        "fast_charge": "990"
+    },
+    {
+        "name": "Smart #1 Brabus",
+        "range": "335",
+        "fast_charge": "500"
+    },
+    {
+        "name": "Mercedes EQS AMG 53 4MATIC+",
+        "range": "565",
+        "fast_charge": "840"
+    },
+    {
+        "name": "Volvo C40 Recharge Twin Motor",
+        "range": "390",
+        "fast_charge": "600"
+    },
+    {
+        "name": "Renault Megane E-Tech EV60 130hp",
+        "range": "365",
+        "fast_charge": "510"
+    },
+    {
+        "name": "Mercedes EQA 250",
+        "range": "355",
+        "fast_charge": "510"
+    },
+    {
+        "name": "Fisker Ocean Extreme",
+        "range": "510",
+        "fast_charge": "730"
+    },
+    {
+        "name": "XPENG G9 RWD Long Range",
+        "range": "470",
+        "fast_charge": "980"
+    },
+    {
+        "name": "Porsche Taycan 4 Cross Turismo",
+        "range": "425",
+        "fast_charge": "1050"
+    },
+    {
+        "name": "Ford Mustang Mach-E ER RWD",
+        "range": "455",
+        "fast_charge": "400"
+    },
+    {
+        "name": "Aiways U5 ",
+        "range": "315",
+        "fast_charge": "380"
+    },
+    {
+        "name": "Mercedes EQE 500 4MATIC",
+        "range": "500",
+        "fast_charge": "750"
+    },
+    {
+        "name": "JAC iEV7s ",
+        "range": "225",
+        "fast_charge": "160"
+    },
+    {
+        "name": "Peugeot e-308 SW ",
+        "range": "300",
+        "fast_charge": "450"
+    },
+    {
+        "name": "Nissan Ariya 63kWh",
+        "range": "320",
+        "fast_charge": "430"
+    },
+    {
+        "name": "Porsche Taycan 4S",
+        "range": "395",
+        "fast_charge": "970"
+    },
+    {
+        "name": "Volvo C40 Recharge Single Motor ER",
+        "range": "400",
+        "fast_charge": "620"
+    },
+    {
+        "name": "Skoda Enyaq iV 80x",
+        "range": "400",
+        "fast_charge": "500"
+    },
+    {
+        "name": "Audi Q4 Sportback e-tron 40",
+        "range": "425",
+        "fast_charge": "540"
+    },
+    {
+        "name": "Opel Astra Sports Tourer Electric",
+        "range": "300",
+        "fast_charge": "480"
+    },
+    {
+        "name": "Renault Megane E-Tech EV40 130hp",
+        "range": "250",
+        "fast_charge": "360"
+    },
+    {
+        "name": "XPENG P7 Wing Edition",
+        "range": "465",
+        "fast_charge": "650"
+    },
+    {
+        "name": "NIO ET7 100 kWh",
+        "range": "505",
+        "fast_charge": "530"
+    },
+    {
+        "name": "Volvo C40 Recharge Single Motor",
+        "range": "345",
+        "fast_charge": "510"
+    },
+    {
+        "name": "Mercedes EQE AMG 43 4MATIC",
+        "range": "485",
+        "fast_charge": "720"
+    },
+    {
+        "name": "Hongqi E-HS9 84 kWh",
+        "range": "305",
+        "fast_charge": "420"
+    },
+    {
+        "name": "ORA Funky Cat 48 kWh",
+        "range": "260",
+        "fast_charge": "240"
+    },
+    {
+        "name": "Fiat 500e 3+1 42 kWh",
+        "range": "235",
+        "fast_charge": "390"
+    },
+    {
+        "name": "SsangYong Korando e-Motion",
+        "range": "290",
+        "fast_charge": "330"
+    },
+    {
+        "name": "Porsche Taycan Plus",
+        "range": "475",
+        "fast_charge": "1170"
+    },
+    {
+        "name": "Audi Q4 e-tron 45 quattro",
+        "range": "385",
+        "fast_charge": "490"
+    },
+    {
+        "name": "Mercedes EQE SUV 500 4MATIC",
+        "range": "455",
+        "fast_charge": "680"
+    },
+    {
+        "name": "Polestar 3 Long Range Performance",
+        "range": "470",
+        "fast_charge": "610"
+    },
+    {
+        "name": "Kia EV6 Standard Range 2WD",
+        "range": "305",
+        "fast_charge": "750"
+    },
+    {
+        "name": "Volkswagen ID.4 Pro 4MOTION",
+        "range": "405",
+        "fast_charge": "510"
+    },
+    {
+        "name": "Volkswagen ID.4 Pure Performance",
+        "range": "285",
+        "fast_charge": "360"
+    },
+    {
+        "name": "Aiways U6 ",
+        "range": "350",
+        "fast_charge": "430"
+    },
+    {
+        "name": "Mercedes EQS SUV 450+",
+        "range": "495",
+        "fast_charge": "650"
+    },
+    {
+        "name": "Mercedes EQS 500 4MATIC",
+        "range": "605",
+        "fast_charge": "900"
+    },
+    {
+        "name": "Renault Kangoo E-Tech Electric",
+        "range": "215",
+        "fast_charge": "230"
+    },
+    {
+        "name": "Genesis GV60 Premium",
+        "range": "390",
+        "fast_charge": "1020"
+    },
+    {
+        "name": "Mercedes EQA 300 4MATIC",
+        "range": "350",
+        "fast_charge": "500"
+    },
+    {
+        "name": "DS 3 E-Tense",
+        "range": "300",
+        "fast_charge": "480"
+    },
+    {
+        "name": "Genesis GV70 Electrified Sport",
+        "range": "350",
+        "fast_charge": "860"
+    },
+    {
+        "name": "Ford Mustang Mach-E GT",
+        "range": "425",
+        "fast_charge": "380"
+    },
+    {
+        "name": "Mercedes EQE AMG 53 4MATIC+",
+        "range": "480",
+        "fast_charge": "720"
+    },
+    {
+        "name": "Lucid Air Dream Edition P",
+        "range": "645",
+        "fast_charge": "820"
+    },
+    {
+        "name": "Kia e-Soul 64 kWh",
+        "range": "370",
+        "fast_charge": "350"
+    },
+    {
+        "name": "Ford Mustang Mach-E ER AWD",
+        "range": "440",
+        "fast_charge": "390"
+    },
+    {
+        "name": "Lucid Air Touring",
+        "range": "550",
+        "fast_charge": "960"
+    },
+    {
+        "name": "Mercedes EQE 350 4MATIC",
+        "range": "500",
+        "fast_charge": "750"
+    },
+    {
+        "name": "Ford Mustang Mach-E SR RWD",
+        "range": "355",
+        "fast_charge": "370"
+    },
+    {
+        "name": "CUPRA Born 110 kW - 45 kWh",
+        "range": "275",
+        "fast_charge": "410"
+    },
+    {
+        "name": "MG MG5 Electric Standard Range",
+        "range": "265",
+        "fast_charge": "320"
+    },
+    {
+        "name": "Porsche Taycan 4S Plus",
+        "range": "460",
+        "fast_charge": "1130"
+    },
+    {
+        "name": "Mercedes EQS 450 4MATIC",
+        "range": "615",
+        "fast_charge": "920"
+    },
+    {
+        "name": "Fiat 500e Hatchback 24 kWh",
+        "range": "135",
+        "fast_charge": "230"
+    },
+    {
+        "name": "Mercedes EQE SUV AMG 53 4MATIC+",
+        "range": "425",
+        "fast_charge": "630"
+    },
+    {
+        "name": "Genesis G80 Electrified Luxury",
+        "range": "440",
+        "fast_charge": "880"
+    },
+    {
+        "name": "Mercedes EQE SUV 350 4MATIC",
+        "range": "455",
+        "fast_charge": "680"
+    },
+    {
+        "name": "Polestar 2 Long Range Performance",
+        "range": "410",
+        "fast_charge": "630"
+    },
+    {
+        "name": "Mercedes EQB 250+",
+        "range": "365",
+        "fast_charge": "490"
+    },
+    {
+        "name": "Porsche Taycan Turbo",
+        "range": "415",
+        "fast_charge": "1020"
+    },
+    {
+        "name": "Audi Q8 e-tron Sportback 50 quattro",
+        "range": "440",
+        "fast_charge": "610"
+    },
+    {
+        "name": "XPENG G9 AWD Long Range",
+        "range": "440",
+        "fast_charge": "920"
+    },
+    {
+        "name": "CUPRA Born 170 kW - 58 kWh",
+        "range": "345",
+        "fast_charge": "460"
+    },
+    {
+        "name": "Audi SQ8 e-tron Sportback ",
+        "range": "470",
+        "fast_charge": "630"
+    },
+    {
+        "name": "Porsche Taycan GTS",
+        "range": "450",
+        "fast_charge": "1110"
+    },
+    {
+        "name": "NIO ET5 75 kWh",
+        "range": "395",
+        "fast_charge": "530"
+    },
+    {
+        "name": "Mercedes EQS SUV 450 4MATIC",
+        "range": "485",
+        "fast_charge": "630"
+    },
+    {
+        "name": "Citroen e-Berlingo M 50 kWh",
+        "range": "200",
+        "fast_charge": "320"
+    },
+    {
+        "name": "Lotus Eletre R",
+        "range": "450",
+        "fast_charge": "940"
+    },
+    {
+        "name": "Skoda Enyaq Coupe iV 80x",
+        "range": "430",
+        "fast_charge": "540"
+    },
+    {
+        "name": "Audi Q4 Sportback e-tron 50 quattro",
+        "range": "400",
+        "fast_charge": "500"
+    },
+    {
+        "name": "Fiat 500e Cabrio 42 kWh",
+        "range": "230",
+        "fast_charge": "380"
+    },
+    {
+        "name": "ORA Funky Cat 63 kWh",
+        "range": "340",
+        "fast_charge": "240"
+    },
+    {
+        "name": "Seres 3 ",
+        "range": "260",
+        "fast_charge": "240"
+    },
+    {
+        "name": "XPENG G9 RWD Standard Range",
+        "range": "375",
+        "fast_charge": "780"
+    },
+    {
+        "name": "Skoda Enyaq Coupe iV 60",
+        "range": "335",
+        "fast_charge": "450"
+    },
+    {
+        "name": "Peugeot e-Rifter Long 50 kWh",
+        "range": "195",
+        "fast_charge": "310"
+    },
+    {
+        "name": "Mercedes EQE 350",
+        "range": "515",
+        "fast_charge": "650"
+    },
+    {
+        "name": "Mini Cooper SE Convertible",
+        "range": "170",
+        "fast_charge": "240"
+    },
+    {
+        "name": "XPENG P7 AWD Performance",
+        "range": "470",
+        "fast_charge": "650"
+    },
+    {
+        "name": "Peugeot e-Expert Combi Standard 75 kWh",
+        "range": "265",
+        "fast_charge": "290"
+    },
+    {
+        "name": "Audi Q4 Sportback e-tron 35",
+        "range": "295",
+        "fast_charge": "370"
+    },
+    {
+        "name": "Fiat 500e 3+1 24 kWh",
+        "range": "135",
+        "fast_charge": "230"
+    },
+    {
+        "name": "Smart EQ fortwo cabrio",
+        "range": "95",
+        "fast_charge": ""
+    },
+    {
+        "name": "Genesis GV60 Sport",
+        "range": "380",
+        "fast_charge": "990"
+    },
+    {
+        "name": "Toyota Proace City Verso Electric L1 50 kWh",
+        "range": "205",
+        "fast_charge": "330"
+    },
+    {
+        "name": "VinFast VF 9 Standard Range",
+        "range": "400",
+        "fast_charge": "540"
+    },
+    {
+        "name": "Toyota PROACE Verso M 75 kWh",
+        "range": "265",
+        "fast_charge": "290"
+    },
+    {
+        "name": "Ford Mustang Mach-E SR AWD",
+        "range": "345",
+        "fast_charge": "360"
+    },
+    {
+        "name": "Kia e-Soul 39.2 kWh",
+        "range": "230",
+        "fast_charge": "200"
+    },
+    {
+        "name": "Audi Q4 Sportback e-tron 45 quattro",
+        "range": "400",
+        "fast_charge": "500"
+    },
+    {
+        "name": "Mercedes EQS SUV 500 4MATIC",
+        "range": "485",
+        "fast_charge": "630"
+    },
+    {
+        "name": "ORA Funky Cat GT",
+        "range": "330",
+        "fast_charge": "230"
+    },
+    {
+        "name": "VinFast VF 8 Plus Standard Range",
+        "range": "400",
+        "fast_charge": "560"
+    },
+    {
+        "name": "Mercedes EQE SUV AMG 43 4MATIC",
+        "range": "435",
+        "fast_charge": "650"
+    },
+    {
+        "name": "Opel Zafira-e Life L 75 kWh",
+        "range": "260",
+        "fast_charge": "280"
+    },
+    {
+        "name": "Porsche Taycan 4S Cross Turismo",
+        "range": "425",
+        "fast_charge": "1050"
+    },
+    {
+        "name": "Mercedes eVito Tourer Long 90 kWh",
+        "range": "310",
+        "fast_charge": "310"
+    },
+    {
+        "name": "Skoda Enyaq iV RS",
+        "range": "390",
+        "fast_charge": "540"
+    },
+    {
+        "name": "Opel Vivaro-e Combi M 75 kWh",
+        "range": "265",
+        "fast_charge": "290"
+    },
+    {
+        "name": "Fiat 500e Cabrio 24 kWh",
+        "range": "135",
+        "fast_charge": "230"
+    },
+    {
+        "name": "Mercedes EQV 300 Extra-Long",
+        "range": "305",
+        "fast_charge": "310"
+    },
+    {
+        "name": "NIO EL7 75 kWh",
+        "range": "340",
+        "fast_charge": "460"
+    },
+    {
+        "name": "Toyota PROACE Verso L 75 kWh",
+        "range": "260",
+        "fast_charge": "280"
+    },
+    {
+        "name": "Peugeot e-Traveller Standard 50 kWh",
+        "range": "180",
+        "fast_charge": "290"
+    },
+    {
+        "name": "Mercedes eVito Tourer Extra-Long 90 kWh",
+        "range": "305",
+        "fast_charge": "310"
+    },
+    {
+        "name": "Porsche Taycan Turbo S Sport Turismo",
+        "range": "395",
+        "fast_charge": "970"
+    },
+    {
+        "name": "Genesis GV60 Sport Plus",
+        "range": "365",
+        "fast_charge": "950"
+    },
+    {
+        "name": "Porsche Taycan Plus Sport Turismo",
+        "range": "445",
+        "fast_charge": "1090"
+    },
+    {
+        "name": "Porsche Taycan Sport Turismo",
+        "range": "380",
+        "fast_charge": "930"
+    },
+    {
+        "name": "Citroen e-SpaceTourer M 50 kWh",
+        "range": "180",
+        "fast_charge": "290"
+    },
+    {
+        "name": "Peugeot e-Rifter Standard 50 kWh",
+        "range": "200",
+        "fast_charge": "320"
+    },
+    {
+        "name": "Fiat E-Ulysse L3 75 kWh",
+        "range": "260",
+        "fast_charge": "280"
+    },
+    {
+        "name": "Porsche Taycan GTS Sport Turismo",
+        "range": "425",
+        "fast_charge": "1050"
+    },
+    {
+        "name": "Toyota Proace City Verso Electric L2 50 kWh",
+        "range": "200",
+        "fast_charge": "320"
+    },
+    {
+        "name": "Citroen e-Jumpy Combi M 75 kWh",
+        "range": "265",
+        "fast_charge": "290"
+    },
+    {
+        "name": "VinFast VF 8 Eco Standard Range",
+        "range": "405",
+        "fast_charge": "560"
+    },
+    {
+        "name": "Opel Combo-e Life 50 kWh",
+        "range": "200",
+        "fast_charge": "320"
+    },
+    {
+        "name": "Peugeot e-Expert Combi Long 75 kWh",
+        "range": "260",
+        "fast_charge": "280"
+    },
+    {
+        "name": "Porsche Taycan 4S Plus Sport Turismo",
+        "range": "430",
+        "fast_charge": "1060"
+    },
+    {
+        "name": "Porsche Taycan Turbo S Cross Turismo",
+        "range": "385",
+        "fast_charge": "950"
+    },
+    {
+        "name": "Citroen e-Berlingo XL 50 kWh",
+        "range": "195",
+        "fast_charge": "310"
+    },
+    {
+        "name": "Porsche Taycan Turbo Sport Turismo",
+        "range": "405",
+        "fast_charge": "1000"
+    },
+    {
+        "name": "Toyota PROACE Shuttle M 75 kWh",
+        "range": "260",
+        "fast_charge": "280"
+    },
+    {
+        "name": "Opel Combo-e Life XL 50 kWh",
+        "range": "195",
+        "fast_charge": "310"
+    },
+    {
+        "name": "Mercedes EQV 250 Long",
+        "range": "205",
+        "fast_charge": "190"
+    },
+    {
+        "name": "VinFast VF 8 Plus Extended Range",
+        "range": "425",
+        "fast_charge": "550"
+    },
+    {
+        "name": "VinFast VF 8 Eco Extended Range",
+        "range": "425",
+        "fast_charge": "550"
+    },
+    {
+        "name": "Peugeot e-Traveller Long 75 kWh",
+        "range": "260",
+        "fast_charge": "280"
+    },
+    {
+        "name": "Citroen e-SpaceTourer M 75 kWh",
+        "range": "265",
+        "fast_charge": "290"
+    },
+    {
+        "name": "Opel Vivaro-e Combi M 50 kWh",
+        "range": "180",
+        "fast_charge": "290"
+    },
+    {
+        "name": "Peugeot e-Traveller Long 50 kWh",
+        "range": "175",
+        "fast_charge": "280"
+    },
+    {
+        "name": "Citroen e-Jumpy Combi M 50 kWh",
+        "range": "180",
+        "fast_charge": "290"
+    },
+    {
+        "name": "Porsche Taycan Turbo Cross Turismo",
+        "range": "400",
+        "fast_charge": "980"
+    },
+    {
+        "name": "Fiat E-Ulysse L2 50 kWh",
+        "range": "180",
+        "fast_charge": "290"
+    },
+    {
+        "name": "Fiat E-Ulysse L2 75 kWh",
+        "range": "265",
+        "fast_charge": "290"
+    },
+    {
+        "name": "Mercedes eVito Tourer Long 60 kWh",
+        "range": "210",
+        "fast_charge": "310"
+    },
+    {
+        "name": "Toyota PROACE Shuttle L 75 kWh",
+        "range": "260",
+        "fast_charge": "280"
+    },
+    {
+        "name": "Opel Zafira-e Life M 50 kWh",
+        "range": "180",
+        "fast_charge": "290"
+    },
+    {
+        "name": "Peugeot e-Traveller Standard 75 kWh",
+        "range": "265",
+        "fast_charge": "290"
+    },
+    {
+        "name": "Fiat E-Ulysse L3 50 kWh",
+        "range": "175",
+        "fast_charge": "280"
+    },
+    {
+        "name": "Peugeot e-Expert Combi Standard 50 kWh",
+        "range": "180",
+        "fast_charge": "290"
+    },
+    {
+        "name": "Porsche Taycan 4S Sport Turismo",
+        "range": "370",
+        "fast_charge": "910"
+    },
+    {
+        "name": "Citroen e-SpaceTourer XL 75 kWh",
+        "range": "260",
+        "fast_charge": "280"
+    },
+    {
+        "name": "Mercedes eVito Tourer Extra-Long 60 kWh",
+        "range": "205",
+        "fast_charge": "300"
+    },
+    {
+        "name": "Toyota PROACE Shuttle L 50 kWh",
+        "range": "175",
+        "fast_charge": "280"
+    },
+    {
+        "name": "Opel Vivaro-e Combi L 50 kWh",
+        "range": "175",
+        "fast_charge": "280"
+    },
+    {
+        "name": "Opel Zafira-e Life L 50 kWh",
+        "range": "175",
+        "fast_charge": "280"
+    },
+    {
+        "name": "Citroen e-Jumpy Combi XL 75 kWh",
+        "range": "260",
+        "fast_charge": "280"
+    },
+    {
+        "name": "Toyota PROACE Shuttle M 50 kWh",
+        "range": "175",
+        "fast_charge": "280"
+    },
+    {
+        "name": "Peugeot e-Expert Combi Long 50 kWh",
+        "range": "175",
+        "fast_charge": "280"
+    },
+    {
+        "name": "Opel Vivaro-e Combi L 75 kWh",
+        "range": "260",
+        "fast_charge": "280"
+    },
+    {
+        "name": "Citroen e-SpaceTourer XL 50 kWh",
+        "range": "175",
+        "fast_charge": "280"
+    },
+    {
+        "name": "Mercedes EQV 250 Extra-Long",
+        "range": "205",
+        "fast_charge": "190"
+    },
+    {
+        "name": "Citroen e-Jumpy Combi XL 50 kWh",
+        "range": "175",
+        "fast_charge": "280"
+    },
+    {
+        "name": "Opel Zafira-e Life M 75 kWh",
+        "range": "265",
+        "fast_charge": "290"
+    }
+]
