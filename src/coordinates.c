@@ -1,4 +1,7 @@
 #define EARTH_RADIUS 6371
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 #include "coordinates.h"
 #include <math.h>
