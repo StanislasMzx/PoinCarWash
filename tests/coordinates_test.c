@@ -1,5 +1,8 @@
 #define SNOW_ENABLED
 #define EARTH_RADIUS 6371
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 #include "snow.h"
 #include "../src/coordinates.h"
