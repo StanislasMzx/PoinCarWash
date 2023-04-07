@@ -23,8 +23,8 @@ describe(test_haversine)
     {
         assert(almosteq(haversine(0), 0));
         assert(almosteq(haversine(M_PI), 1));
-        assert(almosteq(haversine(M_PI_4), (2 - sqrt(2)) / 4));
-        assert(almosteq(haversine(M_PI_2), 0.5));
+        assert(almosteq(haversine(M_PI / 4), (2 - sqrt(2)) / 4));
+        assert(almosteq(haversine(M_PI / 2), 0.5));
     }
 }
 
