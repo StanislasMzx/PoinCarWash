@@ -2,6 +2,8 @@ image: silkeh/clang
 
 build:
   stage: build
+  before_script:
+    - apt update && apt -y install clang
   script:
     - cd tests
     - make all
