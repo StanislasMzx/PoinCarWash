@@ -408,6 +408,9 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# Clang
+lsan.supp
+
 ### macOS Patch ###
 # iCloud generated files
 *.icloud

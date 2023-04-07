@@ -4,7 +4,7 @@ build:
   stage: build
   script:
     - cd tests
-    # - make all
+    - make all
   artifacts:
     paths:
       - "tests/*_test"
@@ -14,3 +14,4 @@ test:
   script:
     - cd tests
     - export 'ASAN_OPTIONS=detect_leaks=0'
+    - ./coordinates_test
