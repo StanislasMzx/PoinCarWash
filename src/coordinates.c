@@ -6,14 +6,25 @@
 #include "coordinates.h"
 #include <math.h>
 
-/* computes hav(theta) where theta is given in rad */
+/**
+ * @brief Computes the haversine of an angle
+ *
+ * @param theta Angle in radians
+ * @return double Haversine of the angle
+ */
 double haversine(double theta)
 {
     return (1 - cos(theta)) / 2;
 }
 
-/* computes the distance between two coordinates in kilometers */
-double distance(coordinates *c1, coordinates *c2)
+/**
+ * @brief Computes the distance between two coordinates in kilometers
+ *
+ * @param c1 First coordinate
+ * @param c2 Second coordinate
+ * @return double Distance between the two coordinates in kilometers with a precision of 3 decimals
+ */
+double distance(Coordinates *c1, Coordinates *c2)
 {
     double c1_lat = c1->latitude * M_PI / 180;
     double c2_lat = c2->latitude * M_PI / 180;

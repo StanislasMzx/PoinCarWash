@@ -1,15 +1,23 @@
 #ifndef COORDINATES_H
 #define COORDINATES_H
 
-struct _coordinates
+struct _Coordinates
 {
     double latitude;
     double longitude;
 };
-
-typedef struct _coordinates coordinates;
+/**
+ * @typedef Coordinates
+ * @brief Coordinates of a point on the Earth
+ *
+ * @var Coordinates::latitude
+ * Latitude of the point
+ * @var Coordinates::longitude
+ * Longitude of the point
+ */
+typedef struct _Coordinates Coordinates;
 
 double haversine(double theta);
-double distance(coordinates *c1, coordinates *c2);
+double distance(Coordinates *c1, Coordinates *c2);
 
 #endif /* COORDINATES_H */
