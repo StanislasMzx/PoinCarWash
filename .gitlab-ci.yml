@@ -1,9 +1,9 @@
-image: silkeh/clang
+image: submitty/clang:8
 
 build:
   stage: build
   before_script:
-    - apt-get update && apt-get upgrade && apt -y install clang
+    # - apt-get update && apt-get upgrade && apt -y install clang
   script:
     - cd tests
     - make all
