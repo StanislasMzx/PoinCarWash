@@ -10,17 +10,19 @@
  * @param name Name of the vehicle
  * @return Vehicle with NULL values if not found
  */
-Vehicle vehicle_find_by_name(char *name)
+Vehicle_t vehicle_find_by_name(char *name)
 {
-    Vehicle vehicle = {NULL, 0, 0};
     FILE *fp = fopen("../data/raw/vehicle_info.csv", "r");
-    char line[256];
+    assert(fp != NULL);
+
+    const unsigned max_line = 256;
+    char line[max_line];
     char *token;
     char *vehicle_name;
     unsigned int range;
     unsigned int fast_charge;
 
-    assert(fp != NULL);
+    Vehicle_t vehicle = {NULL, 0, 0};
 
     while (fgets(line, sizeof(line), fp))
     {

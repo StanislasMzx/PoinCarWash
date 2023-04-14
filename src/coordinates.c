@@ -24,7 +24,7 @@ double haversine(double theta)
  * @param c2 Second coordinate
  * @return double Distance between the two coordinates in kilometers with a precision of 3 decimals
  */
-double distance(Coordinates *c1, Coordinates *c2)
+double distance(Coordinates_t *c1, Coordinates_t *c2)
 {
     double c1_lat = c1->latitude * M_PI / 180;
     double c2_lat = c2->latitude * M_PI / 180;

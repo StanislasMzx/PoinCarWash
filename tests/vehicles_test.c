@@ -7,7 +7,7 @@ describe(test_vehicle_find_by_name)
 {
     it("Conformance test")
     {
-        Vehicle vehicle = vehicle_find_by_name("Tesla Model 3 Performance");
+        Vehicle_t vehicle = vehicle_find_by_name("Tesla Model 3 Performance");
         asserteq_str(vehicle.name, "Tesla Model 3 Performance");
         asserteq_int(vehicle.range, 460);
         asserteq_int(vehicle.fast_charge, 710);
@@ -19,7 +19,7 @@ describe(test_vehicle_find_by_name)
     }
     it("Error test")
     {
-        Vehicle vehicle = vehicle_find_by_name("Not a vehicle");
+        Vehicle_t vehicle = vehicle_find_by_name("Not a vehicle");
         assert(vehicle.name == NULL);
         asserteq_int(vehicle.range, 0);
         asserteq_int(vehicle.fast_charge, 0);
