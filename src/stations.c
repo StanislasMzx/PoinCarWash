@@ -1,3 +1,4 @@
+#define _GNU_SOURCE
 #define TABLE_SIZE 10000
 
 #include "stations.h"
