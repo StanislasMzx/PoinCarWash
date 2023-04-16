@@ -12,7 +12,7 @@ Station_t *station_create(char *name, Coordinates_t coordinates, int plugs_numbe
     Station_t *station = malloc(sizeof(Station_t));
     assert(station != NULL);
 
-    station->name = name;
+    station->name = strdup(name);
     station->coordinates = coordinates;
     station->plugs_number = plugs_number;
     station->power = power;
@@ -35,9 +35,9 @@ Table_t *load_stations(char *filename)
     const unsigned max_line = 1024;
     char line[max_line];
     char *token;
+    char *name;
     char *global_id;
     char *local_id;
-    char *name;
     int plugs_number;
     int power;
     bool is_free;
@@ -59,8 +59,10 @@ Table_t *load_stations(char *filename)
         token = strsep(&line_str, ";"); // operator's contact
         token = strsep(&line_str, ";"); // operator's phone
         token = strsep(&line_str, ";"); // brand name
-        token = strsep(&line_str, ";"); // global station id (wrong)
-        token = strsep(&line_str, ";"); // local station id (wrong)
+        token = strsep(&line_str, ";"); // global station id
+        global_id = token;
+        token = strsep(&line_str, ";"); // local station id
+        local_id = token;
         token = strsep(&line_str, ";"); // station name
         name = token;
         token = strsep(&line_str, ";"); // station implantation
@@ -69,10 +71,8 @@ Table_t *load_stations(char *filename)
         token = strsep(&line_str, ";"); // station coordinates (wrong)
         token = strsep(&line_str, ";"); // plugs number
         plugs_number = atoi(token);
-        token = strsep(&line_str, ";"); // global station id
-        global_id = token;
-        token = strsep(&line_str, ";"); // local station id
-        local_id = token;
+        token = strsep(&line_str, ";"); // global station id (wrong)
+        token = strsep(&line_str, ";"); // local station id (wrong)
         token = strsep(&line_str, ";"); // power
         power = atoi(token);
         token = strsep(&line_str, ";"); // ef type plug
@@ -109,6 +109,7 @@ Table_t *load_stations(char *filename)
         coordinates.latitude = atof(token);
         Station_t *station = station_create(name, coordinates, plugs_number, power, is_free);
         char *station_id = malloc(strlen(global_id) + strlen(local_id) + 1);
+        assert(station_id != NULL);
         strcpy(station_id, global_id);
         strcat(station_id, local_id);
 
@@ -120,22 +121,29 @@ Table_t *load_stations(char *filename)
 }
 
 /**
- * @brief Destroy a hash table of stations
+ * @brief Get the reachable station neighbors
  *
- * @param one_table hash table of stations to destroy
+ * @param one_table hash table of stations
+ * @param one_station station to get the neighbors from
+ * @param range range in km
+ * @return List_t* list of reachable station neighbors
  */
-void table_destroy_after_stations_load(Table_t *one_table)
+List_t *reachable_station_neighbors(Table_t *one_table, char *one_station_key, unsigned int range)
 {
+    Station_t *one_station = table_get(one_table, one_station_key);
+    assert(one_station != NULL);
+    List_t *neighbors = list_create();
     for (int i = 0; i < one_table->length; i++)
     {
         List_t *list = one_table->slots[i];
         for (int j = 0; j < list->length; j++)
         {
-            free(list->list[j].key);
-            free(list->list[j].value);
+            Element_t *element = &list->list[j];
+            if (strcmp(element->key, one_station_key) != 0 && distance(&element->value->coordinates, &one_station->coordinates) <= range)
+            {
+                list_append(neighbors, element->key, element->value);
+            }
         }
-        list_destroy(list);
     }
-    free(one_table->slots);
-    free(one_table);
+    return neighbors;
 }
