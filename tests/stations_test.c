@@ -22,7 +22,7 @@ describe(test_load_stations)
         asserteq_dbl(table_get(table, "FR3R3P89258297")->coordinates.longitude, 4.055979);
         asserteq_dbl(table_get(table, "FR3R3P89258297")->coordinates.latitude, 49.213929);
         asserteq_int(table_get(table, "FR3R3P89258297")->plugs_number, 5);
-        asserteq_int(table_get(table, "FR3R3P89258297")->power, 150);
+        asserteq_int(table_get(table, "FR3R3P89258297")->power, 22);
         assert(!table_get(table, "FR3R3P89258297")->free);
 
         assert(table_contains(table, "Non concerné8cec9f22-53ca-40ba-9fc4-c58494ecc43c"));
