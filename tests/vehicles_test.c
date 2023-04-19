@@ -26,4 +26,16 @@ describe(test_vehicle_find_by_name)
     }
 }
 
+// describe(test_vehicle_input)
+// {
+//     it("Conformance test")
+//     {
+//         Vehicle_t vehicle = vehicle_input();
+//         assert(vehicle.name != NULL);
+//         asserteq_str(vehicle.name, "Volvo C40 Recharge Twin Motor");
+//         asserteq_int(vehicle.range, 390);
+//         asserteq_int(vehicle.fast_charge, 600);
+//     }
+// }
+
 snow_main();

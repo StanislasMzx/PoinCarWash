@@ -22,4 +22,6 @@ typedef struct _Vehicle_t Vehicle_t;
 
 Vehicle_t vehicle_find_by_name(char *name);
 
+Vehicle_t vehicle_input();
+
 #endif /* VEHICLES_H */

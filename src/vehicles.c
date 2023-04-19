@@ -33,7 +33,7 @@ Vehicle_t vehicle_find_by_name(char *name)
         token = strtok(NULL, ",");
         fast_charge = atoi(token);
 
-        if (strcmp(vehicle_name, name) == 0)
+        if (strcasecmp(vehicle_name, name) == 0)
         {
             vehicle.name = name;
             vehicle.range = range;
@@ -44,4 +44,22 @@ Vehicle_t vehicle_find_by_name(char *name)
 
     fclose(fp);
     return vehicle;
+}
+
+/**
+ * @brief Input a vehicle from stdin
+ *
+ * @return Vehicle with NULL values if not found
+ */
+Vehicle_t vehicle_input()
+{
+    const unsigned MAX_LENGTH = 128;
+    char buffer[MAX_LENGTH];
+    printf("\033[0;32m");
+    printf("Vehicle: ");
+    printf("\033[0m");
+    fgets(buffer, sizeof(buffer), stdin);
+    buffer[strcspn(buffer, "\r\n")] = '\0';
+    printf("You entered: %s\n", buffer);
+    return vehicle_find_by_name(buffer);
 }
