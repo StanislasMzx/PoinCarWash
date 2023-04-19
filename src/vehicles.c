@@ -1,3 +1,4 @@
+#define _GNU_SOURCE
 #include "vehicles.h"
 #include <stdio.h>
 #include <string.h>
