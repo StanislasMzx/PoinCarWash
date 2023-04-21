@@ -56,11 +56,28 @@ Vehicle_t vehicle_input()
 {
     const unsigned MAX_LENGTH = 128;
     char buffer[MAX_LENGTH];
-    printf("\033[0;32m");
+    printf("\033[1;32m");
     printf("Vehicle: ");
     printf("\033[0m");
     fgets(buffer, sizeof(buffer), stdin);
     buffer[strcspn(buffer, "\r\n")] = '\0';
-    printf("You entered: %s\n", buffer);
-    return vehicle_find_by_name(buffer);
+    Vehicle_t vehicle = vehicle_find_by_name(buffer);
+    if (vehicle.name == NULL)
+    {
+        printf("\033[0;31m");
+        printf("Vehicle not found\n");
+        printf("\033[0m");
+    }
+    else
+    {
+        printf("\033[0;34m");
+        printf("Range: ");
+        printf("\033[0m");
+        printf("%u km\n", vehicle.range);
+        printf("\033[0;34m");
+        printf("Fast charge: ");
+        printf("\033[0m");
+        printf("%u km/h\n", vehicle.fast_charge);
+    }
+    return vehicle;
 }

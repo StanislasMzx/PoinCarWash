@@ -11,7 +11,7 @@ struct _Table_t
 };
 /**
  * @typedef Table_t
- * @brief THash table type
+ * @brief Hash table type
  *
  * @var Table_t::slots
  * Array of lists

@@ -41,4 +41,17 @@ describe(test_distance)
     }
 }
 
+// describe(test_coordinates_input)
+// {
+//     it("Conformance test")
+//     {
+//         Coordinates_t c = coordinates_input(DEPARTURE);
+//         asserteq_dbl(c.latitude, 48.66900569983901);
+//         asserteq_dbl(c.longitude, 6.155157338272221);
+//         c = coordinates_input(ARRIVAL);
+//         asserteq_dbl(c.latitude, 48.71430027984775);
+//         asserteq_dbl(c.longitude, 2.2112903696996775);
+//     }
+// }
+
 snow_main();
