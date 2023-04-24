@@ -1,3 +1,6 @@
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 #define BENCHMARK_OUT_DIR "out"
 
 #include <stdio.h>
@@ -8,6 +11,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <time.h>
+#include <math.h>
 // #include "../src/main.h"
 
 
@@ -51,7 +55,7 @@ char *benchmark_file_init(char *fileName) {
     if (access(out_file, W_OK) == -1) {
         // Create the output file
         FILE *fp = fopen(out_file, "w");
-        fprintf(fp, "maxDist,randomDist,startLat,startLon,time,nbRuns,timePerRun\n");
+        fprintf(fp, "id,maxDist,randomDist,startLat,startLon,time,nbRuns,timePerRun\n");
         fclose(fp);
     } else {
         printf("\x1b[33m[!] Output file already exists, appending to it...\x1b[0m\n");
@@ -61,8 +65,51 @@ char *benchmark_file_init(char *fileName) {
 }
 
 /**
+ * @brief Append a line to a benchmark file
+ * 
+ * @param file char* path to the file
+ * @param id int id of the benchmark
+ * @param maxDist int maximum distance to search for a station
+ * @param randomDist bool if the distance should be random or always use maxDist
+ * @param startLat double latitude of the starting point
+ * @param startLon double longitude of the starting point
+ * @param time double time taken to run the benchmark
+ * @param nbRuns int number of runs
+ * @param timePerRun double time per run
+ */
+void benchmark_file_append(char *file, int id, int maxDist, bool randomDist, double startLat, double startLon, double time, int nbRuns, double timePerRun) {
+    FILE *fp = fopen(file, "a");
+    fprintf(fp, "%d,%d,%d,%f,%f,%f,%d,%f\n", id, maxDist, randomDist, startLat, startLon, time, nbRuns, timePerRun);
+    fclose(fp);
+}
+
+/**
+ * @brief Call the function to benchmark
+ * 
+ * @param startLat double latitude of the starting point
+ * @param startLon double longitude of the starting point
+ * @param endLat double latitude of the ending point
+ * @param endLon double longitude of the ending point
+ */
+void benchmark_call(double startLat, double startLon, double endLat, double endLon) {
+    // TODO
+    int ceci = rand() % 900000000 + 100000000;
+    int est = rand() % 900000000 + 100000000;
+    int du = rand() % 900000000 + 100000000;
+    int code = rand() % 900000000 + 100000000;
+    int pour = rand() % 900000000 + 100000000;
+    int remplacer = rand() % 900000000 + 100000000;
+    int l_appel = rand() % 900000000 + 100000000;
+    int a_la = ceci * est * du * code;
+    int fonction = pour * remplacer * l_appel;
+    int finale = a_la + fonction;
+    ceci += est + du + code + pour + remplacer + l_appel + a_la + fonction + finale + startLat + startLon + endLat + endLon;
+}
+
+/**
  * @brief Run the benchmark
  * 
+ * @param perRun bool if the benchmark should be run per run
  * @param out_file char* path to the output benchmark file
  * @param maxDist int maximum distance to search for a station
  * @param randomDist bool if the distance should be random or always use maxDist
@@ -70,41 +117,35 @@ char *benchmark_file_init(char *fileName) {
  * @param startLon double longitude of the starting point
  * @param nbRuns int number of runs
  */
-void benchmark_run(char *out_file, int maxDist, bool randomDist, double startLat, double startLon, int nbRuns) {
-    // Open the output file
-    FILE *fp = fopen(out_file, "a");
-
-    // Run the benchmark
-    clock_t start = clock();
+void benchmark_run(char *out_file, bool perRun, int maxDist, bool randomDist, double startLat, double startLon, int nbRuns) {
+    clock_t main_start = clock();
     for (int i = 0; i < nbRuns; i++) {
-        // Get the distance to search for
+        // Start the run
+        clock_t run_start = clock();
+
+        // Get the end point
         int dist = randomDist ? rand() % maxDist + 1 : maxDist;
+        double endLat = startLat + dist * cos(2 * M_PI * rand() / RAND_MAX);
+        double endLon = startLon + dist * sin(2 * M_PI * rand() / RAND_MAX);
 
         // Run main function
-        // TODO
-        int ceci = rand() % 900000000 + 100000000;
-        int est = rand() % 900000000 + 100000000;
-        int du = rand() % 900000000 + 100000000;
-        int code = rand() % 900000000 + 100000000;
-        int pour = rand() % 900000000 + 100000000;
-        int remplacer = rand() % 900000000 + 100000000;
-        int l_appel = rand() % 900000000 + 100000000;
-        int a_la = ceci * est * du * code;
-        int fonction = pour * remplacer * l_appel;
-        int finale = a_la + fonction + dist;
-        ceci += est + du + code + pour + remplacer + l_appel + a_la + fonction + finale;
+        benchmark_call(startLat, startLon, endLat, endLon);
+
+        // Summarize the run
+        if (perRun) {
+            clock_t run_end = clock();
+            double time = (double)(run_end - run_start) / CLOCKS_PER_SEC;
+            benchmark_file_append(out_file, i+1, dist, randomDist, startLat, startLon, time, 1, time);
+        }
     }
-    clock_t end = clock();
+    clock_t main_end = clock();
 
-    // Calculate the time
-    double time = (double)(end - start) / CLOCKS_PER_SEC;
-    double timePerRun = time / nbRuns;
-
-    // Write the results to the output file
-    fprintf(fp, "%d,%d,%f,%f,%f,%d,%f\n", maxDist, randomDist, startLat, startLon, time, nbRuns, timePerRun);
-
-    // Close the output file
-    fclose(fp);
+    // Summarize the benchmark
+    if (!perRun) {
+        double time = (double)(main_end - main_start) / CLOCKS_PER_SEC;
+        double timePerRun = time / nbRuns;
+        benchmark_file_append(out_file, 0, maxDist, randomDist, startLat, startLon, time, nbRuns, timePerRun);
+    }
 }
 
 /**
@@ -128,11 +169,14 @@ int main(int argc, char **argv) {
     printf("\x1b[32m[+] Output file: \x1b[1m\x1b]8;;file://%s/%s\x07%s\x1b]8;;\x07\x1b[0m\n", cwd, out_file, out_file);
 
     // Prompt benchmark parameters
-    int maxDist = 0;
+    int perRun = false;
+    int maxDist = 10;
     int randomDist = false;
-    double startLat = 0;
+    double startLat = 45;
     double startLon = 0;
     int nbRuns = 0;
+    printf("[?] Enter if the benchmark should be run per run (0 = false, 1 = true): ");
+    scanf("%d", &perRun);
     printf("[?] Enter the maximum distance to search for a station (in meters): ");
     scanf("%d", &maxDist);
     printf("[?] Enter if the distance should be random (0 = false, 1 = true): ");
@@ -146,7 +190,7 @@ int main(int argc, char **argv) {
     
     // Run the benchmark
     printf("\x1b[2m[~] Running benchmark...\x1b[0m\n");
-    benchmark_run(out_file, maxDist, randomDist, startLat, startLon, nbRuns);
+    benchmark_run(out_file, perRun, maxDist, randomDist, startLat, startLon, nbRuns);
     printf("\x1b[32m[+] Benchmark finished!\x1b[0m\n");
     printf("\x1b[34m[*] You can find the results there: \x1b[1m\x1b]8;;file://%s/%s\x07%s\x1b]8;;\x07\x1b[0m\x1b[0m\n", cwd, out_file, out_file);
 
