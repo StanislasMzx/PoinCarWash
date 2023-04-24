@@ -23,25 +23,27 @@ void benchmark_dir_init(void) {
 }
 
 /**
+ * @brief Get a timestamped benchmark file name
+ * 
+ * @return char* timestamped file name
+ */
+char *benchmark_file_name(void) {
+    // Create a timestamped file name
+    char *fileName = malloc(sizeof(char) * 25);
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    sprintf(fileName, "benchmark_%02d-%02d_%02d-%02d-%02d", tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+
+    return fileName;
+}
+
+/**
  * @brief Create a benchmark output file
  * 
  * @param fileName char* name of the output file
  * @return char* path to the output file
  */
 char *benchmark_file_init(char *fileName) {
-    // Check if a file name was provided
-    if (fileName == NULL) {
-        // Create a timestamped file name
-        fileName = malloc(sizeof(char) * 20);
-        printf("is null - check 2\n"); printf("is null - %s\n", fileName);
-        time_t t = time(NULL);
-        printf("is null - check 3\n"); printf("is null - %s\n", fileName);
-        struct tm tm = *localtime(&t);
-        printf("is null - check 4\n"); printf("is null - %s\n", fileName);
-        sprintf(fileName, "benchmark_%02d-%02d_%02d-%02d-%02d", tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
-        printf("is null - check 5\n"); printf("is null - %s\n", fileName);
-    }
-
     // Create the output file
     char *out_file = malloc(sizeof(char) * (strlen(BENCHMARK_OUT_DIR) + strlen(fileName) + 6));
     sprintf(out_file, "%s/%s.csv", BENCHMARK_OUT_DIR, fileName);
@@ -117,7 +119,8 @@ int main(int argc, char **argv) {
     printf("\x1b[32m[+] Output directory: \x1b[1m\x1b]8;;file://%s/%s\x07%s\x1b]8;;\x07\x1b[0m\n", cwd, BENCHMARK_OUT_DIR, BENCHMARK_OUT_DIR);
 
     // Get the output file name
-    char *out_file = benchmark_file_init(argc > 1 ? argv[1] : NULL);
+    char *file_name = argc > 1 ? argv[1] : benchmark_file_name();
+    char *out_file = benchmark_file_init(file_name);
     printf("\x1b[32m[+] Output file: \x1b[1m\x1b]8;;file://%s/%s\x07%s\x1b]8;;\x07\x1b[0m\n", cwd, out_file, out_file);
 
     // Prompt benchmark parameters
@@ -146,6 +149,7 @@ int main(int argc, char **argv) {
     // Free memory
     free(cwd);
     free(out_file);
+    if (argc <= 1) free(file_name);
 
     return 0;
 }
