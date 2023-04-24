@@ -38,20 +38,24 @@ char *benchmark_file_name(void) {
 }
 
 /**
- * @brief Create a benchmark output file
+ * @brief Check for benchmark output file
  * 
  * @param fileName char* name of the output file
  * @return char* path to the output file
  */
 char *benchmark_file_init(char *fileName) {
-    // Create the output file
     char *out_file = malloc(sizeof(char) * (strlen(BENCHMARK_OUT_DIR) + strlen(fileName) + 6));
     sprintf(out_file, "%s/%s.csv", BENCHMARK_OUT_DIR, fileName);
-    
-    // Open the output file
-    FILE *fp = fopen(out_file, "w");
-    fprintf(fp, "maxDist,randomDist,startLat,startLon,time,nbRuns,timePerRun\n");
-    fclose(fp);
+
+    // Check if the output file exists and is writable
+    if (access(out_file, W_OK) == -1) {
+        // Create the output file
+        FILE *fp = fopen(out_file, "w");
+        fprintf(fp, "maxDist,randomDist,startLat,startLon,time,nbRuns,timePerRun\n");
+        fclose(fp);
+    } else {
+        printf("\x1b[33m[!] Output file already exists, appending to it...\x1b[0m\n");
+    }
 
     return out_file;
 }
@@ -144,7 +148,7 @@ int main(int argc, char **argv) {
     printf("\x1b[2m[~] Running benchmark...\x1b[0m\n");
     benchmark_run(out_file, maxDist, randomDist, startLat, startLon, nbRuns);
     printf("\x1b[32m[+] Benchmark finished!\x1b[0m\n");
-    printf("\x1b[34m[+] You can find the results there: \x1b[1m\x1b]8;;file://%s/%s\x07%s\x1b]8;;\x07\x1b[0m\x1b[0m\n", cwd, out_file, out_file);
+    printf("\x1b[34m[*] You can find the results there: \x1b[1m\x1b]8;;file://%s/%s\x07%s\x1b]8;;\x07\x1b[0m\x1b[0m\n", cwd, out_file, out_file);
 
     // Free memory
     free(cwd);
