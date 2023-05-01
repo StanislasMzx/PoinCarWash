@@ -30,6 +30,8 @@ void list_destroy(List_t *one_list)
     {
         free(one_list->list[j].key);
         free(one_list->list[j].value->name);
+        free(one_list->list[j].value->coordinates);
+        free(one_list->list[j].value->last_station);
         free(one_list->list[j].value);
     }
     free(one_list->list);
@@ -73,8 +75,20 @@ void list_append(List_t *one_list, char *one_key, Station_t *one_station)
  */
 void element_print(Element_t *one_element)
 {
-    printf("%s: {name: %s, coordinates: (%f, %f), plugs_number: %d, power: %d, free: %s}\n", one_element->key, one_element->value->name, one_element->value->coordinates.longitude, one_element->value->coordinates.latitude, one_element->value->plugs_number, one_element->value->power, one_element->value->free ? "true" : "false");
+    printf("%s: {name: %s, coordinates: (%f, %f), plugs_number: %d, power: %d, free: %s}\n", one_element->key, one_element->value->name, one_element->value->coordinates->longitude, one_element->value->coordinates->latitude, one_element->value->plugs_number, one_element->value->power, one_element->value->free ? "true" : "false");
 }
+
+
+/**
+ * @brief Print an station
+ *
+ * @param one_station station to print
+ */
+void station_print(Station_t *one_station)
+{
+    printf("{name: %s, coordinates: (%f, %f), plugs_number: %d, power: %d, free: %s}\n", one_station->name, one_station->coordinates->longitude, one_station->coordinates->latitude, one_station->plugs_number, one_station->power, one_station->free ? "true" : "false");
+}
+
 
 /**
  * @brief Print a list

@@ -79,6 +79,8 @@ void table_add(Table_t *one_table, char *one_key, Station_t *one_station)
     {
         free(one_key);
         free(one_station->name);
+        free(one_station->coordinates);
+        free(one_station->last_station);
         free(one_station);
         return;
     }

@@ -42,4 +42,6 @@ double distance(Coordinates_t *c1, Coordinates_t *c2);
 
 Coordinates_t coordinates_input(Point_type_t type);
 
+void coordinates_print(Coordinates_t *c1);
+
 #endif /* COORDINATES_H */

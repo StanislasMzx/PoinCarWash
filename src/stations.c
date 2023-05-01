@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-Station_t *station_create(char *name, Coordinates_t coordinates, int plugs_number, int power, bool free)
+Station_t *station_create(char *name, Coordinates_t *coordinates, int plugs_number, int power, bool free)
 {
     Station_t *station = malloc(sizeof(Station_t));
     assert(station != NULL);
@@ -17,6 +17,8 @@ Station_t *station_create(char *name, Coordinates_t coordinates, int plugs_numbe
     station->plugs_number = plugs_number;
     station->power = power;
     station->free = free;
+    station->weight = -1; // -1 is like inf here
+    station->last_station = NULL;
 
     return station;
 }
@@ -102,11 +104,11 @@ Table_t *load_stations(char *filename)
         token = strsep(&line_str, ";"); // datagouv dataset id
         token = strsep(&line_str, ";"); // datagouv resource id
         token = strsep(&line_str, ";"); // datagouv organization
-        Coordinates_t coordinates = {0, 0};
+        Coordinates_t *coordinates = malloc(sizeof(Coordinates_t));
         token = strsep(&line_str, ";"); // longitude
-        coordinates.longitude = atof(token);
+        coordinates->longitude = atof(token);
         token = strsep(&line_str, ";"); // latitude
-        coordinates.latitude = atof(token);
+        coordinates->latitude = atof(token);
         Station_t *station = station_create(name, coordinates, plugs_number, power, is_free);
         char *station_id = malloc(strlen(global_id) + strlen(local_id) + 1);
         assert(station_id != NULL);
@@ -139,7 +141,7 @@ List_t *reachable_station_neighbors(Table_t *one_table, char *one_station_key, u
         for (int j = 0; j < list->length; j++)
         {
             Element_t *element = &list->list[j];
-            if (strcmp(element->key, one_station_key) != 0 && distance(&element->value->coordinates, &one_station->coordinates) <= range)
+            if (strcmp(element->key, one_station_key) != 0 && distance(element->value->coordinates, one_station->coordinates) <= range)
             {
                 list_append(neighbors, element->key, element->value);
             }

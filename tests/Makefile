@@ -3,7 +3,7 @@ CFLAGS=-std=c99 -Wall -Wextra -pedantic -fdiagnostics-color=always -Wno-strict-p
 CFLAGS+=-O0 -g3 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
 LDFLAGS+=-fsanitize=address
 
-ALL_EXECUTABLES=coordinates_test vehicles_test stations_test
+ALL_EXECUTABLES=coordinates_test vehicles_test stations_test heap_test
 
 all: $(ALL_EXECUTABLES)
 
@@ -15,10 +15,17 @@ vehicles_test.o: vehicles_test.c ../src/vehicles.h snow.h
 
 stations_test: stations_test.o ../src/stations.o ../src/table.o ../src/list.o ../src/coordinates.o
 stations_test.o: stations_test.c ../src/stations.h snow.h
+
+heap_test : heap_test.o ../src/heap.o ../src/stations.c ../src/table.o ../src/list.o ../src/coordinates.o
+heap_test.o : heap_test.c ../src/heap.h snow.h
+
 stations.o: ../src/stations.c ../src/stations.h ../src/table.o 
 table.o: ../src/table.c ../src/table.h ../src/list.o
 list.o: ../src/list.c ../src/list.h ../src/coordinates.o
 coordinates.o: ../src/coordinates.c ../src/coordinates.h
+
+heapT : heapT.o ../src/heap.o ../src/stations.c ../src/table.o ../src/list.o ../src/coordinates.o
+heapT.o : heapT.c ../src/heap.h
 
 clean: 
 	rm -f *.o ../src/*.o ${ALL_EXECUTABLES}
