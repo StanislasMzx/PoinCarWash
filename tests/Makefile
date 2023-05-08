@@ -45,9 +45,5 @@ clean:
 	rm -f *.o ../src/*.o ${ALL_EXECUTABLES} *test
 
 
-test: all
-	./a_star_test
-	./coordinates_test
-	./heap_test
-	./vehicles_test
-	./stations_test
+test:
+	for test_file in ${ALL_EXECUTABLES}; do ./$$test_file; done

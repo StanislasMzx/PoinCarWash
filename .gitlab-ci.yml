@@ -16,6 +16,4 @@ test:
   script:
     - cd tests
     - export 'ASAN_OPTIONS=detect_leaks=0'
-    - ./coordinates_test
-    - ./vehicles_test
-    - ./stations_test
+    - make test
