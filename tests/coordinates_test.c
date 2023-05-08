@@ -32,13 +32,26 @@ describe(test_distance)
 {
     it("Conformance test")
     {
-        Coordinates c1 = {48.66900569983901, 6.155157338272221};
-        Coordinates c2 = {48.71430027984775, 2.2112903696996775};
+        Coordinates_t c1 = {48.66900569983901, 6.155157338272221};
+        Coordinates_t c2 = {48.71430027984775, 2.2112903696996775};
         asserteq_dbl(distance(&c1, &c2), 289.495);
-        c1 = (Coordinates){38.89767470121746, -77.03652996339325};
-        c2 = (Coordinates){48.869789248005425, 2.3164779677295297};
+        c1 = (Coordinates_t){38.89767470121746, -77.03652996339325};
+        c2 = (Coordinates_t){48.869789248005425, 2.3164779677295297};
         asserteq_dbl(distance(&c1, &c2), 6162.471);
     }
 }
+
+// describe(test_coordinates_input)
+// {
+//     it("Conformance test")
+//     {
+//         Coordinates_t c = coordinates_input(DEPARTURE);
+//         asserteq_dbl(c.latitude, 48.66900569983901);
+//         asserteq_dbl(c.longitude, 6.155157338272221);
+//         c = coordinates_input(ARRIVAL);
+//         asserteq_dbl(c.latitude, 48.71430027984775);
+//         asserteq_dbl(c.longitude, 2.2112903696996775);
+//     }
+// }
 
 snow_main();
