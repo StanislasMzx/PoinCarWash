@@ -4,7 +4,7 @@
 struct _Vehicle_t
 {
     char *name;
-    unsigned int range;
+    double range;
     unsigned int fast_charge;
 };
 /**

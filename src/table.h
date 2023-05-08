@@ -34,4 +34,6 @@ bool table_contains(Table_t *one_table, char *one_key);
 
 Station_t *table_get(Table_t *one_table, char *one_key);
 
+void table_print(Table_t *one_table);
+
 #endif /* __TABLE_H__ */

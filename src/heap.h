@@ -1,5 +1,5 @@
-#ifndef PRIORITY_QUEUE_H
-#define PRIORITY_QUEUE_H
+#ifndef HEAP_H
+#define HEAP_H
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -66,9 +66,13 @@ State_t *heap_pop(Heap_t **one_Heap_t, unsigned int height);
 
 void heap_append(Heap_t **one_heap, State_t *one_value, unsigned int height);
 
+void heap_print_station(Heap_t *one_heap, Table_t *one_table);
+
+void heap_print(Heap_t *one_heap);
+
 void heap_destroy(Heap_t *one_heap);
 
 void state_destroy(State_t *one_state);
 
 
-#endif /* PRIORITY_QUEUE_H */
+#endif /* HEAP_H */

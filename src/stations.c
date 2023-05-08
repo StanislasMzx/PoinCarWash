@@ -7,21 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-Station_t *station_create(char *name, Coordinates_t *coordinates, int plugs_number, int power, bool free)
-{
-    Station_t *station = malloc(sizeof(Station_t));
-    assert(station != NULL);
-
-    station->name = strdup(name);
-    station->coordinates = coordinates;
-    station->plugs_number = plugs_number;
-    station->power = power;
-    station->free = free;
-    station->weight = -1; // -1 is like inf here
-    station->last_station = NULL;
-
-    return station;
-}
 
 /**
  * @brief Create a hash table of stations
@@ -121,8 +106,8 @@ Table_t *load_stations(char *filename)
     fclose(fp);
     return table;
 }
-
-/**
+/*
+**
  * @brief Get the reachable station neighbors
  *
  * @param one_table hash table of stations
@@ -149,3 +134,4 @@ List_t *reachable_station_neighbors(Table_t *one_table, char *one_station_key, u
     }
     return neighbors;
 }
+

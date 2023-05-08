@@ -1,6 +1,7 @@
 #include "table.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 
 /**
  * @brief Hash function
@@ -114,4 +115,15 @@ Station_t *table_get(Table_t *one_table, char *one_key)
     int index = table_indexof(one_table, one_key);
     List_t *list = one_table->slots[index];
     return list_find(list, one_key);
+}
+
+
+void table_print(Table_t *one_table){
+    printf("\n");
+    for (int i = 0; i<one_table->length; i++){
+        List_t *one_list = one_table->slots[i];
+        if (!list_is_empty(one_list)){
+            list_print(one_list);
+        }
+    }
 }

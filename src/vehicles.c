@@ -20,7 +20,7 @@ Vehicle_t vehicle_find_by_name(char *name)
     char line[max_line];
     char *token;
     char *vehicle_name;
-    unsigned int range;
+    double range;
     unsigned int fast_charge;
 
     Vehicle_t vehicle = {NULL, 0, 0};
@@ -73,7 +73,7 @@ Vehicle_t vehicle_input()
         printf("\033[0;34m");
         printf("Range: ");
         printf("\033[0m");
-        printf("%u km\n", vehicle.range);
+        printf("%f km\n", vehicle.range);
         printf("\033[0;34m");
         printf("Fast charge: ");
         printf("\033[0m");
