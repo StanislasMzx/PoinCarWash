@@ -69,7 +69,13 @@
 
 ## About The Project
 
-Here's a blank template to get started: To avoid retyping too much info.
+PoinCarWash is a project designed to provide an innovative solution to one of the major challenges faced by electric vehicle owners: finding charging stations when on the road. The project incorporates advanced algorithms to recommend a list of charging stations for a given vehicle range, ensuring that EV owners can plan their journeys more efficiently without worrying about running out of charge.
+
+In addition to its powerful recommendation engine, the PoinCarWash project also includes a chargers network monitoring function that gives a real-time view of charger usage rates. This data is invaluable for service providers and network operators, helping them to optimize their operations and improve the overall experience for EV drivers.
+
+The project is built on open-source technology, making it accessible to the broader EV community. The source code is available on GitLab, allowing developers to contribute to the project and improve its functionality in meaningful ways. Our aim is to create a community-driven solution to the challenge of EV charging, helping to promote the widespread adoption of electric vehicles and reduce the carbon footprint of transportation.
+
+We welcome anyone interested in this project to join the community and contribute to its growth and development. Together, we can create a sustainable future for transportation and the planet at large.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -83,12 +89,11 @@ Here's a blank template to get started: To avoid retyping too much info.
 
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+The Makefile is designed to build with Clang so make sure to have it installed
 
 - llvm
   ```sh
@@ -113,7 +118,19 @@ This is an example of how to list things you need to use the software and how to
 
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+### Plan a journey
+
+```sh
+./compute_journey <start_latitude>,<start_longitude> <end_latitude>,<start_longitude> <vehicle_name>
+```
+
+e.g.
+
+```sh
+./compute_journey 48.66899330048828,6.155155997466113 43.73545739777208,7.422157789648335 "Tesla Model 3"
+```
+
+### Network monitoring
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -121,10 +138,10 @@ Use this space to show useful examples of how a project can be used. Additional 
 
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-  - [ ] Nested Feature
+- [x] Plan a journey
+  - [x] CLI input
+  - [] translate address to coordinates
+- [ ] Network monitoring
 
 See the [open issues](https://gitlab.telecomnancy.univ-lorraine.fr/ppii2_2223/ppii2-grp_07/issues) for a full list of proposed features (and known issues).
 
@@ -174,7 +191,6 @@ Project Link: [https://gitlab.telecomnancy.univ-lorraine.fr/ppii2_2223/ppii2-grp
 
 - [Etalab](https://www.data.gouv.fr/fr/datasets/fichier-consolide-des-bornes-de-recharge-pour-vehicules-electriques/)
 - [EVD](https://ev-database.org/cheatsheet/range-electric-car)
-- []()
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
