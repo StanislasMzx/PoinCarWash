@@ -35,7 +35,6 @@ opti_test: opti_test.o ../src/stations.o ../src/table.o ../src/list.o ../src/coo
 opti_test.o: opti_test.c ../src/stations.h
 
 
-.SILENT
 clean: 
 	rm -f *.o ../src/*.o ${ALL_EXECUTABLES} *test
 
