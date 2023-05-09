@@ -31,16 +31,11 @@ heap_test.o : heap_test.c ../src/heap.h snow.h
 a_star_test: a_star_test.o ../src/a_star.o ../src/heap.o ../src/stations.o ../src/table.o ../src/list.o ../src/coordinates.o ../src/vehicles.o
 a_star_test.o: a_star_test.c ../src/a_star.h snow.h
 
-
-
 opti_test: opti_test.o ../src/stations.o ../src/table.o ../src/list.o ../src/coordinates.o
 opti_test.o: opti_test.c ../src/stations.h
 
 
-
-
-
-
+.SILENT
 clean: 
 	rm -f *.o ../src/*.o ${ALL_EXECUTABLES} *test
 
