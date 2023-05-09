@@ -80,14 +80,14 @@ void a_star(char *id_start, char *id_end, Vehicle_t *one_vehicle, Table_t *table
 void print_a_star(Table_t *table_station, List_t *one_list)
 {
     int steps = one_list->length;
-    printf("\033[0;33m>> Départ : %s\033[0m\n", table_get(table_station, one_list->list[0].key)->name);
-    printf("Reste à parcourir : %f km\n", distance(table_get(table_station, one_list->list[0].key)->coordinates, table_get(table_station, one_list->list[steps - 1].key)->coordinates));
+    printf("\033[0;33m>> Departure: %s\033[0m\n", table_get(table_station, one_list->list[0].key)->name);
+    printf("Still to go: %f km\n", distance(table_get(table_station, one_list->list[0].key)->coordinates, table_get(table_station, one_list->list[steps - 1].key)->coordinates));
     for (int i = 1; i < one_list->length - 1; i++)
     {
-        printf("\033[0;33m>> Étape %d : %s\033[0m\n", i + 1, table_get(table_station, one_list->list[i].key)->name);
-        printf("Reste à parcourir : %f km\n", distance(table_get(table_station, one_list->list[i].key)->coordinates, table_get(table_station, one_list->list[steps - 1].key)->coordinates));
+        printf("\033[0;33m>> Step %d: %s\033[0m\n", i, table_get(table_station, one_list->list[i].key)->name);
+        printf("Still to go: %f km\n", distance(table_get(table_station, one_list->list[i].key)->coordinates, table_get(table_station, one_list->list[steps - 1].key)->coordinates));
     }
-    printf("\033[0;33m>> Arrivée : %s\033[0m\n", table_get(table_station, one_list->list[steps - 1].key)->name);
+    printf("\033[0;33m>> Arrival: %s\033[0m\n", table_get(table_station, one_list->list[steps - 1].key)->name);
 }
 
 List_t *a_star_list(Table_t *table_station, char *id_start, char *id_end, Vehicle_t *one_vehicle)
