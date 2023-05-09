@@ -65,7 +65,7 @@ Coordinates_t coordinates_input(Point_type_t type)
     return coordinates;
 }
 
-
-void coordinates_print(Coordinates_t *c1){
-    printf("{longitude : %f, lattitude : %f}", c1->longitude, c1->latitude);
+void coordinates_print(Coordinates_t *c1)
+{
+    printf("{longitude : %f, latitude : %f}", c1->longitude, c1->latitude);
 }

@@ -62,9 +62,9 @@ describe(test_a_star)
 
         print_a_star(table, one_list);
 
-        asserteq_str("FRFR1PRYXKLFRYXKLF", one_list->list[0].key);
+        asserteq_str("FRFR1PQXX0ZUA3NLQXX0ZUA3NL", one_list->list[0].key);
         asserteq_str("FRTDAPAVTD1411FR*SOD*S*AVTD*14*1*_*_", one_list->list[1].key);
-        asserteq_str("FRFR1PQXX0ZUA3NLQXX0ZUA3NL", one_list->list[2].key);
+        asserteq_str("FRFR1PRYXKLFRYXKLF", one_list->list[2].key);
 
         defer(list_destroy(one_list));
         defer(table_destroy(table));
