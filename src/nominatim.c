@@ -160,41 +160,22 @@ Nominatim_t *parse_nominatim(char *response)
 
 Nominatim_t *get_nominatim(char *query)
 {
-    // ...
-    // return nomin
+    // Fetch data from the API
+    char *response = fetch_api(query);
+    if (response == NULL) {
+        fprintf(stderr, "Error: Failed to fetch data from API.\n");
+        return NULL;
+    }
+
+    // Parse the API response
+    Nominatim_t *nomin = parse_nominatim(response);
+    if (nomin == NULL) {
+        fprintf(stderr, "Error: Failed to parse API response.\n");
+        return NULL;
+    }
+
+    // Free memory and return the new object
+    free(response);
+    return nomin;
 }
 
-
-
-// function fetchLocation(location: string): Coordinates {
-//   const endpoint = process.env.NOMINATIM_API_ENDPOINT as string;
-//   const queryParams = new URLSearchParams({
-//     q: location,
-//     format: "json",
-//   });
-
-//   // Fetch location from API
-//   const fetchURL = `${endpoint}?${queryParams.toString()}`;
-//   const response = fetch(fetchURL, {
-//     headers: {
-//       "User-Agent": "School project (antonin.frey@telecomnancy.eu)"
-//     },
-//   });   
-//   const data = response.json();
-
-//   // Parse OSM URL
-//   try {
-//     const res = data[0];
-//     const lat = res.lat;
-//     const lon = res.lon;
-//     const displayName = res.displayName;
-
-//     return {
-//       displayName,
-//       lat,
-//       lon
-//     };
-//   } catch (error) {
-//     throw error;
-//   }
-// }
