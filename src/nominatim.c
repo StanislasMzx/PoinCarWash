@@ -15,6 +15,38 @@
 
 
 /**
+ * @brief Create a new Nominatim_t object
+ *
+ * @param name Name of the nominatim
+ * @param lat Latitude of the nominatim
+ * @param lon Longitude of the nominatim
+ * @return Nominatim_t* Nominatim object
+ */
+Nominatim_t *create_nominatim(char *name, double lat, double lon)
+{
+    Nominatim_t *nomin = malloc(sizeof(Nominatim_t));
+    nomin->name = malloc(strlen(name) + 1);
+    strcpy(nomin->name, name);
+    Coordinates_t *coord = malloc(sizeof(Coordinates_t));
+    coord->latitude = lat;
+    coord->longitude = lon;
+    nomin->coord = coord;
+    return nomin;
+}
+
+/**
+ * @brief Destroy a Nominatim_t object
+ *
+ * @param nomin Nominatim object
+ */
+void destroy_nominatim(Nominatim_t *nomin)
+{
+    free(nomin->name);
+    free(nomin->coord);
+    free(nomin);
+}
+
+/**
  * @brief Callback function for the API response
  *
  * @param ptr Pointer to the data

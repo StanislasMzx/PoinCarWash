@@ -24,6 +24,10 @@ struct _Nominatim_t
  */
 typedef struct _Nominatim_t Nominatim_t;
 
+Nominatim_t *create_nominatim(char *name, double lat, double lon);
+
+void destroy_nominatim(Nominatim_t *nomin);
+
 char *fetch_api(char *query);
 
 Nominatim_t *parse_nominatim(char *response);
