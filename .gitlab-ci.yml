@@ -5,7 +5,7 @@ build:
   before_script:
     - apt-get update -yq
     - apt-get install -yq clang libcurl4-openssl-dev libjson-c-dev
-    - ln -s /usr/include/x86_64-linux-gnu/curl /usr/include/curl
+    - ldconfig
   script:
     - cd tests
     - make all
