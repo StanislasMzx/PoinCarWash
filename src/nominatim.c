@@ -47,25 +47,47 @@ void destroy_nominatim(Nominatim_t *nomin)
 }
 
 /**
- * @brief Callback function for the API response
+ * @brief API response struct
+*/
+struct API_response_t {
+    size_t size;
+    char* data;
+};
+
+/**
+ * @brief Write callback function for cURL
  *
- * @param ptr Pointer to the data
+ * @param ptr Pointer to data
  * @param size Size of each element
  * @param nmemb Number of elements
- * @param userdata Pointer to the userdata
- * @return size_t Size of the data
+ * @param data Pointer to url_data struct
+ * @return size_t Size of data
  */
-size_t write_callback(void *ptr, size_t size, size_t nmemb, void *userdata)
-{
-    size_t realsize = size * nmemb;
-    char *temp = realloc(userdata, strlen(userdata) + realsize + 1);
-    if (temp == NULL) {
-        free(userdata);
+size_t write_data(void *ptr, size_t size, size_t nmemb, struct API_response_t *data) {
+    size_t index = data->size;
+    size_t n = (size * nmemb);
+    char* tmp;
+
+    data->size += (size * nmemb);
+
+    fprintf(stderr, "data at %p size=%ld nmemb=%ld\n", ptr, size, nmemb);
+
+    tmp = realloc(data->data, data->size + 1);
+
+    if(tmp) {
+        data->data = tmp;
+    } else {
+        if(data->data) {
+            free(data->data);
+        }
+        fprintf(stderr, "Failed to allocate memory.\n");
         return 0;
     }
-    userdata = temp;
-    strncat(userdata, ptr, realsize);
-    return realsize;
+
+    memcpy((data->data + index), ptr, n);
+    data->data[data->size] = '\0';
+
+    return size * nmemb;
 }
 
 /**
@@ -83,99 +105,122 @@ char *fetch_api(char *query)
         return NULL;
     }
 
-    // Set the URL
-    char *url = malloc(strlen(API_PATH) + strlen(query) + 1);
-    sprintf(url, "%s%s", API_PATH, curl_easy_escape(curl, query, 0));
-    curl_easy_setopt(curl, CURLOPT_URL, url);
-    free(url);
+    // Escape the query string
+    int queryLen = strlen(query);
+    char *escapedQuery = curl_easy_escape(curl, query, queryLen);
 
+    if (!escapedQuery) {
+        fprintf(stderr, "Error: Failed to escape query string.\n");
+        return NULL;
+    }
+
+    // Set the URL
+    char url[8 + strlen(API_HOST) + strlen(API_PATH) + strlen(escapedQuery) + 1];
+    sprintf(url, "https://%s%s%s", API_HOST, API_PATH, escapedQuery);
+    curl_easy_setopt(curl, CURLOPT_URL, url);
+
+    // OSM User Agent policy
+    curl_easy_setopt(curl, CURLOPT_USERAGENT, "School project (antonin.frey@telecomnancy.eu)");
     // Set SSL options
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, true);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2);
-
     // Set the API host and port
     curl_easy_setopt(curl, CURLOPT_PORT, API_PORT);
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, "Host: "API_HOST);
 
-    // Set the query string
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, "");
-
-    // Set the callback function for the API response
-    char *response = malloc(1);
-    response[0] = '\0';
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, response);
+    // API response
+    struct API_response_t response;
+    response.size = 0;
+    response.data = malloc(4096);
+    if(NULL == response.data) {
+        fprintf(stderr, "Failed to allocate memory.\n");
+        return NULL;
+    }
+    response.data[0] = '\0';
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
 
     // GET request
     res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
         fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+        return NULL;
     }
+
+    // Response data
+    char *data = response.data;
 
     // Free memory
     curl_easy_cleanup(curl);
-    return response;
+    curl_free(escapedQuery);
+
+    return data;
 }
 
-/**
- * @brief Parse the API response
- *
- * @param response API response
- * @return Nominatim_t* Nominatim object
- */
-Nominatim_t *parse_nominatim(char *response)
-{
-    // Parse the JSON response
-    json_object *root = json_tokener_parse(response);
-    if (root == NULL) {
-        fprintf(stderr, "Error: Failed to parse JSON response.\n");
-        return NULL;
-    }
+// /**
+//  * @brief Parse the API response
+//  *
+//  * @param response API response
+//  * @return Nominatim_t* Nominatim object
+//  */
+// Nominatim_t *parse_nominatim(char *response)
+// {
+//     // Parse the JSON response
+//     json_object *root = json_tokener_parse(response);
+//     if (root == NULL) {
+//         fprintf(stderr, "Error: Failed to parse JSON response.\n");
+//         return NULL;
+//     }
 
-    // Get the first element in the array
-    json_object *obj = json_object_array_get_idx(root, 0);
-    if (obj == NULL) {
-        fprintf(stderr, "Error: Failed to get first element in JSON array.\n");
-        return NULL;
-    }
+//     // Get the first element in the array
+//     json_object *obj = json_object_array_get_idx(root, 0);
+//     if (obj == NULL) {
+//         fprintf(stderr, "Error: Failed to get first element in JSON array.\n");
+//         return NULL;
+//     }
 
-    // Extract the latitude, longitude, and display name
-    json_object *lat, *lon, *name;
-    if (!json_object_object_get_ex(obj, "lat", &lat) ||
-        !json_object_object_get_ex(obj, "lon", &lon) ||
-        !json_object_object_get_ex(obj, "display_name", &name)) {
-        fprintf(stderr, "Error: Failed to extract data from JSON object.\n");
-        return NULL;
-    }
+//     // Extract the latitude, longitude, and display name
+//     json_object *lat, *lon, *name;
+//     if (!json_object_object_get_ex(obj, "lat", &lat) ||
+//         !json_object_object_get_ex(obj, "lon", &lon) ||
+//         !json_object_object_get_ex(obj, "display_name", &name)) {
+//         fprintf(stderr, "Error: Failed to extract data from JSON object.\n");
+//         return NULL;
+//     }
 
-    // Create a new Nominatim_t object and set its values
-    Nominatim_t *nomin = create_nominatim(json_object_get_string(name),
-                                          json_object_get_double(lat),
-                                          json_object_get_double(lon));
+//     // Create a new Nominatim_t object and set its values
+//     Nominatim_t *nomin = create_nominatim(json_object_get_string(name),
+//                                           json_object_get_double(lat),
+//                                           json_object_get_double(lon));
 
-    // Clean up and return the new object
-    json_object_put(root);
-    return nomin;
-}
+//     // Clean up and return the new object
+//     json_object_put(root);
+//     return nomin;
+// }
 
-Nominatim_t *get_nominatim(char *query)
-{
-    // Fetch data from the API
-    char *response = fetch_api(query);
-    if (response == NULL) {
-        fprintf(stderr, "Error: Failed to fetch data from API.\n");
-        return NULL;
-    }
+// /**
+//  * @brief Get the nominatim of a location
+//  *
+//  * @param query Location name
+//  * @return Nominatim_t* Nominatim object
+//  */
+// Nominatim_t *get_nominatim(char *query)
+// {
+//     // Fetch data from the API
+//     char *response = fetch_api(query);
+//     if (response == NULL) {
+//         fprintf(stderr, "Error: Failed to fetch data from API.\n");
+//         return NULL;
+//     }
 
-    // Parse the API response
-    Nominatim_t *nomin = parse_nominatim(response);
-    if (nomin == NULL) {
-        fprintf(stderr, "Error: Failed to parse API response.\n");
-        return NULL;
-    }
+//     // Parse the API response
+//     Nominatim_t *nomin = parse_nominatim(response);
+//     if (nomin == NULL) {
+//         fprintf(stderr, "Error: Failed to parse API response.\n");
+//         return NULL;
+//     }
 
-    // Free memory and return the new object
-    free(response);
-    return nomin;
-}
+//     // Free memory and return the new object
+//     free(response);
+//     return nomin;
+// }
 

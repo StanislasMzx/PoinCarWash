@@ -13,6 +13,7 @@ vehicles.o: vehicles.c vehicles.h
 stations.o: stations.c table.h stations.h
 table.o: table.c list.h table.h
 list.o: list.c coordinates.h list.h
+nominatim.o: nominatim.c nominatim.h
 coordinates.o: coordinates.c coordinates.h
 
 
