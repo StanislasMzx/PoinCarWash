@@ -8,6 +8,26 @@
 #include <assert.h>
 #include "coordinates.h"
 
+struct _API_response_t
+{
+    size_t size;
+    char *data;
+};
+/**
+ * @typedef API_response_t
+ * @brief API response type
+ *
+ * @var API_response_t::size
+ * Size of the response
+ * @var API_response_t::data
+ * Response data
+ */
+typedef struct _API_response_t API_response_t;
+
+API_response_t new_api_response();
+
+void destroy_api_response(API_response_t *response);
+
 struct _Nominatim_t
 {
     char *name;

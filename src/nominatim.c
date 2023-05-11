@@ -15,6 +15,30 @@
 
 
 /**
+ * @brief Create a new API_response_t object
+ *
+ * @return API_response_t API response
+ */
+API_response_t new_api_response()
+{
+    API_response_t response;
+    response.size = 0;
+    response.data = malloc(1);
+    response.data[0] = '\0';
+    return response;
+}
+
+/**
+ * @brief Destroy an API_response_t object
+ *
+ * @param response API response
+ */
+void destroy_api_response(API_response_t *response)
+{
+    free(response->data);
+}
+
+/**
  * @brief Create a new Nominatim_t object
  *
  * @param name Name of the nominatim
@@ -47,14 +71,6 @@ void destroy_nominatim(Nominatim_t *nomin)
 }
 
 /**
- * @brief API response struct
-*/
-struct API_response_t {
-    size_t size;
-    char* data;
-};
-
-/**
  * @brief Write callback function for cURL
  *
  * @param ptr Pointer to data
@@ -63,7 +79,7 @@ struct API_response_t {
  * @param data Pointer to url_data struct
  * @return size_t Size of data
  */
-size_t write_data(void *ptr, size_t size, size_t nmemb, struct API_response_t *data) {
+size_t write_data(void *ptr, size_t size, size_t nmemb, API_response_t *data) {
     size_t index = data->size;
     size_t n = (size * nmemb);
     char* tmp;
@@ -128,7 +144,7 @@ char *fetch_api(char *query)
     curl_easy_setopt(curl, CURLOPT_PORT, API_PORT);
 
     // API response
-    struct API_response_t response;
+    API_response_t response;
     response.size = 0;
     response.data = malloc(4096);
     if(NULL == response.data) {
