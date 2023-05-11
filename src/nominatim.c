@@ -15,30 +15,6 @@
 
 
 /**
- * @brief Create a new API_response_t object
- *
- * @return API_response_t API response
- */
-API_response_t new_api_response()
-{
-    API_response_t response;
-    response.size = 0;
-    response.data = malloc(1);
-    response.data[0] = '\0';
-    return response;
-}
-
-/**
- * @brief Destroy an API_response_t object
- *
- * @param response API response
- */
-void destroy_api_response(API_response_t *response)
-{
-    free(response->data);
-}
-
-/**
  * @brief Create a new Nominatim_t object
  *
  * @param name Name of the nominatim
@@ -85,8 +61,6 @@ size_t write_data(void *ptr, size_t size, size_t nmemb, API_response_t *data) {
     char* tmp;
 
     data->size += (size * nmemb);
-
-    fprintf(stderr, "data at %p size=%ld nmemb=%ld\n", ptr, size, nmemb);
 
     tmp = realloc(data->data, data->size + 1);
 
@@ -172,71 +146,73 @@ char *fetch_api(char *query)
     return data;
 }
 
-// /**
-//  * @brief Parse the API response
-//  *
-//  * @param response API response
-//  * @return Nominatim_t* Nominatim object
-//  */
-// Nominatim_t *parse_nominatim(char *response)
-// {
-//     // Parse the JSON response
-//     json_object *root = json_tokener_parse(response);
-//     if (root == NULL) {
-//         fprintf(stderr, "Error: Failed to parse JSON response.\n");
-//         return NULL;
-//     }
+/**
+ * @brief Parse the API response
+ *
+ * @param response API response
+ * @return Nominatim_t* Nominatim object
+ */
+Nominatim_t *parse_nominatim(char *response)
+{
+    // Parse the JSON response
+    json_object *root = json_tokener_parse(response);
+    if (root == NULL) {
+        fprintf(stderr, "Error: Failed to parse JSON response.\n");
+        return NULL;
+    }
 
-//     // Get the first element in the array
-//     json_object *obj = json_object_array_get_idx(root, 0);
-//     if (obj == NULL) {
-//         fprintf(stderr, "Error: Failed to get first element in JSON array.\n");
-//         return NULL;
-//     }
+    // Get the first element in the array
+    json_object *obj = json_object_array_get_idx(root, 0);
+    if (obj == NULL) {
+        fprintf(stderr, "Error: Failed to get first element in JSON array.\n");
+        return NULL;
+    }
 
-//     // Extract the latitude, longitude, and display name
-//     json_object *lat, *lon, *name;
-//     if (!json_object_object_get_ex(obj, "lat", &lat) ||
-//         !json_object_object_get_ex(obj, "lon", &lon) ||
-//         !json_object_object_get_ex(obj, "display_name", &name)) {
-//         fprintf(stderr, "Error: Failed to extract data from JSON object.\n");
-//         return NULL;
-//     }
+    // Extract the latitude, longitude, and display name
+    json_object *lat, *lon, *name;
+    if (!json_object_object_get_ex(obj, "lat", &lat) ||
+        !json_object_object_get_ex(obj, "lon", &lon) ||
+        !json_object_object_get_ex(obj, "display_name", &name)) {
+        fprintf(stderr, "Error: Failed to extract data from JSON object.\n");
+        return NULL;
+    }
 
-//     // Create a new Nominatim_t object and set its values
-//     Nominatim_t *nomin = create_nominatim(json_object_get_string(name),
-//                                           json_object_get_double(lat),
-//                                           json_object_get_double(lon));
+    // Create a new Nominatim_t object and set its values
+    char *nameStr = (char*)json_object_get_string(name);
+    Nominatim_t *nomin = create_nominatim(nameStr,
+                                          json_object_get_double(lat),
+                                          json_object_get_double(lon));
 
-//     // Clean up and return the new object
-//     json_object_put(root);
-//     return nomin;
-// }
+    // Clean up and return the new object
+    json_object_put(root);
+    return nomin;
+}
 
-// /**
-//  * @brief Get the nominatim of a location
-//  *
-//  * @param query Location name
-//  * @return Nominatim_t* Nominatim object
-//  */
-// Nominatim_t *get_nominatim(char *query)
-// {
-//     // Fetch data from the API
-//     char *response = fetch_api(query);
-//     if (response == NULL) {
-//         fprintf(stderr, "Error: Failed to fetch data from API.\n");
-//         return NULL;
-//     }
+/**
+ * @brief Get the nominatim of a location
+ *
+ * @param query Location name
+ * @return Nominatim_t* Nominatim object
+ */
+Nominatim_t *get_nominatim(char *query)
+{
+    // Fetch data from the API
+    char *response = fetch_api(query);
+    if (response == NULL) {
+        fprintf(stderr, "Error: Failed to fetch data from API.\n");
+        return NULL;
+    }
 
-//     // Parse the API response
-//     Nominatim_t *nomin = parse_nominatim(response);
-//     if (nomin == NULL) {
-//         fprintf(stderr, "Error: Failed to parse API response.\n");
-//         return NULL;
-//     }
+    // Parse the API response
+    Nominatim_t *nomin = parse_nominatim(response);
+    if (nomin == NULL) {
+        fprintf(stderr, "Error: Failed to parse API response.\n");
+        return NULL;
+    }
 
-//     // Free memory and return the new object
-//     free(response);
-//     return nomin;
-// }
+    // Free memory and return the new object
+    free(response);
+
+    return nomin;
+}
 

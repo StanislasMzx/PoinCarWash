@@ -24,10 +24,6 @@ struct _API_response_t
  */
 typedef struct _API_response_t API_response_t;
 
-API_response_t new_api_response();
-
-void destroy_api_response(API_response_t *response);
-
 struct _Nominatim_t
 {
     char *name;
@@ -47,6 +43,8 @@ typedef struct _Nominatim_t Nominatim_t;
 Nominatim_t *create_nominatim(char *name, double lat, double lon);
 
 void destroy_nominatim(Nominatim_t *nomin);
+
+size_t write_data(void *ptr, size_t size, size_t nmemb, API_response_t *data);
 
 char *fetch_api(char *query);
 
