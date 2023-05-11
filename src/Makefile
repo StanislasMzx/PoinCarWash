@@ -17,8 +17,8 @@ nominatim.o: nominatim.c nominatim.h
 coordinates.o: coordinates.c coordinates.h
 
 
-compute_journey: compute_journey.o a_star.o heap.o vehicles.o stations.o table.o list.o coordinates.o
-compute_journey.o: compute_journey.c a_star.h a_star.h
+compute_journey: compute_journey.o a_star.o heap.o vehicles.o stations.o table.o list.o nominatim.o coordinates.o
+compute_journey.o: compute_journey.c a_star.h nominatim.h
 
 
 # Varies depending on the OS

@@ -40,16 +40,16 @@ struct _Nominatim_t
  */
 typedef struct _Nominatim_t Nominatim_t;
 
-Nominatim_t *create_nominatim(char *name, double lat, double lon);
+Nominatim_t *nominatim_create(char *name, double lat, double lon);
 
-void destroy_nominatim(Nominatim_t *nomin);
+void nominatim_destroy(Nominatim_t *nomin);
 
-size_t write_data(void *ptr, size_t size, size_t nmemb, API_response_t *data);
+size_t api_write_data(void *ptr, size_t size, size_t nmemb, API_response_t *data);
 
-char *fetch_api(char *query);
+char *api_fetch(char *query);
 
-Nominatim_t *parse_nominatim(char *response);
+Nominatim_t *nominatim_parse(char *response);
 
-Nominatim_t *get_nominatim(char *query);
+Nominatim_t *nominatim_fetch(char *query);
 
 #endif /* NOMINATIM_H */

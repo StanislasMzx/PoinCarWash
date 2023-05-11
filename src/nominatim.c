@@ -22,7 +22,7 @@
  * @param lon Longitude of the nominatim
  * @return Nominatim_t* Nominatim object
  */
-Nominatim_t *create_nominatim(char *name, double lat, double lon)
+Nominatim_t *nominatim_create(char *name, double lat, double lon)
 {
     Nominatim_t *nomin = malloc(sizeof(Nominatim_t));
     nomin->name = malloc(strlen(name) + 1);
@@ -39,7 +39,7 @@ Nominatim_t *create_nominatim(char *name, double lat, double lon)
  *
  * @param nomin Nominatim object
  */
-void destroy_nominatim(Nominatim_t *nomin)
+void nominatim_destroy(Nominatim_t *nomin)
 {
     free(nomin->name);
     free(nomin->coord);
@@ -55,7 +55,7 @@ void destroy_nominatim(Nominatim_t *nomin)
  * @param data Pointer to url_data struct
  * @return size_t Size of data
  */
-size_t write_data(void *ptr, size_t size, size_t nmemb, API_response_t *data) {
+size_t api_write_data(void *ptr, size_t size, size_t nmemb, API_response_t *data) {
     size_t index = data->size;
     size_t n = (size * nmemb);
     char* tmp;
@@ -85,7 +85,7 @@ size_t write_data(void *ptr, size_t size, size_t nmemb, API_response_t *data) {
  *
  * @return char* API response
  */
-char *fetch_api(char *query)
+char *api_fetch(char *query)
 {
     // Initialize cURL
     CURL *curl;
@@ -126,7 +126,7 @@ char *fetch_api(char *query)
         return NULL;
     }
     response.data[0] = '\0';
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, api_write_data);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
 
     // GET request
@@ -152,7 +152,7 @@ char *fetch_api(char *query)
  * @param response API response
  * @return Nominatim_t* Nominatim object
  */
-Nominatim_t *parse_nominatim(char *response)
+Nominatim_t *nominatim_parse(char *response)
 {
     // Parse the JSON response
     json_object *root = json_tokener_parse(response);
@@ -179,7 +179,7 @@ Nominatim_t *parse_nominatim(char *response)
 
     // Create a new Nominatim_t object and set its values
     char *nameStr = (char*)json_object_get_string(name);
-    Nominatim_t *nomin = create_nominatim(nameStr,
+    Nominatim_t *nomin = nominatim_create(nameStr,
                                           json_object_get_double(lat),
                                           json_object_get_double(lon));
 
@@ -194,17 +194,17 @@ Nominatim_t *parse_nominatim(char *response)
  * @param query Location name
  * @return Nominatim_t* Nominatim object
  */
-Nominatim_t *get_nominatim(char *query)
+Nominatim_t *nominatim_fetch(char *query)
 {
     // Fetch data from the API
-    char *response = fetch_api(query);
+    char *response = api_fetch(query);
     if (response == NULL) {
         fprintf(stderr, "Error: Failed to fetch data from API.\n");
         return NULL;
     }
 
     // Parse the API response
-    Nominatim_t *nomin = parse_nominatim(response);
+    Nominatim_t *nomin = nominatim_parse(response);
     if (nomin == NULL) {
         fprintf(stderr, "Error: Failed to parse API response.\n");
         return NULL;
