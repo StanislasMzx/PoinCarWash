@@ -93,11 +93,16 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-The Makefile is designed to build with Clang so make sure to have it installed
+The Makefile is designed to build with Clang, curl and json-c so make sure to have it installed
 
 - llvm
   ```sh
   clang --version
+  ```
+- curl and json-c
+  ```sh
+  apt-get install -yq clang libcurl4-openssl-dev libjson-c-dev
+  ldconfig
   ```
 
 ### Installation
