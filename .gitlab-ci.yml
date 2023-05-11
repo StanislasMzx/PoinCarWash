@@ -3,7 +3,8 @@ image: silkeh/clang
 build:
   stage: build
   before_script:
-    - apt-get update && apt-get upgrade && apt -y install clang
+    - apt-get update -yq
+    - apt-get install -yq clang libcurl4-openssl-dev libjson-c-dev
   script:
     - cd tests
     - make all
