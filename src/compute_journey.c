@@ -1,11 +1,12 @@
 #include "a_star.h"
+#include "nominatim.h"
 #include <stdio.h>
 
 int main(int argc, char *argv[])
 {
     if (argc != 4)
     {
-        fprintf(stderr, "Usage: %s <start_latitude>,<start_longitude> <end_latitude>,<start_longitude> <vehicle_name>\n", argv[0]);
+        fprintf(stderr, "Usage: %s <start_location> <end_location> <vehicle_name>\n", argv[0]);
         return 1;
     }
 
@@ -14,16 +15,14 @@ int main(int argc, char *argv[])
     char *start_key = malloc(6), *end_key = malloc(4);
     Vehicle_t vehicle = vehicle_find_by_name(argv[3]);
 
-    char *token = strsep(&argv[1], ",");
-    start_coordinates->latitude = atof(token);
-    token = strsep(&argv[1], ",");
-    start_coordinates->longitude = atof(token);
-    token = strsep(&argv[2], ",");
-    end_coordinates->latitude = atof(token);
-    token = strsep(&argv[2], ",");
-    end_coordinates->longitude = atof(token);
-    Station_t *start = station_create("Input coordinates", start_coordinates, 0, 0, 0);
-    Station_t *end = station_create("Input coordinates", end_coordinates, 0, 0, 0);
+    Nominatim_t *start_nomin = nominatim_fetch(argv[1]);
+    start_coordinates->latitude = start_nomin->coord->latitude;
+    start_coordinates->longitude = start_nomin->coord->longitude;
+    Nominatim_t *end_nomin = nominatim_fetch(argv[2]);
+    end_coordinates->latitude = end_nomin->coord->latitude;
+    end_coordinates->longitude = end_nomin->coord->longitude;
+    Station_t *start = station_create(start_nomin->name, start_coordinates, 0, 0, 0);
+    Station_t *end = station_create(end_nomin->name, end_coordinates, 0, 0, 0);
     strcpy(start_key, "start");
     strcpy(end_key, "end");
     table_add(table, start_key, start);
@@ -34,6 +33,8 @@ int main(int argc, char *argv[])
 
     table_destroy(table);
     list_destroy(journey);
+    nominatim_destroy(start_nomin);
+    nominatim_destroy(end_nomin);
 
     return 0;
 }
