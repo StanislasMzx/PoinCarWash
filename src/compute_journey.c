@@ -18,6 +18,12 @@ Journey_output_t compute_journey(Nominatim_t *startNomin, Nominatim_t *endNomin,
     char *startKey = malloc(6), *endKey = malloc(4);
     Vehicle_t vehicle = vehicle_find_by_name(vehicleName);
 
+    if (vehicle.name == NULL)
+    {
+        fprintf(stderr, "\033[31m>> Error:\033[0m Vehicle not found.\n");
+        exit(1);
+    }
+
     startCoordinates->latitude = startNomin->coord->latitude;
     startCoordinates->longitude = startNomin->coord->longitude;
     endCoordinates->latitude = endNomin->coord->latitude;
