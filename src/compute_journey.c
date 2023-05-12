@@ -55,11 +55,16 @@ int main(int argc, char *argv[])
     Nominatim_t *startNomin = nominatim_fetch(argv[1]);
     Nominatim_t *endNomin = nominatim_fetch(argv[2]);
 
-    if (startNomin == NULL || endNomin == NULL)
+    if (startNomin == NULL)
     {
-        fprintf(stderr, "\033[31m>> Error: \033[0mInvalid location\n");
+        fprintf(stderr, "\033[31m>> Error:\033[0m Invalid departure location\n");
+        return 1;
+    }
+    if (endNomin == NULL)
+    {
+        fprintf(stderr, "\033[31m>> Error:\033[0m Invalid arrival location\n");
+        // Free memory
         nominatim_destroy(startNomin);
-        nominatim_destroy(endNomin);
         return 1;
     }
 
