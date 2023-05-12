@@ -12,7 +12,8 @@
 #include <unistd.h>
 #include <time.h>
 #include <math.h>
-// #include "../src/main.h"
+#include "../src/nominatim.h"
+#include "../src/compute_journey.h"
 
 
 /**
@@ -92,18 +93,9 @@ void benchmark_file_append(char *file, int id, int maxDist, bool randomDist, dou
  * @param endLon double longitude of the ending point
  */
 void benchmark_call(double startLat, double startLon, double endLat, double endLon) {
-    // TODO
-    int ceci = rand() % 900000000 + 100000000;
-    int est = rand() % 900000000 + 100000000;
-    int du = rand() % 900000000 + 100000000;
-    int code = rand() % 900000000 + 100000000;
-    int pour = rand() % 900000000 + 100000000;
-    int remplacer = rand() % 900000000 + 100000000;
-    int l_appel = rand() % 900000000 + 100000000;
-    int a_la = ceci * est * du * code;
-    int fonction = pour * remplacer * l_appel;
-    int finale = a_la + fonction;
-    ceci += est + du + code + pour + remplacer + l_appel + a_la + fonction + finale + startLat + startLon + endLat + endLon;
+    Nominatim_t *startNomin = nominatim_create("start", startLat, startLon);
+    Nominatim_t *endNomin = nominatim_create("end", endLat, endLon);
+    compute_journey(startNomin, endNomin, "Tesla Model 3");
 }
 
 /**
@@ -155,7 +147,7 @@ void benchmark_run(char *outFile, bool perRun, int maxDist, bool randomDist, dou
  * @param argv char** arguments
  * @return int exit code
  */
-int main(int argc, char **argv) {
+int benchmark_main(int argc, char **argv) {
     printf("\x1b[2m[~] Starting benchmark...\x1b[0m\n");
     char *cwd = getcwd(NULL, 0);
 
