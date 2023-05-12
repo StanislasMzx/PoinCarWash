@@ -1,7 +1,7 @@
 CC=clang
 CFLAGS=-std=c99 -Wall -Wextra -pedantic -fdiagnostics-color=always -Wno-strict-prototypes
 CFLAGS+=-O0 -g3 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
-LDFLAGS+=-fsanitize=address
+LDFLAGS+=-fsanitize=address -lcurl -ljson-c
 
 ALL_EXECUTABLES=benchmark
 
@@ -17,7 +17,7 @@ heap.o: ../src/heap.c ../src/heap.h ../src/stations.o
 a_star.o: ../src/a_star.c ../src/a_star.h ../src/heap.o ../src/vehicles.o
 compute_journey.o: ../src/compute_journey.c ../src/a_star.h ../src/nominatim.h ../src/coordinates.o ../src/nominatim.o ../src/vehicles.o ../src/stations.o ../src/table.o ../src/list.o ../src/heap.o
 
-benchmark: benchmark.o ../src/compute_journey.o ../src/nominatim.o
+benchmark: benchmark.o ../src/compute_journey.o ../src/a_star.o ../src/nominatim.o ../src/coordinates.o ../src/nominatim.o ../src/vehicles.o ../src/stations.o ../src/table.o ../src/list.o ../src/heap.o
 benchmark.o: benchmark.c ../src/compute_journey.h ../src/nominatim.h
 
 clean: 
