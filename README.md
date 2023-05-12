@@ -126,13 +126,13 @@ The Makefile is designed to build with Clang, curl and json-c so make sure to ha
 ### Plan a journey
 
 ```sh
-./compute_journey <start_latitude>,<start_longitude> <end_latitude>,<start_longitude> <vehicle_name>
+./compute_journey <start_location> <end_location> <vehicle_name>
 ```
 
 e.g.
 
 ```sh
-./compute_journey 48.66899330048828,6.155155997466113 43.73545739777208,7.422157789648335 "Tesla Model 3"
+./compute_journey "3 rue stanislas nancy" "toulouse" "Tesla Model 3"
 ```
 
 ### Network monitoring
@@ -196,6 +196,10 @@ Project Link: [https://gitlab.telecomnancy.univ-lorraine.fr/ppii2_2223/ppii2-grp
 
 - [Etalab](https://www.data.gouv.fr/fr/datasets/fichier-consolide-des-bornes-de-recharge-pour-vehicules-electriques/)
 - [EVD](https://ev-database.org/cheatsheet/range-electric-car)
+- [OpenStreetMap](https://www.openstreetmap.org/)
+- [Google Maps](https://www.google.com/maps)
+- [cURL](https://curl.se/)
+- [JSON-C](https://github.com/json-c/json-c)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
