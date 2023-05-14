@@ -8,8 +8,8 @@
 struct _Station_state_t
 {
     int tick;
-    int plugsNumber;
     int availablePlugs;
+    Vehicle_list_t *waiting;
     Vehicle_list_t *vehicles; // TODO: create type
 };
 /**
