@@ -53,7 +53,7 @@ void a_star_next_stations(Table_t *one_table, char *one_station_key, double rang
     return;
 }
 
-void a_star(char *id_start, char *id_end, Vehicle_t *one_vehicle, Table_t *table_station)
+void a_star(char *id_start, char *id_end, Vehicle_t *one_vehicle, Table_t *table_station, double power_min)
 {
     Station_t *end = table_get(table_station, id_end);
     Heap_t *queue = heap_empty();
@@ -71,7 +71,8 @@ void a_star(char *id_start, char *id_end, Vehicle_t *one_vehicle, Table_t *table
             again = false;
             break;
         }
-        a_star_next_stations(table_station, one_state->id_station, one_vehicle->range, &queue, one_state->weight, end);
+        double range = one_vehicle->range - power_min*one_vehicle->range/100;
+        a_star_next_stations(table_station, one_state->id_station, range, &queue, one_state->weight, end);
         state_destroy(one_state);
     }
     heap_destroy(queue);
@@ -98,9 +99,9 @@ void print_a_star(Table_t *table_station, List_t *one_list)
     printf("\n");
 }
 
-List_t *a_star_list(Table_t *table_station, char *id_start, char *id_end, Vehicle_t *one_vehicle)
+List_t *a_star_list(Table_t *table_station, char *id_start, char *id_end, Vehicle_t *one_vehicle, double power_min)
 {
-    a_star(id_start, id_end, one_vehicle, table_station);
+    a_star(id_start, id_end, one_vehicle, table_station, power_min);
     List_t *one_list = list_create();
     char *id = malloc(strlen(id_end) + 1);
     strcpy(id, id_end);

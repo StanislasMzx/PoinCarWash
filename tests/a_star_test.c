@@ -58,7 +58,45 @@ describe(test_a_star)
 
         char *start_key = "FRFR1PQXX0ZUA3NLQXX0ZUA3NL";
 
-        List_t *one_list = a_star_list(table, start_key, end_key, one_vehicle);
+        List_t *one_list = a_star_list(table, start_key, end_key, one_vehicle, 0);
+
+        print_a_star(table, one_list);
+
+        asserteq_str("FRFR1PQXX0ZUA3NLQXX0ZUA3NL", one_list->list[0].key);
+        asserteq_str("FRTDAPAVTD1411FR*SOD*S*AVTD*14*1*_*_", one_list->list[1].key);
+        asserteq_str("FRFR1PRYXKLFRYXKLF", one_list->list[2].key);
+
+        defer(list_destroy(one_list));
+        defer(table_destroy(table));
+        defer(free(one_vehicle));
+    }
+}
+
+
+describe(test_a_star_min_power)
+{
+    it("Conformance test")
+    {
+        Table_t *table = load_stations("../data/raw/consolidation-etalab-schema-irve-statique-v-2.2.0-20230415.csv");
+
+        Vehicle_t *one_vehicle = malloc(sizeof(Vehicle_t));
+
+        *one_vehicle = vehicle_find_by_name("Tesla Model 3");
+
+        double power_min = 30;
+
+        one_vehicle->range = 100/(100-power_min)*one_vehicle->range;
+
+        char *end_key = "FRFR1PRYXKLFRYXKLF";
+
+        char *start_key = "FRFR1PQXX0ZUA3NLQXX0ZUA3NL";
+
+        List_t *one_list = a_star_list(table, start_key, end_key, one_vehicle, power_min);
+
+        for (int i=1; i<one_list->length; i++){
+            double dist = distance(one_list->list[i-1].value->coordinates, one_list->list[i].value->coordinates);
+            assert(one_vehicle->range-dist >= power_min/100*one_vehicle->range);
+        }
 
         print_a_star(table, one_list);
 
