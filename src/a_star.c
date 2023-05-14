@@ -78,13 +78,13 @@ void a_star(char *id_start, char *id_end, Vehicle_t *one_vehicle, Table_t *table
     heap_destroy(queue);
 }
 
-void print_a_star(Table_t *table_station, List_t *one_list)
+void print_a_star(Table_t *table_station, List_t *one_list, double power_min)
 {
     int steps = one_list->length;
     Station_t *start = table_get(table_station, one_list->list[0].key);
     Station_t *end = table_get(table_station, one_list->list[steps - 1].key);
     printf("\033[0;32m>> Departure: %s\033[0m\n", start->name);
-    printf("Still to go: %f km\n", distance(start->coordinates, end->coordinates));
+    printf("Still to go: %f km with always more than %f autonomy\n", distance(start->coordinates, end->coordinates), power_min);
     for (int i = 1; i < one_list->length - 1; i++)
     {
         printf("\033[0;33m>> Step %d: %s\033[0m\n", i, table_get(table_station, one_list->list[i].key)->name);
