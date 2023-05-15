@@ -1,4 +1,5 @@
 #include "a_star.h"
+#include <stdlib.h>
 
 double heuristic(Station_t *one_station, Station_t *end)
 {
@@ -15,12 +16,11 @@ double heuristic(Station_t *one_station, Station_t *end)
  * @param end end of A*
  * @return None
  */
-void a_star_next_stations(Table_t *one_table, char *one_station_key, double range, Heap_t **one_heap, double one_weight, Station_t *end)
+int a_star_next_stations(Table_t *one_table, Station_t* one_station, char *one_station_key, double range, Heap_t **one_heap, double one_weight, Station_t *end)
 {
-    Station_t *one_station = table_get(one_table, one_station_key);
-    assert(one_station != NULL);
     double dist_to_end = heuristic(one_station, end);
     double new_weight;
+    bool added = 0; //if a station has been added in the heap (1 => at least one station has been added)
     for (int i = 0; i < one_table->length; i++)
     {
         List_t *list = one_table->slots[i];
@@ -46,14 +46,16 @@ void a_star_next_stations(Table_t *one_table, char *one_station_key, double rang
                     char *new_key = element->key;
 
                     heap_append(one_heap, state_create(new_key, new_weight), heap_height(*one_heap));
+
+                    added = 1;
                 }
             }
         }
     }
-    return;
+    return added;
 }
 
-void a_star(char *id_start, char *id_end, Vehicle_t *one_vehicle, Table_t *table_station, double power_min)
+int a_star(char *id_start, char *id_end, Vehicle_t *one_vehicle, Table_t *table_station, double power_min, double time_in_station_max)
 {
     Station_t *end = table_get(table_station, id_end);
     Heap_t *queue = heap_empty();
@@ -62,47 +64,70 @@ void a_star(char *id_start, char *id_end, Vehicle_t *one_vehicle, Table_t *table
     State_t *one_state = state_create(new_id, 0);
     heap_append(&queue, one_state, heap_height(queue));
     bool again = true;
+    double range_power = one_vehicle->range - power_min*one_vehicle->range/100; // range if the vehicle keep always power_min% autonomy
+    double range_vehicle = one_vehicle->fast_charge*time_in_station_max/60; // range if the vehicle is charge at one_vehicle->fast_charge during time_in_station_max
+    double range_min = MIN(range_power, range_vehicle);
+    double range;
+    int trip; //0 there is no trip, 1 there is at least 1 trip
     while (again)
     {
         one_state = heap_pop(&queue, heap_height(queue));
+        if (one_state == NULL){
+            again = false;
+            trip = 0; // errror
+        }
         if (strcmp(id_end, one_state->id_station) == 0)
         {
             state_destroy(one_state);
             again = false;
+            trip = 1; // success
             break;
         }
-        double range = one_vehicle->range - power_min*one_vehicle->range/100;
-        a_star_next_stations(table_station, one_state->id_station, range, &queue, one_state->weight, end);
+        Station_t *one_station = table_get(table_station, one_state->id_station);
+        assert(one_station != NULL);
+
+        range = MIN(range_min, one_station->power*time_in_station_max/60);
+        a_star_next_stations(table_station, one_station, one_state->id_station, range, &queue, one_state->weight, end);
+
         state_destroy(one_state);
     }
     heap_destroy(queue);
+    return trip;
 }
 
-void print_a_star(Table_t *table_station, List_t *one_list, double power_min)
+void print_a_star(Table_t *table_station, List_t *one_list, double power_min, double time_in_station_max)
 {
-    int steps = one_list->length;
-    Station_t *start = table_get(table_station, one_list->list[0].key);
-    Station_t *end = table_get(table_station, one_list->list[steps - 1].key);
-    printf("\033[0;32m>> Departure: %s\033[0m\n", start->name);
-    printf("Still to go: %f km with always more than %f autonomy\n", distance(start->coordinates, end->coordinates), power_min);
-    for (int i = 1; i < one_list->length - 1; i++)
+    if (!list_is_empty(one_list))
     {
-        printf("\033[0;33m>> Step %d: %s\033[0m\n", i, table_get(table_station, one_list->list[i].key)->name);
-        printf("Still to go: %f km\n", distance(table_get(table_station, one_list->list[i].key)->coordinates, table_get(table_station, one_list->list[steps - 1].key)->coordinates));
+        int steps = one_list->length;
+        Station_t *start = table_get(table_station, one_list->list[0].key);
+        Station_t *end = table_get(table_station, one_list->list[steps - 1].key);
+        printf("\033[0;32m>> Departure: %s\033[0m\n", start->name);
+        printf("Still to go: %f km with always more than %f autonomy and waiting less than %f minutes in station\n", distance(start->coordinates, end->coordinates), power_min, time_in_station_max);
+        for (int i = 1; i < one_list->length - 1; i++)
+        {
+            printf("\033[0;33m>> Step %d: %s\033[0m\n", i, table_get(table_station, one_list->list[i].key)->name);
+            printf("Still to go: %f km\n", distance(table_get(table_station, one_list->list[i].key)->coordinates, table_get(table_station, one_list->list[steps - 1].key)->coordinates));
+        }
+        printf("\033[0;35m>> Arrival: %s\033[0m\n", end->name);
+        printf("\033[0;36m>> View trip:\033[0m\nhttps://www.google.com/maps/dir/?api=1&origin=%f,%f&destination=%f,%f&waypoints=", start->coordinates->latitude, start->coordinates->longitude, end->coordinates->latitude, end->coordinates->longitude);
+        for (int i = 1; i < one_list->length - 1; i++)
+        {
+            printf("%f,%f%%7C", table_get(table_station, one_list->list[i].key)->coordinates->latitude, table_get(table_station, one_list->list[i].key)->coordinates->longitude);
+        }
+        printf("\n");
     }
-    printf("\033[0;35m>> Arrival: %s\033[0m\n", end->name);
-    printf("\033[0;36m>> View trip:\033[0m\nhttps://www.google.com/maps/dir/?api=1&origin=%f,%f&destination=%f,%f&waypoints=", start->coordinates->latitude, start->coordinates->longitude, end->coordinates->latitude, end->coordinates->longitude);
-    for (int i = 1; i < one_list->length - 1; i++)
-    {
-        printf("%f,%f%%7C", table_get(table_station, one_list->list[i].key)->coordinates->latitude, table_get(table_station, one_list->list[i].key)->coordinates->longitude);
+    else{
+        printf("\x1b[31mError: no trip found\x1b[0m\n");
     }
-    printf("\n");
 }
 
-List_t *a_star_list(Table_t *table_station, char *id_start, char *id_end, Vehicle_t *one_vehicle, double power_min)
+List_t *a_star_list(Table_t *table_station, char *id_start, char *id_end, Vehicle_t *one_vehicle, double power_min, double time_in_station_max)
 {
-    a_star(id_start, id_end, one_vehicle, table_station, power_min);
     List_t *one_list = list_create();
+    if (!a_star(id_start, id_end, one_vehicle, table_station, power_min, time_in_station_max)){
+        return one_list; // error
+    }
     char *id = malloc(strlen(id_end) + 1);
     strcpy(id, id_end);
     Station_t *one_station = station_copy(table_get(table_station, id));
