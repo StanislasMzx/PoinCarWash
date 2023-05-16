@@ -2,8 +2,8 @@
 #include "nominatim.h"
 #include <stdio.h>
 
-
-struct _Journey_output_t {
+struct _Journey_output_t
+{
     Table_t *table;
     List_t *journey;
 };
@@ -18,5 +18,4 @@ struct _Journey_output_t {
  */
 typedef struct _Journey_output_t Journey_output_t;
 
-Journey_output_t compute_journey(Nominatim_t *startNomin, Nominatim_t *endNomin, char *vehicleName);
-
+Journey_output_t compute_journey(Table_t *table, Nominatim_t *startNomin, Nominatim_t *endNomin, char *vehicleName);
