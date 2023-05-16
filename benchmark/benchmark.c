@@ -1,3 +1,4 @@
+#define EARTH_RADIUS 6371
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
@@ -91,11 +92,21 @@ void benchmark_file_append(char *file, int id, int maxDist, bool randomDist, dou
  * @param startLon double longitude of the starting point
  * @param endLat double latitude of the ending point
  * @param endLon double longitude of the ending point
+ * @param vehicleName char* name of the vehicle
  */
-void benchmark_call(double startLat, double startLon, double endLat, double endLon) {
+void benchmark_call(double startLat, double startLon, double endLat, double endLon, char *vehicleName) {
     Nominatim_t *startNomin = nominatim_create("start", startLat, startLon);
     Nominatim_t *endNomin = nominatim_create("end", endLat, endLon);
-    compute_journey(startNomin, endNomin, "Tesla Model 3");
+    printf("\x1b[32m[+] Starting point: %f,%f\x1b[0m\n", startNomin->coord->latitude, startNomin->coord->longitude);
+    printf("\x1b[32m[+] Ending point: %f,%f\x1b[0m\n", endNomin->coord->latitude, endNomin->coord->longitude);
+
+    Journey_output_t journeyOutput = compute_journey(startNomin, endNomin, vehicleName);
+
+    nominatim_destroy(startNomin);
+    nominatim_destroy(endNomin);
+    
+    table_destroy(journeyOutput.table);
+    list_destroy(journeyOutput.journey);
 }
 
 /**
@@ -115,13 +126,24 @@ void benchmark_run(char *outFile, bool perRun, int maxDist, bool randomDist, dou
         // Start the run
         clock_t runStart = clock();
 
-        // Get the end point
+        // Get the distance
         int dist = randomDist ? rand() % maxDist + 1 : maxDist;
-        double endLat = startLat + dist * cos(2 * M_PI * rand() / RAND_MAX);
-        double endLon = startLon + dist * sin(2 * M_PI * rand() / RAND_MAX);
+
+        // Random end point
+        double distRad = dist / EARTH_RADIUS;
+        double startLatRad = startLat * (M_PI / 180.0), startLonRad = startLon * (M_PI / 180.0);
+        double angle = 2 * M_PI * ((double)rand() / RAND_MAX);
+        double endLatRad = asin(sin(startLatRad) * cos(distRad) + cos(startLatRad) * sin(distRad) * cos(angle));
+        double endLonRad = startLonRad + atan2(sin(angle) * sin(distRad) * cos(startLatRad), cos(distRad) - sin(startLatRad) * sin(endLatRad));
+        double endLat = endLatRad * (180.0 / M_PI), endLon = endLonRad * (180.0 / M_PI);
+
+        printf("\x1b[32m[+] Distance: %d km\x1b[0m\n", dist);
+        printf("\x1b[32m[+] Angle: %f\x1b[0m\n", angle);
+        printf("\x1b[32m[+] Starting point: %f,%f\x1b[0m\n", startLat, startLon);
+        printf("\x1b[32m[+] Ending point: %f,%f\x1b[0m\n", endLat, endLon);
 
         // Run main function
-        benchmark_call(startLat, startLon, endLat, endLon);
+        benchmark_call(startLat, startLon, endLat, endLon, "Tesla Model 3");
 
         // Summarize the run
         if (perRun) {
