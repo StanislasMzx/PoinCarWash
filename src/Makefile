@@ -3,7 +3,7 @@ CFLAGS=-std=c99 -Wall -Wextra -pedantic -fdiagnostics-color=always -Wno-strict-p
 CFLAGS+=-O0 -g3 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
 LDFLAGS+=-fsanitize=address -lcurl -ljson-c
 
-ALL_EXECUTABLES=compute_journey
+ALL_EXECUTABLES=main
 
 all: $(ALL_EXECUTABLES)
 
@@ -15,10 +15,10 @@ table.o: table.c list.h table.h
 list.o: list.c coordinates.h list.h
 nominatim.o: nominatim.c nominatim.h
 coordinates.o: coordinates.c coordinates.h
-
-
-compute_journey: compute_journey.o a_star.o heap.o vehicles.o stations.o table.o list.o nominatim.o coordinates.o
 compute_journey.o: compute_journey.c a_star.h nominatim.h compute_journey.h
+
+main.o: main.c nominatim.h compute_journey.h
+main: main.o compute_journey.o a_star.o heap.o vehicles.o stations.o table.o list.o nominatim.o coordinates.o
 
 
 # Varies depending on the OS

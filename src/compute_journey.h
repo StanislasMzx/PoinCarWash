@@ -20,5 +20,3 @@ typedef struct _Journey_output_t Journey_output_t;
 
 Journey_output_t compute_journey(Nominatim_t *startNomin, Nominatim_t *endNomin, char *vehicleName);
 
-int main(int argc, char *argv[]);
-

@@ -147,7 +147,7 @@ void benchmark_run(char *outFile, bool perRun, int maxDist, bool randomDist, dou
  * @param argv char** arguments
  * @return int exit code
  */
-int benchmark_main(int argc, char **argv) {
+int main(int argc, char **argv) {
     printf("\x1b[2m[~] Starting benchmark...\x1b[0m\n");
     char *cwd = getcwd(NULL, 0);
 
