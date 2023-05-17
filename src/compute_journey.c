@@ -16,7 +16,10 @@ int main(int argc, char *argv[])
     Vehicle_t vehicle = vehicle_find_by_name(argv[3]);
 
     Nominatim_t *start_nomin = nominatim_fetch(argv[1]);
-    assert(start_nomin == NULL);
+    if (start_nomin == NULL){
+        printf("\n%s\n", argv[1]);
+        return 0;
+    }
     start_coordinates->latitude = start_nomin->coord->latitude;
     start_coordinates->longitude = start_nomin->coord->longitude;
     Nominatim_t *end_nomin = nominatim_fetch(argv[2]);

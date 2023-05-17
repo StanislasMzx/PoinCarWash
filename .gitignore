@@ -1,6 +1,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/macos,linux,windows,visualstudiocode,c,latex
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,linux,windows,visualstudiocode,c,latex
 
+### Test ###
+
+*test
+
 ### C ###
 # Prerequisites
 *.d
@@ -461,3 +465,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,linux,windows,visualstudiocode,c,latex
+
