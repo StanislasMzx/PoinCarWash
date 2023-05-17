@@ -70,7 +70,7 @@ size_t api_write_data(void *ptr, size_t size, size_t nmemb, API_response_t *data
         if(data->data) {
             free(data->data);
         }
-        fprintf(stderr, "Failed to allocate memory.\n");
+        fprintf(stderr, "\033[31m>> Error:\033[0m Failed to allocate memory.\n");
         return 0;
     }
 
@@ -100,7 +100,9 @@ char *api_fetch(char *query)
     char *escapedQuery = curl_easy_escape(curl, query, queryLen);
 
     if (!escapedQuery) {
-        fprintf(stderr, "Error: Failed to escape query string.\n");
+        fprintf(stderr, "\033[31m>> Error:\033[0m Error: Failed to escape query string.\n");
+        // Free memory
+        curl_easy_cleanup(curl);
         return NULL;
     }
 
@@ -122,7 +124,10 @@ char *api_fetch(char *query)
     response.size = 0;
     response.data = malloc(4096);
     if(NULL == response.data) {
-        fprintf(stderr, "Failed to allocate memory.\n");
+        fprintf(stderr, "\033[31m>> Error:\033[0m Failed to allocate memory.\n");
+        // Free memory
+        curl_easy_cleanup(curl);
+        curl_free(escapedQuery);
         return NULL;
     }
     response.data[0] = '\0';
@@ -132,7 +137,11 @@ char *api_fetch(char *query)
     // GET request
     res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
-        fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+        fprintf(stderr, "\033[31m>> Error:\033[0m API fetch failed: %s\n", curl_easy_strerror(res));
+        // Free memory
+        free(response.data);
+        curl_easy_cleanup(curl);
+        curl_free(escapedQuery);
         return NULL;
     }
 
@@ -157,14 +166,18 @@ Nominatim_t *nominatim_parse(char *response)
     // Parse the JSON response
     json_object *root = json_tokener_parse(response);
     if (root == NULL) {
-        fprintf(stderr, "Error: Failed to parse JSON response.\n");
+        fprintf(stderr, "\033[31m>> Error:\033[0m Failed to parse JSON response.\n");
+        // Free memory
+        free(response);
         return NULL;
     }
 
     // Get the first element in the array
     json_object *obj = json_object_array_get_idx(root, 0);
     if (obj == NULL) {
-        fprintf(stderr, "Error: Failed to get first element in JSON array.\n");
+        // fprintf(stderr, "\033[31m>> Error:\033[0m Error: Failed to get first element in JSON array.\n");
+        // Free memory
+        json_object_put(root);
         return NULL;
     }
 
@@ -174,6 +187,8 @@ Nominatim_t *nominatim_parse(char *response)
         !json_object_object_get_ex(obj, "lon", &lon) ||
         !json_object_object_get_ex(obj, "display_name", &name)) {
         fprintf(stderr, "Error: Failed to extract data from JSON object.\n");
+        // Free memory
+        json_object_put(root);
         return NULL;
     }
 
@@ -199,14 +214,16 @@ Nominatim_t *nominatim_fetch(char *query)
     // Fetch data from the API
     char *response = api_fetch(query);
     if (response == NULL) {
-        fprintf(stderr, "Error: Failed to fetch data from API.\n");
+        fprintf(stderr, "\033[31m>> Error:\033[0m Error: Failed to fetch data from API.\n");
         return NULL;
     }
 
     // Parse the API response
     Nominatim_t *nomin = nominatim_parse(response);
     if (nomin == NULL) {
-        fprintf(stderr, "Error: Failed to parse API response.\n");
+        // fprintf(stderr, "\033[31m>> Error:\033[0m Error: Failed to parse API response.\n");
+        // Free memory
+        free(response);
         return NULL;
     }
 
