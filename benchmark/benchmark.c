@@ -131,11 +131,18 @@ void benchmark_run(char *outFile, bool perRun, int maxDist, bool randomDist, dou
 
         // Random end point
         double distRad = dist / EARTH_RADIUS;
-        double startLatRad = startLat * (M_PI / 180.0), startLonRad = startLon * (M_PI / 180.0);
+        double startLatRad = startLat * (M_PI / 180.0);
+        double startLonRad = startLon * (M_PI / 180.0);
         double angle = 2 * M_PI * ((double)rand() / RAND_MAX);
-        double endLatRad = asin(sin(startLatRad) * cos(distRad) + cos(startLatRad) * sin(distRad) * cos(angle));
-        double endLonRad = startLonRad + atan2(sin(angle) * sin(distRad) * cos(startLatRad), cos(distRad) - sin(startLatRad) * sin(endLatRad));
-        double endLat = endLatRad * (180.0 / M_PI), endLon = endLonRad * (180.0 / M_PI);
+
+        double *endLatRad = malloc(sizeof(double));
+        double *endLonRad = malloc(sizeof(double));
+        *endLonRad = asin(sin(startLatRad) * cos(distRad) + cos(startLatRad) * sin(distRad) * cos(angle));
+        printf("\x1b[32m[+] End latitude rad: %f\x1b[0m\n", *endLatRad);
+        *endLonRad = startLonRad + atan2(sin(angle) * sin(distRad) * cos(startLatRad), cos(distRad) - sin(startLatRad) * sin(*endLatRad));
+        printf("\x1b[32m[+] End longitude rad: %f\x1b[0m\n", *endLonRad);
+        double endLat = *endLatRad * (180.0 / M_PI);
+        double endLon = *endLonRad * (180.0 / M_PI);
 
         printf("\x1b[32m[+] Distance: %d km\x1b[0m\n", dist);
         printf("\x1b[32m[+] Angle: %f\x1b[0m\n", angle);
