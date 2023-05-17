@@ -105,8 +105,6 @@ void benchmark_call(double startLat, double startLon, double endLat, double endL
 {
     Nominatim_t *startNomin = nominatim_create("start", startLat, startLon);
     Nominatim_t *endNomin = nominatim_create("end", endLat, endLon);
-    printf("\x1b[32m[+] Starting point: %f,%f\x1b[0m\n", startNomin->coord->latitude, startNomin->coord->longitude);
-    printf("\x1b[32m[+] Ending point: %f,%f\x1b[0m\n", endNomin->coord->latitude, endNomin->coord->longitude);
 
     Journey_output_t journeyOutput = compute_journey(startNomin, endNomin, vehicleName);
 
@@ -149,11 +147,6 @@ void benchmark_run(char *outFile, bool perRun, int maxDist, bool randomDist, dou
         double endLonRad = startLonRad + atan2(sin(angle) * sin(distRad) * cos(startLatRad), cos(distRad) - sin(startLatRad) * sin(endLatRad));
         double endLat = endLatRad * (180.0 / M_PI);
         double endLon = endLonRad * (180.0 / M_PI);
-
-        printf("\x1b[32m[+] Distance: %d km\x1b[0m\n", dist);
-        printf("\x1b[32m[+] Angle: %f\x1b[0m\n", angle);
-        printf("\x1b[32m[+] Starting point: %f,%f\x1b[0m\n", startLat, startLon);
-        printf("\x1b[32m[+] Ending point: %f,%f\x1b[0m\n", endLat, endLon);
 
         // Run main function
         benchmark_call(startLat, startLon, endLat, endLon, "Tesla Model 3");
