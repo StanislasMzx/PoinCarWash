@@ -16,6 +16,7 @@ Vehicle_t vehicle_find_by_name(char *name)
     FILE *fp = fopen(VEHICLE_TABLE_PATH, "r");
     assert(fp != NULL);
 
+    size_t name_len = strlen(name);
     const unsigned max_line = 256;
     char line[max_line];
     char *token;
@@ -24,6 +25,11 @@ Vehicle_t vehicle_find_by_name(char *name)
     unsigned int fast_charge;
 
     Vehicle_t vehicle = {NULL, 0, 0};
+
+    if (name_len == 0)
+    {
+        return vehicle;
+    }
 
     while (fgets(line, sizeof(line), fp))
     {
@@ -34,9 +40,9 @@ Vehicle_t vehicle_find_by_name(char *name)
         token = strtok(NULL, ",");
         fast_charge = atoi(token);
 
-        if (strcasecmp(vehicle_name, name) == 0)
+        if (strncasecmp(vehicle_name, name, name_len) == 0)
         {
-            vehicle.name = name;
+            vehicle.name = vehicle_name;
             vehicle.range = range;
             vehicle.fast_charge = fast_charge;
             break;
@@ -44,6 +50,7 @@ Vehicle_t vehicle_find_by_name(char *name)
     }
 
     fclose(fp);
+
     return vehicle;
 }
 

@@ -83,7 +83,7 @@ size_t api_write_data(void *ptr, size_t size, size_t nmemb, API_response_t *data
 /**
  * @brief Fetch data from the API
  *
- * @return char* API response
+ * @return char* API response, empty if query error and NULL if API error
  */
 char *api_fetch(char *query)
 {
@@ -159,7 +159,7 @@ char *api_fetch(char *query)
  * @brief Parse the API response
  *
  * @param response API response
- * @return Nominatim_t* Nominatim object
+ * @return Nominatim_t* Nominatim object, NULL if error
  */
 Nominatim_t *nominatim_parse(char *response)
 {
@@ -213,7 +213,7 @@ Nominatim_t *nominatim_parse(char *response)
  * @brief Get the nominatim of a location
  *
  * @param query Location name
- * @return Nominatim_t* Nominatim object
+ * @return Nominatim_t* Nominatim object, empty name if query error and NULL if API error
  */
 Nominatim_t *nominatim_fetch(char *query)
 {
