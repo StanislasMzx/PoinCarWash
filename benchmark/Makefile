@@ -15,10 +15,10 @@ table.o: ../src/table.c ../src/table.h ../src/list.o
 stations.o: ../src/stations.c ../src/stations.h ../src/table.o 
 heap.o: ../src/heap.c ../src/heap.h ../src/stations.o
 a_star.o: ../src/a_star.c ../src/a_star.h ../src/heap.o ../src/vehicles.o
-compute_journey.o: ../src/compute_journey.c ../src/a_star.h ../src/nominatim.h ../src/coordinates.o ../src/nominatim.o ../src/vehicles.o ../src/stations.o ../src/table.o ../src/list.o ../src/heap.o
+compute_trip.o: ../src/compute_trip.c ../src/a_star.h ../src/nominatim.h ../src/coordinates.o ../src/nominatim.o ../src/vehicles.o ../src/stations.o ../src/table.o ../src/list.o ../src/heap.o
 
-benchmark: benchmark.o ../src/compute_journey.o ../src/a_star.o ../src/nominatim.o ../src/coordinates.o ../src/nominatim.o ../src/vehicles.o ../src/stations.o ../src/table.o ../src/list.o ../src/heap.o
-benchmark.o: benchmark.c ../src/compute_journey.h ../src/nominatim.h
+benchmark: benchmark.o ../src/compute_trip.o ../src/a_star.o ../src/nominatim.o ../src/coordinates.o ../src/nominatim.o ../src/vehicles.o ../src/stations.o ../src/table.o ../src/list.o ../src/heap.o
+benchmark.o: benchmark.c ../src/compute_trip.h ../src/nominatim.h
 
 clean: 
 	rm -f *.o ../src/*.o ${ALL_EXECUTABLES}

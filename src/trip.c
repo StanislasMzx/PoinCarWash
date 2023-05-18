@@ -1,4 +1,4 @@
-#include "compute_journey.h"
+#include "compute_trip.h"
 #include "nominatim.h"
 #include <stdio.h>
 
@@ -35,13 +35,13 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    Journey_output_t output = compute_journey(table, startNomin, endNomin, argv[3]);
-    List_t *journey = output.journey;
+    Trip_output_t output = compute_trip(table, startNomin, endNomin, argv[3]);
+    List_t *trip = output.trip;
 
-    print_a_star(table, journey);
+    print_a_star(table, trip);
 
     table_destroy(table);
-    list_destroy(journey);
+    list_destroy(trip);
     nominatim_destroy(startNomin);
     nominatim_destroy(endNomin);
 

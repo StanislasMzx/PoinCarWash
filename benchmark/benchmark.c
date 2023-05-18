@@ -14,7 +14,7 @@
 #include <time.h>
 #include <math.h>
 #include "../src/nominatim.h"
-#include "../src/compute_journey.h"
+#include "../src/compute_trip.h"
 
 /**
  * @brief Check for output directory
@@ -108,13 +108,13 @@ void benchmark_call(double startLat, double startLon, double endLat, double endL
     Nominatim_t *endNomin = nominatim_create("end", endLat, endLon);
 
     // Main call
-    Journey_output_t journeyOutput = compute_journey(table, startNomin, endNomin, vehicleName);
+    Trip_output_t tripOutput = compute_trip(table, startNomin, endNomin, vehicleName);
 
     // Free memory
     nominatim_destroy(startNomin);
     nominatim_destroy(endNomin);
     table_destroy(table);
-    list_destroy(journeyOutput.journey);
+    list_destroy(tripOutput.trip);
 }
 
 /**

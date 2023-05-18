@@ -15,7 +15,7 @@ table.o: ../src/table.c ../src/table.h ../src/list.o
 stations.o: ../src/stations.c ../src/stations.h ../src/table.o 
 heap.o: ../src/heap.c ../src/heap.h ../src/stations.o
 a_star.o: ../src/a_star.c ../src/a_star.h ../src/heap.o ../src/vehicles.o
-monitoring.o: ../src/monitoring.c ../src/monitoring.h ../src/compute_journey.o
+monitoring.o: ../src/monitoring.c ../src/monitoring.h ../src/compute_trip.o
 
 
 coordinates_test: coordinates_test.o ../src/coordinates.o
@@ -40,7 +40,7 @@ opti_test: opti_test.o ../src/stations.o ../src/table.o ../src/list.o ../src/coo
 opti_test.o: opti_test.c ../src/stations.h
 
 
-monitoring_test: monitoring_test.o ../src/monitoring.o ../src/compute_journey.o ../src/a_star.o ../src/heap.o ../src/vehicles.o ../src/stations.o ../src/table.o ../src/list.o ../src/nominatim.o ../src/coordinates.o
+monitoring_test: monitoring_test.o ../src/monitoring.o ../src/compute_trip.o ../src/a_star.o ../src/heap.o ../src/vehicles.o ../src/stations.o ../src/table.o ../src/list.o ../src/nominatim.o ../src/coordinates.o
 monitoring_test.o: monitoring_test.c ../src/monitoring.h snow.h 
 
 

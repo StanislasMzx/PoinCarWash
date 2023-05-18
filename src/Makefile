@@ -15,10 +15,10 @@ table.o: table.c list.h table.h
 list.o: list.c coordinates.h list.h
 nominatim.o: nominatim.c nominatim.h
 coordinates.o: coordinates.c coordinates.h
-compute_journey.o: compute_journey.c a_star.h nominatim.h compute_journey.h
+compute_ww.o: compute_trip.c a_star.h nominatim.h compute_trip.h
 
-trip.o: trip.c nominatim.h compute_journey.h
-trip: trip.o compute_journey.o a_star.o heap.o vehicles.o stations.o table.o list.o nominatim.o coordinates.o
+trip.o: trip.c nominatim.h compute_trip.h
+trip: trip.o compute_trip.o a_star.o heap.o vehicles.o stations.o table.o list.o nominatim.o coordinates.o
 
 
 # Varies depending on the OS

@@ -24,7 +24,7 @@ typedef struct _User_state_t User_state_t;
 struct _Timeline_user_t
 {
     Vehicle_t *vehicle;
-    List_t *journey;
+    List_t *trip;
     int stationsNumber;
     struct _Timeline_user_t *next;
 };
@@ -34,10 +34,10 @@ struct _Timeline_user_t
  *
  * @var Timeline_user::vehicle
  * Type of vehicle that the user use
- * @var Timeline_user::journey
- * List of station which is the journey
+ * @var Timeline_user::trip
+ * List of station which is the trip
  * @var Timeline_user::stationsNumber
- * Number of stations in the journey
+ * Number of stations in the trip
  * @var Timeline_::next
  * Next element of the linked list
  */
