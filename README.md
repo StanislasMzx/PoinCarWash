@@ -129,10 +129,14 @@ The Makefile is designed to build with Clang and cURL so make sure to have it in
 ./trip <start_location> <end_location> <vehicle_name>
 ```
 
-**Example:**
+**Examples:**
+  
+```sh
+./trip "Auvergne" "TELECOM Nancy" "Tesla Model 3"
+```
 
 ```sh
-./trip "3 rue stanislas nancy" "toulouse" "Tesla Model 3"
+./trip "3 rue stanislas nancy" "toulouse" "zoe"
 ```
 
 ### Network monitoring
@@ -146,6 +150,7 @@ The Makefile is designed to build with Clang and cURL so make sure to have it in
 - [x] Computing a trip
   - [x] CLI input
   - [x] API address to coordinates conversion
+  - [x] Flexible vehicle name input
 - [ ] Network monitoring
 
 See the [open issues](https://gitlab.telecomnancy.univ-lorraine.fr/ppii2_2223/ppii2-grp_07/issues) for a full list of proposed features (and known issues).

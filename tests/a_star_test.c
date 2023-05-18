@@ -56,7 +56,7 @@ describe(test_a_star)
 
         List_t *one_list = a_star_list(table, start_key, end_key, one_vehicle);
 
-        print_a_star(table, one_list);
+        print_a_star(table, one_list, one_vehicle->range);
 
         asserteq_str("FRFR1PQXX0ZUA3NLQXX0ZUA3NL", one_list->list[0].key);
         asserteq_str("FRTDAPAVTD1411FR*SOD*S*AVTD*14*1*_*_", one_list->list[1].key);

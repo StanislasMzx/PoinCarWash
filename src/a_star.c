@@ -77,23 +77,55 @@ void a_star(char *id_start, char *id_end, Vehicle_t *one_vehicle, Table_t *table
     heap_destroy(queue);
 }
 
-void print_a_star(Table_t *table_station, List_t *one_list)
+void print_a_star(Table_t *table_station, List_t *station_list, int vehicleRange)
 {
-    int steps = one_list->length;
-    Station_t *start = table_get(table_station, one_list->list[0].key);
-    Station_t *end = table_get(table_station, one_list->list[steps - 1].key);
-    printf("\33[0;32m>> Departure: %s\33[0m\n", start->name);
-    printf("   \33[2mStill to go: %.3f km\33[0m\n", distance(start->coordinates, end->coordinates));
-    for (int i = 1; i < one_list->length - 1; i++)
+    int steps = station_list->length;
+    Station_t *startStation = table_get(table_station, station_list->list[0].key);
+    Station_t *endStation = table_get(table_station, station_list->list[steps - 1].key);
+
+    // Start
+    Station_t *prevStation;
+    Station_t *currentStation = startStation;
+    double distanceLeft = distance(currentStation->coordinates, endStation->coordinates);
+    double distancePrev;
+    int batteryBefore;
+    int batteryAfter = 100;
+
+    printf("\33[0;32m>> Departure: \33[1m%s\33[0m\n", startStation->name);
+    printf("   \33[2;32mBattery: \33[1;5m%d%%\33[0m\n", batteryAfter);
+    printf("   \33[2mDistance left: \33[1m%.3f km\33[0m\n", distanceLeft);
+
+    // Steps
+    for (int i = 1; i < steps - 1; i++)
     {
-        printf("\33[0;33m>> Step %d: %s\33[0m\n", i, table_get(table_station, one_list->list[i].key)->name);
-        printf("   \33[2mStill to go: %.3f km\33[0m\n", distance(table_get(table_station, one_list->list[i].key)->coordinates, table_get(table_station, one_list->list[steps - 1].key)->coordinates));
+        prevStation = currentStation;
+        currentStation = table_get(table_station, station_list->list[i].key);
+        distanceLeft = distance(currentStation->coordinates, endStation->coordinates);
+        distancePrev = distance(prevStation->coordinates, currentStation->coordinates);
+        batteryBefore = (int)(100.0*(1.0 - (double)distancePrev / (double)vehicleRange));
+
+        printf("\33[0;33m>> Step %d: \33[1m%s\33[0m\n", i, currentStation->name);
+        printf("   \33[2;33mBattery: \33[1;5m%d%% \u2192 %d%%\33[0m\n", batteryBefore, batteryAfter);
+        printf("   \33[2mDistance left: \33[1m%.3f km\33[0m\n", distanceLeft);
     }
-    printf("\33[0;35m>> Arrival: %s\33[0m\n", end->name);
-    printf("\33[0;36m>> View trip:\33[0m\nhttps://www.google.com/maps/dir/?api=1&origin=%f,%f&destination=%f,%f&waypoints=", start->coordinates->latitude, start->coordinates->longitude, end->coordinates->latitude, end->coordinates->longitude);
-    for (int i = 1; i < one_list->length - 1; i++)
+
+    // End
+    prevStation = currentStation;
+    currentStation = endStation;
+    distancePrev = distance(prevStation->coordinates, currentStation->coordinates);
+    batteryBefore = (int)(100.0*(1.0 - (double)distancePrev / (double)vehicleRange));
+
+    printf("\33[0;35m>> Arrival: \33[1m%s\33[0m\n", currentStation->name);
+    printf("   \33[2;35mBattery: \33[1;5m%d%%\33[0m\n", batteryBefore);
+
+    // Print Google Maps URL
+    printf("\33[0;36m>> View trip:\33[0m\nhttps://www.google.com/maps/dir/?api=1&origin=%f,%f&destination=%f,%f&waypoints=",
+            startStation->coordinates->latitude, startStation->coordinates->longitude,
+            endStation->coordinates->latitude, endStation->coordinates->longitude);
+    for (int i = 1; i < steps - 1; i++)
     {
-        printf("%f,%f%%7C", table_get(table_station, one_list->list[i].key)->coordinates->latitude, table_get(table_station, one_list->list[i].key)->coordinates->longitude);
+        Station_t *one_station = table_get(table_station, station_list->list[i].key);
+        printf("%f,%f%%7C", one_station->coordinates->latitude, one_station->coordinates->longitude);
     }
     printf("\n");
 }
