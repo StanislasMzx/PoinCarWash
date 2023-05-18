@@ -44,7 +44,7 @@ Nominatim_t *nominatim_create(char *name, double lat, double lon);
 
 void nominatim_destroy(Nominatim_t *nomin);
 
-size_t api_write_data(void *ptr, size_t size, size_t nmemb, API_response_t *data);
+size_t api_write_data(void *contents, size_t size, size_t nmemb, void *userp);
 
 char *api_fetch(char *query);
 

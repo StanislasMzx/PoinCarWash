@@ -49,35 +49,29 @@ void nominatim_destroy(Nominatim_t *nomin)
 /**
  * @brief Write callback function for cURL
  *
- * @param ptr Pointer to data
+ * @param contents Void pointer to the data
  * @param size Size of each element
  * @param nmemb Number of elements
- * @param data Pointer to url_data struct
- * @return size_t Size of data
+ * @param userp Void pointer to the user data
+ * @return size_t Size of the data
  */
-size_t api_write_data(void *ptr, size_t size, size_t nmemb, API_response_t *data) {
-    size_t index = data->size;
-    size_t n = (size * nmemb);
-    char* tmp;
-
-    data->size += (size * nmemb);
-
-    tmp = realloc(data->data, data->size + 1);
-
-    if(tmp) {
-        data->data = tmp;
-    } else {
-        if(data->data) {
-            free(data->data);
-        }
+size_t api_write_data(void *contents, size_t size, size_t nmemb, void *userp)
+{
+    size_t realsize = size * nmemb;
+    API_response_t *mem = (API_response_t *)userp;
+ 
+    char *ptr = realloc(mem->data, mem->size + realsize + 1);
+    if (!ptr) {
         fprintf(stderr, "\33[31m>> Error:\33[0m Failed to allocate memory.\n");
         return 0;
     }
-
-    memcpy((data->data + index), ptr, n);
-    data->data[data->size] = '\0';
-
-    return size * nmemb;
+    
+    mem->data = ptr;
+    memcpy(&(mem->data[mem->size]), contents, realsize);
+    mem->size += realsize;
+    mem->data[mem->size] = 0;
+    
+    return realsize;
 }
 
 /**
@@ -88,69 +82,66 @@ size_t api_write_data(void *ptr, size_t size, size_t nmemb, API_response_t *data
 char *api_fetch(char *query)
 {
     // Initialize cURL
-    CURL *curl;
     CURLcode res;
+    CURL *curl;
+    API_response_t response;
+    response.size = 0;
+    response.data = malloc(1);
+    if (response.data == NULL) {
+        fprintf(stderr, "\33[31m>> Error:\33[0m Failed to allocate memory.\n");
+        return NULL;
+    }
+    
+    // Start cURL session
+    curl_global_init(CURL_GLOBAL_ALL);
     curl = curl_easy_init();
-    if (!curl) {
+    if (curl == NULL) {
+        fprintf(stderr, "\33[31m>> Error:\33[0m Failed to initialize cURL.\n");
+        // Free memory
+        free(response.data);
+        curl_global_cleanup();
         return NULL;
     }
 
     // Escape the query string
-    int queryLen = strlen(query);
+    size_t queryLen = strlen(query);
     char *escapedQuery = curl_easy_escape(curl, query, queryLen);
-
-    if (!escapedQuery) {
-        fprintf(stderr, "\33[31m>> Error:\33[0m Failed to escape query string.\n");
-        // Free memory
-        curl_easy_cleanup(curl);
-        return "";
-    }
+    assert(escapedQuery != NULL);
 
     // Set the URL
-    char url[8 + strlen(API_HOST) + strlen(API_PATH) + strlen(escapedQuery) + 1];
-    sprintf(url, "https://%s%s%s", API_HOST, API_PATH, escapedQuery);
+    size_t url_length = snprintf(NULL, 0, "https://%s%s%s", API_HOST, API_PATH, escapedQuery);
+    char* url = (char*)malloc((url_length + 1) * sizeof(char));
+    snprintf(url, url_length + 1, "https://%s%s%s", API_HOST, API_PATH, escapedQuery);
+    assert(url != NULL);
     curl_easy_setopt(curl, CURLOPT_URL, url);
+    free(url);
 
     // OSM User Agent policy
     curl_easy_setopt(curl, CURLOPT_USERAGENT, API_USER_AGENT);
-    // Set SSL options
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, true);
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2);
-    // Set the API host and port
-    curl_easy_setopt(curl, CURLOPT_PORT, API_PORT);
 
     // API response
-    API_response_t response;
-    response.size = 0;
-    response.data = malloc(4096);
-    if(NULL == response.data) {
-        fprintf(stderr, "\33[31m>> Error:\33[0m Failed to allocate memory.\n");
-        // Free memory
-        curl_easy_cleanup(curl);
-        curl_free(escapedQuery);
-        return NULL;
-    }
-    response.data[0] = '\0';
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, api_write_data);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&response);
 
     // GET request
     res = curl_easy_perform(curl);
+    char *data = malloc(response.size + 1);
+
     if (res != CURLE_OK) {
         fprintf(stderr, "\33[31m>> Error:\33[0m API fetch failed: \33[4;91m%s\33[0m\n", curl_easy_strerror(res));
-        // Free memory
-        free(response.data);
-        curl_easy_cleanup(curl);
-        curl_free(escapedQuery);
-        return NULL;
+        free(data);
+        data = NULL;
+    } else if (data == NULL) {
+        fprintf(stderr, "\33[31m>> Error:\33[0m Failed to allocate memory.\n");
+    } else {
+        strcpy(data, response.data);
     }
 
-    // Response data
-    char *data = response.data;
-
     // Free memory
-    curl_easy_cleanup(curl);
+    free(response.data);
     curl_free(escapedQuery);
+    curl_easy_cleanup(curl);
+    curl_global_cleanup();
 
     return data;
 }
@@ -220,25 +211,20 @@ Nominatim_t *nominatim_fetch(char *query)
     // Fetch data from the API
     char *response = api_fetch(query);
     if (response == NULL) {
-        // fprintf(stderr, "\33[31m>> Error:\33[0m Failed to fetch data from API.\n");
         fprintf(stderr, "          Please check your internet connection and that \33[36m%s\33[0m is reachable.\n", API_HOST);
         return NULL;
     }
-    if (*response == '\0') {
-        Nominatim_t *emptyNomin = nominatim_create("", 0, 0);
-        // Free memory
-        free(response);
-        return emptyNomin;
-    }
 
-    // Parse the API response
-    Nominatim_t *nomin = nominatim_parse(response);
-    if (nomin == NULL) {
-        // fprintf(stderr, "\33[31m>> Error:\33[0m Failed to parse API response.\n");
-        Nominatim_t *emptyNomin = nominatim_create("", 0, 0);
-        // Free memory
-        free(response);
-        return emptyNomin;
+    Nominatim_t *nomin;
+
+    if (*response == '\0') {
+        nomin = nominatim_create("", 0, 0);
+    } else {
+        // Parse the API response
+        nomin = nominatim_parse(response);
+        if (nomin == NULL) {
+            nomin = nominatim_create("", 0, 0);
+        }
     }
 
     // Free memory
