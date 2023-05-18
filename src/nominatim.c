@@ -171,10 +171,16 @@ Nominatim_t *nominatim_parse(char *response)
     const char *latStart = strstr(response, "\"lat\":");
     const char *lonStart = strstr(response, "\"lon\":");
     const char *displayNameStart = strstr(response, "\"display_name\":");
+
+    // Check if valid response
+    if (!latStart || !lonStart || !displayNameStart) {
+        return NULL;
+    }
+
     const char *displayNameEnd = strstr(displayNameStart, "\",");
 
     // Check if valid response
-    if (!latStart || !lonStart || !displayNameStart || !displayNameEnd) {
+    if (!displayNameEnd) {
         return NULL;
     }
 
