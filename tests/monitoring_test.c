@@ -8,7 +8,7 @@
 // {
 //     it("Conformance test")
 //     {
-//         Table_t *table = load_stations("../data/raw/consolidation-etalab-schema-irve-statique-v-2.2.0-20230415.csv");
+//         Table_t *table = load_stations(STATION_TABLE_PATH);
 
 //         Nominatim_t *startNomin = nominatim_fetch("nancy");
 //         Nominatim_t *endNomin = nominatim_fetch("paris");
@@ -33,7 +33,7 @@ describe(test_load_network)
 {
     it("Conformance test")
     {
-        Table_t *table = load_stations("../data/raw/consolidation-etalab-schema-irve-statique-v-2.2.0-20230415.csv");
+        Table_t *table = load_stations(STATION_TABLE_PATH);
         Journey_output_t *network = load_network(table, "../data/input/network1.csv", 2);
         asserteq_str(network[0].journey->list[1].value->name, "Val de Meuse, Parking Intermarché");
         asserteq_str(network[0].journey->list[2].value->name, "Langres, Place Bel Air");

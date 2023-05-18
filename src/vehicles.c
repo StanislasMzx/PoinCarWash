@@ -6,14 +6,14 @@
 #include <assert.h>
 
 /**
- * @brief Find a vehicle by name in /data/raw/vehicle_info.csv
+ * @brief Find a vehicle by name in the vehicle table
  *
  * @param name Name of the vehicle
  * @return Vehicle with NULL values if not found
  */
 Vehicle_t vehicle_find_by_name(char *name)
 {
-    FILE *fp = fopen("../data/raw/vehicle_info.csv", "r");
+    FILE *fp = fopen(VEHICLE_TABLE_PATH, "r");
     assert(fp != NULL);
 
     const unsigned max_line = 256;

@@ -1,6 +1,8 @@
 #ifndef VEHICLES_H
 #define VEHICLES_H
 
+#define VEHICLE_TABLE_PATH "../data/raw/vehicle_info.csv"
+
 struct _Vehicle_t
 {
     char *name;

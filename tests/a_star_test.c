@@ -48,7 +48,7 @@ describe(test_a_star)
 {
     it("Conformance test")
     {
-        Table_t *table = load_stations("../data/raw/consolidation-etalab-schema-irve-statique-v-2.2.0-20230415.csv");
+        Table_t *table = load_stations(STATION_TABLE_PATH);
 
         Vehicle_t *one_vehicle = malloc(sizeof(Vehicle_t));
 
