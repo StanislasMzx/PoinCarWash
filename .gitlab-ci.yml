@@ -2,7 +2,7 @@ image: silkeh/clang
 
 before_script:
   - apt-get update -yq
-  - apt-get install -yq clang libcurl4-openssl-dev libjson-c-dev
+  - apt-get install -yq clang libcurl4-openssl-dev
   - ldconfig
 
 build:

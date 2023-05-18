@@ -83,11 +83,11 @@ void print_a_star(Table_t *table_station, List_t *one_list)
     Station_t *start = table_get(table_station, one_list->list[0].key);
     Station_t *end = table_get(table_station, one_list->list[steps - 1].key);
     printf("\033[0;32m>> Departure: %s\033[0m\n", start->name);
-    printf("Still to go: %f km\n", distance(start->coordinates, end->coordinates));
+    printf("   \033[2mStill to go: %f km\033[0m\n", distance(start->coordinates, end->coordinates));
     for (int i = 1; i < one_list->length - 1; i++)
     {
         printf("\033[0;33m>> Step %d: %s\033[0m\n", i, table_get(table_station, one_list->list[i].key)->name);
-        printf("Still to go: %f km\n", distance(table_get(table_station, one_list->list[i].key)->coordinates, table_get(table_station, one_list->list[steps - 1].key)->coordinates));
+        printf("   \033[2mStill to go: %f km\033[0m\n", distance(table_get(table_station, one_list->list[i].key)->coordinates, table_get(table_station, one_list->list[steps - 1].key)->coordinates));
     }
     printf("\033[0;35m>> Arrival: %s\033[0m\n", end->name);
     printf("\033[0;36m>> View trip:\033[0m\nhttps://www.google.com/maps/dir/?api=1&origin=%f,%f&destination=%f,%f&waypoints=", start->coordinates->latitude, start->coordinates->longitude, end->coordinates->latitude, end->coordinates->longitude);
