@@ -7,7 +7,7 @@ describe(test_load_stations)
 {
     it("Conformance test")
     {
-        Table_t *table = load_stations("../data/raw/consolidation-etalab-schema-irve-statique-v-2.2.0-20230415.csv");
+        Table_t *table = load_stations(STATION_TABLE_PATH);
         assert(table_contains(table, "FR00001106217402af2893-256f-4124-8d58-c728dc38f720"));
         asserteq_str(table_get(table, "FR00001106217402af2893-256f-4124-8d58-c728dc38f720")->name, "Hotel saint alban");
         asserteq_dbl(table_get(table, "FR00001106217402af2893-256f-4124-8d58-c728dc38f720")->coordinates->longitude, 3.407609123225763);
@@ -69,7 +69,7 @@ describe(test_reachable_station_neighbors)
 {
     it("Conformance test")
     {
-        Table_t *table = load_stations("../data/raw/consolidation-etalab-schema-irve-statique-v-2.2.0-20230415.csv");
+        Table_t *table = load_stations(STATION_TABLE_PATH);
 
         List_t *list = reachable_station_neighbors(table, "FRFR1PRYXKLFRYXKLF", 10);
         asserteq_int(list->length, 3);

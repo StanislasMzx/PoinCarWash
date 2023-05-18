@@ -103,14 +103,17 @@ void benchmark_file_append(char *file, int id, int maxDist, bool randomDist, dou
  */
 void benchmark_call(double startLat, double startLon, double endLat, double endLon, char *vehicleName)
 {
+    Table_t *table = load_stations(STATION_TABLE_PATH);
     Nominatim_t *startNomin = nominatim_create("start", startLat, startLon);
     Nominatim_t *endNomin = nominatim_create("end", endLat, endLon);
 
+    // Main call
     Journey_output_t journeyOutput = compute_journey(startNomin, endNomin, vehicleName);
 
+    // Free memory
     nominatim_destroy(startNomin);
     nominatim_destroy(endNomin);
-
+    table_destroy(table);
     table_destroy(journeyOutput.table);
     list_destroy(journeyOutput.journey);
 }

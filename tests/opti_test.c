@@ -57,7 +57,7 @@ void destroy(List_coord *one_list){
 
 
 int main(){
-    Table_t *table = load_stations("../data/raw/consolidation-etalab-schema-irve-statique-v-2.2.0-20230415.csv");
+    Table_t *table = load_stations(STATION_TABLE_PATH);
     List_coord *coords = empty();
     int count = 0;
     int count2 = 0;
