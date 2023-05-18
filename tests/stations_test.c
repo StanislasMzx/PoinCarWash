@@ -36,6 +36,35 @@ describe(test_load_stations)
     }
 }
 
+
+describe(test_reinitialize_table)
+{
+    it("Conformance test")
+    {
+        Table_t *table = load_stations("../data/raw/consolidation-etalab-schema-irve-statique-v-2.2.0-20230415.csv");
+
+        int N = 100; // number of changes
+        int index;
+        for (int i=0; i<N; i++){
+            index = rand()%N;
+            List_t *one_list = table->slots[index];
+            for (int j=0; j<one_list->length; j++){
+                one_list->list[j].value->weight = (double) index;
+                one_list->list[j].value->last_station = "";
+            }
+        }
+        reinitializeTable(table);
+        for (int i=0; i<table->length; i++){
+            List_t *one_list = table->slots[i];
+            for (int j=0; j<one_list->length; j++){
+                asserteq_dbl(one_list->list[j].value->weight, -1);
+                assert(one_list->list[j].value->last_station == NULL);
+            }
+        }
+
+        defer(table_destroy(table));
+    }
+}
 describe(test_reachable_station_neighbors)
 {
     it("Conformance test")

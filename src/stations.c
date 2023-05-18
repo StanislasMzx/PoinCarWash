@@ -106,6 +106,26 @@ Table_t *load_stations(char *filename)
     fclose(fp);
     return table;
 }
+
+
+/*
+**
+ * @brief Reinitialize a table (lastStation = NULL et weight = -1)
+ *
+ * @param one_table hash table of stations
+ * @return void
+ */
+void reinitializeTable(Table_t *one_table){
+    for (int i=0; i<one_table->length; i++){
+        List_t *one_list = one_table->slots[i];
+        for (int j=0; j<one_list->length; j++){
+            one_list->list[j].value->last_station = NULL;
+            one_list->list[j].value->weight = -1;
+        }
+    }
+}
+
+
 /*
 **
  * @brief Get the reachable station neighbors
