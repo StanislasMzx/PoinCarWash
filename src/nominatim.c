@@ -11,6 +11,7 @@
 #define API_HOST "nominatim.openstreetmap.org"
 #define API_PATH "/search/?addressdetails=0&extratags=0&namedetails=0&accept-language=fr&limit=1&format=json&q="
 #define API_PORT 443
+#define API_USER_AGENT "School project (antonin.frey@telecomnancy.eu)"
 
 
 /**
@@ -69,7 +70,7 @@ size_t api_write_data(void *ptr, size_t size, size_t nmemb, API_response_t *data
         if(data->data) {
             free(data->data);
         }
-        fprintf(stderr, "\033[31m>> Error:\033[0m Failed to allocate memory.\n");
+        fprintf(stderr, "\33[31m>> Error:\33[0m Failed to allocate memory.\n");
         return 0;
     }
 
@@ -82,7 +83,7 @@ size_t api_write_data(void *ptr, size_t size, size_t nmemb, API_response_t *data
 /**
  * @brief Fetch data from the API
  *
- * @return char* API response
+ * @return char* API response, empty if query error and NULL if API error
  */
 char *api_fetch(char *query)
 {
@@ -99,10 +100,10 @@ char *api_fetch(char *query)
     char *escapedQuery = curl_easy_escape(curl, query, queryLen);
 
     if (!escapedQuery) {
-        fprintf(stderr, "\033[31m>> Error:\033[0m Error: Failed to escape query string.\n");
+        fprintf(stderr, "\33[31m>> Error:\33[0m Failed to escape query string.\n");
         // Free memory
         curl_easy_cleanup(curl);
-        return NULL;
+        return "";
     }
 
     // Set the URL
@@ -111,7 +112,7 @@ char *api_fetch(char *query)
     curl_easy_setopt(curl, CURLOPT_URL, url);
 
     // OSM User Agent policy
-    curl_easy_setopt(curl, CURLOPT_USERAGENT, "School project (antonin.frey@telecomnancy.eu)");
+    curl_easy_setopt(curl, CURLOPT_USERAGENT, API_USER_AGENT);
     // Set SSL options
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, true);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2);
@@ -123,7 +124,7 @@ char *api_fetch(char *query)
     response.size = 0;
     response.data = malloc(4096);
     if(NULL == response.data) {
-        fprintf(stderr, "\033[31m>> Error:\033[0m Failed to allocate memory.\n");
+        fprintf(stderr, "\33[31m>> Error:\33[0m Failed to allocate memory.\n");
         // Free memory
         curl_easy_cleanup(curl);
         curl_free(escapedQuery);
@@ -136,7 +137,7 @@ char *api_fetch(char *query)
     // GET request
     res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
-        fprintf(stderr, "\033[31m>> Error:\033[0m API fetch failed: %s\n", curl_easy_strerror(res));
+        fprintf(stderr, "\33[31m>> Error:\33[0m API fetch failed: \33[4;91m%s\33[0m\n", curl_easy_strerror(res));
         // Free memory
         free(response.data);
         curl_easy_cleanup(curl);
@@ -158,7 +159,7 @@ char *api_fetch(char *query)
  * @brief Parse the API response
  *
  * @param response API response
- * @return Nominatim_t* Nominatim object
+ * @return Nominatim_t* Nominatim object, NULL if error
  */
 Nominatim_t *nominatim_parse(char *response)
 {
@@ -212,27 +213,35 @@ Nominatim_t *nominatim_parse(char *response)
  * @brief Get the nominatim of a location
  *
  * @param query Location name
- * @return Nominatim_t* Nominatim object
+ * @return Nominatim_t* Nominatim object, empty name if query error and NULL if API error
  */
 Nominatim_t *nominatim_fetch(char *query)
 {
     // Fetch data from the API
     char *response = api_fetch(query);
     if (response == NULL) {
-        fprintf(stderr, "\033[31m>> Error:\033[0m Error: Failed to fetch data from API.\n");
+        // fprintf(stderr, "\33[31m>> Error:\33[0m Failed to fetch data from API.\n");
+        fprintf(stderr, "          Please check your internet connection and that \33[36m%s\33[0m is reachable.\n", API_HOST);
         return NULL;
+    }
+    if (*response == '\0') {
+        Nominatim_t *emptyNomin = nominatim_create("", 0, 0);
+        // Free memory
+        free(response);
+        return emptyNomin;
     }
 
     // Parse the API response
     Nominatim_t *nomin = nominatim_parse(response);
     if (nomin == NULL) {
-        fprintf(stderr, "\033[31m>> Error:\033[0m Error: Failed to parse API response.\n");
+        // fprintf(stderr, "\33[31m>> Error:\33[0m Failed to parse API response.\n");
+        Nominatim_t *emptyNomin = nominatim_create("", 0, 0);
         // Free memory
         free(response);
-        return NULL;
+        return emptyNomin;
     }
 
-    // Free memory and return the new object
+    // Free memory
     free(response);
 
     return nomin;

@@ -1,4 +1,4 @@
-#include "compute_journey.h"
+#include "compute_trip.h"
 #include "a_star.h"
 #include "nominatim.h"
 #include <stdio.h>
@@ -9,19 +9,12 @@
  * @param table Table_t* Table of the stations
  * @param startNomin Nominatim_t* Start point
  * @param endNomin Nominatim_t* End point
- * @param vehicleName char* Name of the vehicle
- * @return Journey_output_t Journey output
+ * @param vehicle Vehicle_t* Vehicle to use
+ * @return Trip_output_t Trip output
  */
-Journey_output_t compute_journey(Table_t *table, Nominatim_t *startNomin, Nominatim_t *endNomin, char *vehicleName)
+Trip_output_t compute_trip(Table_t *table, Nominatim_t *startNomin, Nominatim_t *endNomin, Vehicle_t *vehicle)
 {
     Coordinates_t *startCoordinates = malloc(sizeof(Coordinates_t)), *endCoordinates = malloc(sizeof(Coordinates_t));
-    Vehicle_t vehicle = vehicle_find_by_name(vehicleName);
-
-    if (vehicle.name == NULL)
-    {
-        fprintf(stderr, "\033[31m>> Error:\033[0m Vehicle not found.\n");
-        exit(1);
-    }
 
     startCoordinates->latitude = startNomin->coord->latitude;
     startCoordinates->longitude = startNomin->coord->longitude;
@@ -46,9 +39,9 @@ Journey_output_t compute_journey(Table_t *table, Nominatim_t *startNomin, Nomina
         table_add(table, endKey, end);
     }
 
-    List_t *journey = a_star_list(table, "start", "end", &vehicle);
+    List_t *trip = a_star_list(table, "start", "end", vehicle);
 
-    Journey_output_t output = {table, journey};
+    Trip_output_t output = {table, trip};
 
     return output;
 }

@@ -69,7 +69,7 @@
 
 ## About The Project
 
-PoinCarWash is a project designed to provide an innovative solution to one of the major challenges faced by electric vehicle owners: finding charging stations when on the road. The project incorporates advanced algorithms to recommend a list of charging stations for a given vehicle range, ensuring that EV owners can plan their journeys more efficiently without worrying about running out of charge.
+PoinCarWash is a project designed to provide an innovative solution to one of the major challenges faced by electric vehicle owners: finding charging stations when on the road. The project incorporates advanced algorithms to recommend a list of charging stations for a given vehicle range, ensuring that EV owners can plan their trips more efficiently without worrying about running out of charge.
 
 In addition to its powerful recommendation engine, the PoinCarWash project also includes a chargers network monitoring function that gives a real-time view of charger usage rates. This data is invaluable for service providers and network operators, helping them to optimize their operations and improve the overall experience for EV drivers.
 
@@ -123,16 +123,20 @@ The Makefile is designed to build with Clang and cURL so make sure to have it in
 
 ## Usage
 
-### Plan a trip
+### Compute a trip
 
 ```sh
 ./trip <start_location> <end_location> <vehicle_name>
 ```
 
-**Example:**
+**Examples:**
+  
+```sh
+./trip "Auvergne" "TELECOM Nancy" "Tesla Model 3"
+```
 
 ```sh
-./trip "3 rue stanislas nancy" "toulouse" "Tesla Model 3"
+./trip "3 rue stanislas nancy" "toulouse" "zoe"
 ```
 
 ### Network monitoring
@@ -143,9 +147,10 @@ The Makefile is designed to build with Clang and cURL so make sure to have it in
 
 ## Roadmap
 
-- [x] Plan a journey
+- [x] Computing a trip
   - [x] CLI input
   - [x] API address to coordinates conversion
+  - [x] Flexible vehicle name input
 - [ ] Network monitoring
 
 See the [open issues](https://gitlab.telecomnancy.univ-lorraine.fr/ppii2_2223/ppii2-grp_07/issues) for a full list of proposed features (and known issues).

@@ -6,12 +6,23 @@
 #include <assert.h>
 
 /**
+ * @brief Destroy a vehicle struct
+ * 
+ * @param vehicle Vehicle_t* Vehicle to destroy
+ */
+void vehicle_destroy(Vehicle_t *vehicle)
+{
+    free(vehicle->name);
+    free(vehicle);
+}
+
+/**
  * @brief Find a vehicle by name in the vehicle table
  *
  * @param name Name of the vehicle
- * @return Vehicle with NULL values if not found
+ * @return Vehicle_t* Vehicle with NULL values if not found
  */
-Vehicle_t vehicle_find_by_name(char *name)
+Vehicle_t *vehicle_find_by_name(char *name)
 {
     FILE *fp = fopen(VEHICLE_TABLE_PATH, "r");
     assert(fp != NULL);
@@ -23,7 +34,13 @@ Vehicle_t vehicle_find_by_name(char *name)
     double range;
     unsigned int fast_charge;
 
-    Vehicle_t vehicle = {NULL, 0, 0};
+    Vehicle_t *vehicle = malloc(sizeof(Vehicle_t));
+    vehicle->name = NULL;
+    vehicle->range = 0;
+    vehicle->fast_charge = 0;
+
+    // Skip the first line
+    fgets(line, sizeof(line), fp);
 
     while (fgets(line, sizeof(line), fp))
     {
@@ -34,16 +51,17 @@ Vehicle_t vehicle_find_by_name(char *name)
         token = strtok(NULL, ",");
         fast_charge = atoi(token);
 
-        if (strcasecmp(vehicle_name, name) == 0)
+        if (strcasestr(vehicle_name, name) != NULL)
         {
-            vehicle.name = name;
-            vehicle.range = range;
-            vehicle.fast_charge = fast_charge;
+            vehicle->name = strdup(vehicle_name);
+            vehicle->range = range;
+            vehicle->fast_charge = fast_charge;
             break;
         }
     }
 
     fclose(fp);
+
     return vehicle;
 }
 
@@ -52,32 +70,32 @@ Vehicle_t vehicle_find_by_name(char *name)
  *
  * @return Vehicle with NULL values if not found
  */
-Vehicle_t vehicle_input()
+Vehicle_t *vehicle_input()
 {
     const unsigned MAX_LENGTH = 128;
     char buffer[MAX_LENGTH];
-    printf("\033[1;32m");
+    printf("\33[1;32m");
     printf("Vehicle: ");
-    printf("\033[0m");
+    printf("\33[0m");
     fgets(buffer, sizeof(buffer), stdin);
     buffer[strcspn(buffer, "\r\n")] = '\0';
-    Vehicle_t vehicle = vehicle_find_by_name(buffer);
-    if (vehicle.name == NULL)
+    Vehicle_t *vehicle = vehicle_find_by_name(buffer);
+    if (vehicle->name == NULL)
     {
-        printf("\033[0;31m");
+        printf("\33[0;31m");
         printf("Vehicle not found\n");
-        printf("\033[0m");
+        printf("\33[0m");
     }
     else
     {
-        printf("\033[0;34m");
+        printf("\33[0;34m");
         printf("Range: ");
-        printf("\033[0m");
-        printf("%f km\n", vehicle.range);
-        printf("\033[0;34m");
+        printf("\33[0m");
+        printf("%f km\n", vehicle->range);
+        printf("\33[0;34m");
         printf("Fast charge: ");
-        printf("\033[0m");
-        printf("%u km/h\n", vehicle.fast_charge);
+        printf("\33[0m");
+        printf("%u km/h\n", vehicle->fast_charge);
     }
     return vehicle;
 }

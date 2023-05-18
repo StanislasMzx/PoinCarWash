@@ -9,9 +9,7 @@ describe(test_a_star_next_stations)
     {
         Table_t *table = load_stations("../data/raw/schema-stations-test.csv");
 
-        Vehicle_t *one_vehicle = malloc(sizeof(Vehicle_t));
-
-        *one_vehicle = vehicle_find_by_name("Tesla Model 3");
+        Vehicle_t *one_vehicle = vehicle_find_by_name("Tesla Model 3");
 
         char *end_key = "FROTHPOTHR18111FR*SOD*S*OTHR*181*1*_*_";
 
@@ -40,7 +38,7 @@ describe(test_a_star_next_stations)
 
         defer(heap_destroy(one_heap));
         defer(table_destroy(table));
-        defer(free(one_vehicle));
+        defer(vehicle_destroy(one_vehicle));
     }
 }
 
@@ -50,9 +48,7 @@ describe(test_a_star)
     {
         Table_t *table = load_stations(STATION_TABLE_PATH);
 
-        Vehicle_t *one_vehicle = malloc(sizeof(Vehicle_t));
-
-        *one_vehicle = vehicle_find_by_name("Tesla Model 3");
+        Vehicle_t *one_vehicle = vehicle_find_by_name("Tesla Model 3");
 
         char *end_key = "FRFR1PRYXKLFRYXKLF";
 
@@ -60,7 +56,7 @@ describe(test_a_star)
 
         List_t *one_list = a_star_list(table, start_key, end_key, one_vehicle);
 
-        print_a_star(table, one_list);
+        print_a_star(table, one_list, one_vehicle->range);
 
         asserteq_str("FRFR1PQXX0ZUA3NLQXX0ZUA3NL", one_list->list[0].key);
         asserteq_str("FRTDAPAVTD1411FR*SOD*S*AVTD*14*1*_*_", one_list->list[1].key);
@@ -68,7 +64,7 @@ describe(test_a_star)
 
         defer(list_destroy(one_list));
         defer(table_destroy(table));
-        defer(free(one_vehicle));
+        defer(vehicle_destroy(one_vehicle));
     }
 }
 
