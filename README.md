@@ -93,15 +93,15 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-The Makefile is designed to build with Clang, curl and json-c so make sure to have it installed
+The Makefile is designed to build with Clang and cURL so make sure to have it installed
 
 - llvm
   ```sh
   clang --version
   ```
-- curl and json-c
+- curl
   ```sh
-  apt-get install -yq clang libcurl4-openssl-dev libjson-c-dev
+  apt-get install -yq clang libcurl4-openssl-dev
   ldconfig
   ```
 
@@ -123,16 +123,16 @@ The Makefile is designed to build with Clang, curl and json-c so make sure to ha
 
 ## Usage
 
-### Plan a journey
+### Plan a trip
 
 ```sh
-./compute_journey <start_location> <end_location> <vehicle_name>
+./trip <start_location> <end_location> <vehicle_name>
 ```
 
-e.g.
+**Example:**
 
 ```sh
-./compute_journey "3 rue stanislas nancy" "toulouse" "Tesla Model 3"
+./trip "3 rue stanislas nancy" "toulouse" "Tesla Model 3"
 ```
 
 ### Network monitoring
@@ -145,7 +145,7 @@ e.g.
 
 - [x] Plan a journey
   - [x] CLI input
-  - [] translate address to coordinates
+  - [x] API address to coordinates conversion
 - [ ] Network monitoring
 
 See the [open issues](https://gitlab.telecomnancy.univ-lorraine.fr/ppii2_2223/ppii2-grp_07/issues) for a full list of proposed features (and known issues).
@@ -199,7 +199,6 @@ Project Link: [https://gitlab.telecomnancy.univ-lorraine.fr/ppii2_2223/ppii2-grp
 - [OpenStreetMap](https://www.openstreetmap.org/)
 - [Google Maps](https://www.google.com/maps)
 - [cURL](https://curl.se/)
-- [JSON-C](https://github.com/json-c/json-c)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
