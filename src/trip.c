@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 {
     if (argc != 4)
     {
-        fprintf(stderr, "\33[31m>> Usage:\33[0m %s \33[2;32m<\33[0;32mstart_location\33[2m> \33[35m<\33[0;35mend_location\33[2m> \33[33m<\33[0;33mvehicle_name\33[2m>\33[0m\n", argv[0]);
+        fprintf(stderr, "\33[31m>> Usage:\33[0m %s \33[2;32m<\33[0;32mstart_location\33[2m> \33[35m<\33[0;35mend_location\33[2m> \33[34m<\33[0;34mvehicle_name\33[2m>\33[0m\n", argv[0]);
         return 1;
     }
 

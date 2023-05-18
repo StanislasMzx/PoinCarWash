@@ -23,6 +23,8 @@ Trip_output_t compute_trip(Table_t *table, Nominatim_t *startNomin, Nominatim_t 
         exit(1);
     }
 
+    printf("\33[34m>> Vehicle: %s\33[0m\n", vehicle.name);
+
     startCoordinates->latitude = startNomin->coord->latitude;
     startCoordinates->longitude = startNomin->coord->longitude;
     endCoordinates->latitude = endNomin->coord->latitude;
