@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 /**
- * @brief Compute the journey from the command line
+ * @brief Compute a trip from the command line
  * 
  * @param argc int argument count
  * @param argv char* argument vector
@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 {
     if (argc != 4)
     {
-        fprintf(stderr, "Usage: %s <start_location> <end_location> <vehicle_name>\n", argv[0]);
+        fprintf(stderr, "\033[31m>> Usage:\033[0m %s \033[32m\033[2m<\033[0m\033[32mstart_location\033[2m> \033[35m<\033[0m\033[35mend_location\033[2m> \033[33m<\033[0m\033[33mvehicle_name\033[2m>\033[0m\n", argv[0]);
         return 1;
     }
 

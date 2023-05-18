@@ -3,7 +3,7 @@ CFLAGS=-std=c99 -Wall -Wextra -pedantic -fdiagnostics-color=always -Wno-strict-p
 CFLAGS+=-O0 -g3 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
 LDFLAGS+=-fsanitize=address -lcurl
 
-ALL_EXECUTABLES=main
+ALL_EXECUTABLES=trip
 
 all: $(ALL_EXECUTABLES)
 
@@ -17,8 +17,8 @@ nominatim.o: nominatim.c nominatim.h
 coordinates.o: coordinates.c coordinates.h
 compute_journey.o: compute_journey.c a_star.h nominatim.h compute_journey.h
 
-main.o: main.c nominatim.h compute_journey.h
-main: main.o compute_journey.o a_star.o heap.o vehicles.o stations.o table.o list.o nominatim.o coordinates.o
+trip.o: trip.c nominatim.h compute_journey.h
+trip: trip.o compute_journey.o a_star.o heap.o vehicles.o stations.o table.o list.o nominatim.o coordinates.o
 
 
 # Varies depending on the OS
