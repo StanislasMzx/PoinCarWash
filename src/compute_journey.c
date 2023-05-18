@@ -6,6 +6,7 @@
 /**
  * @brief Compute a trip between two points
  *
+ * @param table Table_t* Table of the stations
  * @param startNomin Nominatim_t* Start point
  * @param endNomin Nominatim_t* End point
  * @param vehicleName char* Name of the vehicle
