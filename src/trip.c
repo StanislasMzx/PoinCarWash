@@ -17,10 +17,25 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    Table_t *table = load_stations(STATION_TABLE_PATH);
+    // Empty arguments
+    if (*(argv[1]) == '\0')
+    {
+        fprintf(stderr, "\33[31m>> Error:\33[0m Empty departure location.\n");
+        return 1;
+    }
+    if (*(argv[2]) == '\0')
+    {
+        fprintf(stderr, "\33[31m>> Error:\33[0m Empty arrival location.\n");
+        return 1;
+    }
+    if (*(argv[3]) == '\0')
+    {
+        fprintf(stderr, "\33[31m>> Error:\33[0m Empty vehicle name.\n");
+        return 1;
+    }
 
+    // Start location
     Nominatim_t *startNomin = nominatim_fetch(argv[1]);
-
     if (startNomin == NULL)
     {
         // Error message already printed
@@ -34,6 +49,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    // End location
     Nominatim_t *endNomin = nominatim_fetch(argv[2]);
     if (endNomin == NULL)
     {
@@ -51,11 +67,15 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    Table_t *table = load_stations(STATION_TABLE_PATH);
+
+    // Compute trip
     Trip_output_t output = compute_trip(table, startNomin, endNomin, argv[3]);
     List_t *trip = output.trip;
 
     print_a_star(table, trip);
 
+    // Free memory
     table_destroy(table);
     list_destroy(trip);
     nominatim_destroy(startNomin);
