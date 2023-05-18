@@ -1,7 +1,7 @@
 CC=clang
 CFLAGS=-std=c99 -Wall -Wextra -pedantic -fdiagnostics-color=always -Wno-strict-prototypes
 CFLAGS+=-O0 -g3 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
-LDFLAGS+=-fsanitize=address -lcurl -ljson-c
+LDFLAGS+=-fsanitize=address -lcurl
 
 ALL_EXECUTABLES=main
 
@@ -24,7 +24,6 @@ main: main.o compute_journey.o a_star.o heap.o vehicles.o stations.o table.o lis
 # Varies depending on the OS
 download_dependencies:
 	apt-get install libcurl4-openssl-dev
-	apt-get install libjson-c-dev
 link_dependencies:
 	ln -s /usr/include/x86_64-linux-gnu/curl /usr/include/curl
 fix_dependencies: download_dependencies link_dependencies

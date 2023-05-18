@@ -1,7 +1,7 @@
 CC=clang
 CFLAGS=-std=c99 -Wall -Wextra -pedantic -fdiagnostics-color=always -Wno-strict-prototypes
 CFLAGS+=-O0 -g3 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
-LDFLAGS+=-fsanitize=address -lcurl -ljson-c
+LDFLAGS+=-fsanitize=address -lcurl
 
 ALL_EXECUTABLES=coordinates_test nominatim_test vehicles_test stations_test heap_test a_star_test
 
