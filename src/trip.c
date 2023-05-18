@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
 
     if (startNomin == NULL)
     {
+        // Error message already printed
         return 1;
     }
     if (*(startNomin->name) == '\0')
@@ -36,6 +37,7 @@ int main(int argc, char *argv[])
     Nominatim_t *endNomin = nominatim_fetch(argv[2]);
     if (endNomin == NULL)
     {
+        // Error message already printed
         // Free memory
         nominatim_destroy(startNomin);
         return 1;
