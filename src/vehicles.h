@@ -22,8 +22,10 @@ struct _Vehicle_t
  */
 typedef struct _Vehicle_t Vehicle_t;
 
-Vehicle_t vehicle_find_by_name(char *name);
+void vehicle_destroy(Vehicle_t *vehicle);
 
-Vehicle_t vehicle_input();
+Vehicle_t *vehicle_find_by_name(char *name);
+
+Vehicle_t *vehicle_input();
 
 #endif /* VEHICLES_H */

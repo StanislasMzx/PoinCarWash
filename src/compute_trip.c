@@ -9,21 +9,12 @@
  * @param table Table_t* Table of the stations
  * @param startNomin Nominatim_t* Start point
  * @param endNomin Nominatim_t* End point
- * @param vehicleName char* Name of the vehicle
+ * @param vehicle Vehicle_t* Vehicle to use
  * @return Trip_output_t Trip output
  */
-Trip_output_t compute_trip(Table_t *table, Nominatim_t *startNomin, Nominatim_t *endNomin, char *vehicleName)
+Trip_output_t compute_trip(Table_t *table, Nominatim_t *startNomin, Nominatim_t *endNomin, Vehicle_t *vehicle)
 {
     Coordinates_t *startCoordinates = malloc(sizeof(Coordinates_t)), *endCoordinates = malloc(sizeof(Coordinates_t));
-    Vehicle_t vehicle = vehicle_find_by_name(vehicleName);
-
-    if (vehicle.name == NULL)
-    {
-        fprintf(stderr, "\33[31m>> Error:\33[0m Vehicle not found: \"\33[31m%s\33[0m\".\n", vehicleName);
-        exit(1);
-    }
-
-    printf("\33[34m>> Vehicle: %s\33[0m\n", vehicle.name);
 
     startCoordinates->latitude = startNomin->coord->latitude;
     startCoordinates->longitude = startNomin->coord->longitude;
@@ -48,7 +39,7 @@ Trip_output_t compute_trip(Table_t *table, Nominatim_t *startNomin, Nominatim_t 
         table_add(table, endKey, end);
     }
 
-    List_t *trip = a_star_list(table, "start", "end", &vehicle);
+    List_t *trip = a_star_list(table, "start", "end", vehicle);
 
     Trip_output_t output = {table, trip};
 

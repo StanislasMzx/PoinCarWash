@@ -12,15 +12,15 @@
 
 //         Nominatim_t *startNomin = nominatim_fetch("nancy");
 //         Nominatim_t *endNomin = nominatim_fetch("paris");
-//         Vehicle_t vehicle = vehicle_find_by_name("Tesla Model 3");
+//         Vehicle_t *vehicle = vehicle_find_by_name("Tesla Model 3");
 
 //         Trip_output_t output = compute_trip(table, startNomin, endNomin, "Tesla Model 3");
 
-//         asserteq_str(vehicle_position(&vehicle, &output, 0), "on the road");
-//         asserteq_str(vehicle_position(&vehicle, &output, 1), "on the road");
-//         asserteq_str(table_get(table, vehicle_position(&vehicle, &output, 15))->name, "Parking Acelec");
-//         asserteq_str(table_get(table, vehicle_position(&vehicle, &output, 16))->name, "Parking Acelec");
-//         asserteq_str(vehicle_position(&vehicle, &output, 17), "on the road");
+//         asserteq_str(vehicle_position(vehicle, &output, 0), "on the road");
+//         asserteq_str(vehicle_position(vehicle, &output, 1), "on the road");
+//         asserteq_str(table_get(table, vehicle_position(vehicle, &output, 15))->name, "Parking Acelec");
+//         asserteq_str(table_get(table, vehicle_position(vehicle, &output, 16))->name, "Parking Acelec");
+//         asserteq_str(vehicle_position(vehicle, &output, 17), "on the road");
 
 //         table_destroy(table);
 //         list_destroy(output.trip);

@@ -58,17 +58,22 @@ Trip_output_t *load_network(Table_t *table, char *file, int size)
     {
         char departure[max_line];
         char arrival[max_line];
-        char vehicle[max_line];
-        if (sscanf(line, "%[^,],%[^,],%[^\n]", departure, arrival, vehicle) != 3)
+        char vehicleName[max_line];
+        if (sscanf(line, "%[^,],%[^,],%[^\n]", departure, arrival, vehicleName) != 3)
         {
             fprintf(stderr, "\33[31m>> Error:\33[0m Incorrect line format.\n");
             continue;
         }
         Nominatim_t *departure_nominatim = nominatim_fetch(departure);
         Nominatim_t *arrival_nominatim = nominatim_fetch(arrival);
+        Vehicle_t *vehicle = vehicle_find_by_name(vehicleName);
+        if (vehicle->name == NULL) {
+            continue;
+        }
         Trip_output_t trip = compute_trip(table, departure_nominatim, arrival_nominatim, vehicle);
         nominatim_destroy(departure_nominatim);
         nominatim_destroy(arrival_nominatim);
+        vehicle_destroy(vehicle);
         network[i] = trip;
         i++;
     }

@@ -18,4 +18,4 @@ struct _Trip_output_t
  */
 typedef struct _Trip_output_t Trip_output_t;
 
-Trip_output_t compute_trip(Table_t *table, Nominatim_t *startNomin, Nominatim_t *endNomin, char *vehicleName);
+Trip_output_t compute_trip(Table_t *table, Nominatim_t *startNomin, Nominatim_t *endNomin, Vehicle_t *vehicle);

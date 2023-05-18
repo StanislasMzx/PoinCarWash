@@ -103,14 +103,21 @@ void benchmark_file_append(char *file, int id, int maxDist, bool randomDist, dou
  */
 void benchmark_call(double startLat, double startLon, double endLat, double endLon, char *vehicleName)
 {
-    Table_t *table = load_stations(STATION_TABLE_PATH);
+    Vehicle_t *vehicle = vehicle_find_by_name(vehicleName);
+
+    if (vehicle->name == NULL) {
+        return;
+    }
+
     Nominatim_t *startNomin = nominatim_create("start", startLat, startLon);
     Nominatim_t *endNomin = nominatim_create("end", endLat, endLon);
+    Table_t *table = load_stations(STATION_TABLE_PATH);
 
     // Main call
-    Trip_output_t tripOutput = compute_trip(table, startNomin, endNomin, vehicleName);
+    Trip_output_t tripOutput = compute_trip(table, startNomin, endNomin, vehicle);
 
     // Free memory
+    vehicle_destroy(vehicle);
     nominatim_destroy(startNomin);
     nominatim_destroy(endNomin);
     table_destroy(table);

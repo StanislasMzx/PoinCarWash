@@ -67,19 +67,29 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    // Vehicle
+    Vehicle_t *vehicle = vehicle_find_by_name(argv[3]);
+    if (vehicle->name == NULL)
+    {
+        fprintf(stderr, "\33[31m>> Error:\33[0m Vehicle not found: \"\33[31m%s\33[0m\".\n", argv[3]);
+        exit(1);
+    }
+    printf("\33[34m>> Vehicle: %s\33[0m\n", vehicle->name);
+
     Table_t *table = load_stations(STATION_TABLE_PATH);
 
     // Compute trip
-    Trip_output_t output = compute_trip(table, startNomin, endNomin, argv[3]);
+    Trip_output_t output = compute_trip(table, startNomin, endNomin, vehicle);
     List_t *trip = output.trip;
 
     print_a_star(table, trip);
 
     // Free memory
-    table_destroy(table);
-    list_destroy(trip);
     nominatim_destroy(startNomin);
     nominatim_destroy(endNomin);
+    vehicle_destroy(vehicle);
+    table_destroy(table);
+    list_destroy(trip);
 
     return 0;
 }
