@@ -93,9 +93,17 @@ void benchmark_file_append(char *file, int id, int maxDist, bool randomDist, dou
  * @param endLon double longitude of the ending point
  */
 void benchmark_call(double startLat, double startLon, double endLat, double endLon) {
+    Table_t *table = load_stations(STATION_TABLE_PATH);
     Nominatim_t *startNomin = nominatim_create("start", startLat, startLon);
     Nominatim_t *endNomin = nominatim_create("end", endLat, endLon);
-    compute_journey(startNomin, endNomin, "Tesla Model 3");
+
+    // Main call
+    compute_journey(table, startNomin, endNomin, "Tesla Model 3");
+
+    // Free memory
+    nominatim_destroy(startNomin);
+    nominatim_destroy(endNomin);
+    table_destroy(table);
 }
 
 /**

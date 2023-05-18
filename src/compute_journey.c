@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 /**
- * @brief Compute the journey between two points
+ * @brief Compute a trip between two points
  *
  * @param startNomin Nominatim_t* Start point
  * @param endNomin Nominatim_t* End point
@@ -13,7 +13,6 @@
  */
 Journey_output_t compute_journey(Table_t *table, Nominatim_t *startNomin, Nominatim_t *endNomin, char *vehicleName)
 {
-    // Table_t *table = load_stations("../data/raw/consolidation-etalab-schema-irve-statique-v-2.2.0-20230415.csv");
     Coordinates_t *startCoordinates = malloc(sizeof(Coordinates_t)), *endCoordinates = malloc(sizeof(Coordinates_t));
     Vehicle_t vehicle = vehicle_find_by_name(vehicleName);
 

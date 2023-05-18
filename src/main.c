@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    Table_t *table = load_stations("../data/raw/consolidation-etalab-schema-irve-statique-v-2.2.0-20230415.csv");
+    Table_t *table = load_stations(STATION_TABLE_PATH);
 
     Nominatim_t *startNomin = nominatim_fetch(argv[1]);
     Nominatim_t *endNomin = nominatim_fetch(argv[2]);
@@ -36,7 +36,6 @@ int main(int argc, char *argv[])
     }
 
     Journey_output_t output = compute_journey(table, startNomin, endNomin, argv[3]);
-    // Table_t *table = output.table;
     List_t *journey = output.journey;
 
     print_a_star(table, journey);

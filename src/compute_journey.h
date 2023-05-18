@@ -1,3 +1,5 @@
+#define STATION_TABLE_PATH "../data/raw/consolidation-etalab-schema-irve-statique-v-2.2.0-20230415.csv"
+
 #include "a_star.h"
 #include "nominatim.h"
 #include <stdio.h>
