@@ -61,7 +61,7 @@ Trip_output_t *load_network(Table_t *table, char *file, int size)
         char vehicle[max_line];
         if (sscanf(line, "%[^,],%[^,],%[^\n]", departure, arrival, vehicle) != 3)
         {
-            fprintf(stderr, "\033[31m>> Error:\033[0m Incorrect line format.\n");
+            fprintf(stderr, "\33[31m>> Error:\33[0m Incorrect line format.\n");
             continue;
         }
         Nominatim_t *departure_nominatim = nominatim_fetch(departure);

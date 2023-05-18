@@ -66,7 +66,7 @@ char *benchmark_file_init(char *fileName)
     }
     else
     {
-        printf("\x1b[33m[!] Output file already exists, appending to it...\x1b[0m\n");
+        printf("\33[33m[!] Output file already exists, appending to it...\33[0m\n");
     }
 
     return outFile;
@@ -181,17 +181,17 @@ void benchmark_run(char *outFile, bool perRun, int maxDist, bool randomDist, dou
  */
 int main(int argc, char **argv)
 {
-    printf("\x1b[2m[~] Starting benchmark...\x1b[0m\n");
+    printf("\33[2m[~] Starting benchmark...\33[0m\n");
     char *cwd = getcwd(NULL, 0);
 
     // Check if the output directory exists and is writable
     benchmark_dir_init();
-    printf("\x1b[32m[+] Output directory: \x1b[1m\x1b]8;;file://%s/%s\x07%s\x1b]8;;\x07\x1b[0m\n", cwd, BENCHMARK_OUT_DIR, BENCHMARK_OUT_DIR);
+    printf("\33[32m[+] Output directory: \33[1m\33]8;;file://%s/%s\x07%s\33]8;;\x07\33[0m\n", cwd, BENCHMARK_OUT_DIR, BENCHMARK_OUT_DIR);
 
     // Get the output file name
     char *fileName = argc > 1 ? argv[1] : benchmark_fileName();
     char *outFile = benchmark_file_init(fileName);
-    printf("\x1b[32m[+] Output file: \x1b[1m\x1b]8;;file://%s/%s\x07%s\x1b]8;;\x07\x1b[0m\n", cwd, outFile, outFile);
+    printf("\33[32m[+] Output file: \33[1m\33]8;;file://%s/%s\x07%s\33]8;;\x07\33[0m\n", cwd, outFile, outFile);
 
     // Prompt benchmark parameters
     int perRun = false;
@@ -214,10 +214,10 @@ int main(int argc, char **argv)
     scanf("%d", &nbRuns);
 
     // Run the benchmark
-    printf("\x1b[2m[~] Running benchmark...\x1b[0m\n");
+    printf("\33[2m[~] Running benchmark...\33[0m\n");
     benchmark_run(outFile, perRun, maxDist, randomDist, startLat, startLon, nbRuns);
-    printf("\x1b[32m[+] Benchmark finished!\x1b[0m\n");
-    printf("\x1b[34m[*] You can find the results there: \x1b[1m\x1b]8;;file://%s/%s\x07%s\x1b]8;;\x07\x1b[0m\x1b[0m\n", cwd, outFile, outFile);
+    printf("\33[32m[+] Benchmark finished!\33[0m\n");
+    printf("\33[34m[*] You can find the results there: \33[1m\33]8;;file://%s/%s\x07%s\33]8;;\x07\33[0m\33[0m\n", cwd, outFile, outFile);
 
     // Free memory
     free(cwd);

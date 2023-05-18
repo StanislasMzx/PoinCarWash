@@ -19,7 +19,7 @@ Trip_output_t compute_trip(Table_t *table, Nominatim_t *startNomin, Nominatim_t 
 
     if (vehicle.name == NULL)
     {
-        fprintf(stderr, "\033[31m>> Error:\033[0m Vehicle not found: \"\033[31m%s\033[0m\".\n", vehicleName);
+        fprintf(stderr, "\33[31m>> Error:\33[0m Vehicle not found: \"\33[31m%s\33[0m\".\n", vehicleName);
         exit(1);
     }
 

@@ -70,7 +70,7 @@ size_t api_write_data(void *ptr, size_t size, size_t nmemb, API_response_t *data
         if(data->data) {
             free(data->data);
         }
-        fprintf(stderr, "\033[31m>> Error:\033[0m Failed to allocate memory.\n");
+        fprintf(stderr, "\33[31m>> Error:\33[0m Failed to allocate memory.\n");
         return 0;
     }
 
@@ -100,7 +100,7 @@ char *api_fetch(char *query)
     char *escapedQuery = curl_easy_escape(curl, query, queryLen);
 
     if (!escapedQuery) {
-        fprintf(stderr, "\033[31m>> Error:\033[0m Failed to escape query string.\n");
+        fprintf(stderr, "\33[31m>> Error:\33[0m Failed to escape query string.\n");
         // Free memory
         curl_easy_cleanup(curl);
         return "";
@@ -124,7 +124,7 @@ char *api_fetch(char *query)
     response.size = 0;
     response.data = malloc(4096);
     if(NULL == response.data) {
-        fprintf(stderr, "\033[31m>> Error:\033[0m Failed to allocate memory.\n");
+        fprintf(stderr, "\33[31m>> Error:\33[0m Failed to allocate memory.\n");
         // Free memory
         curl_easy_cleanup(curl);
         curl_free(escapedQuery);
@@ -137,7 +137,7 @@ char *api_fetch(char *query)
     // GET request
     res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
-        fprintf(stderr, "\033[31m>> Error:\033[0m API fetch failed: \033[4;91m%s\033[0m\n", curl_easy_strerror(res));
+        fprintf(stderr, "\33[31m>> Error:\33[0m API fetch failed: \33[4;91m%s\33[0m\n", curl_easy_strerror(res));
         // Free memory
         free(response.data);
         curl_easy_cleanup(curl);
@@ -220,8 +220,8 @@ Nominatim_t *nominatim_fetch(char *query)
     // Fetch data from the API
     char *response = api_fetch(query);
     if (response == NULL) {
-        // fprintf(stderr, "\033[31m>> Error:\033[0m Failed to fetch data from API.\n");
-        fprintf(stderr, "          Please check your internet connection and that \033[36m%s\033[0m is reachable.\n", API_HOST);
+        // fprintf(stderr, "\33[31m>> Error:\33[0m Failed to fetch data from API.\n");
+        fprintf(stderr, "          Please check your internet connection and that \33[36m%s\33[0m is reachable.\n", API_HOST);
         return NULL;
     }
     if (*response == '\0') {
@@ -234,7 +234,7 @@ Nominatim_t *nominatim_fetch(char *query)
     // Parse the API response
     Nominatim_t *nomin = nominatim_parse(response);
     if (nomin == NULL) {
-        // fprintf(stderr, "\033[31m>> Error:\033[0m Failed to parse API response.\n");
+        // fprintf(stderr, "\33[31m>> Error:\33[0m Failed to parse API response.\n");
         Nominatim_t *emptyNomin = nominatim_create("", 0, 0);
         // Free memory
         free(response);

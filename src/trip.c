@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 {
     if (argc != 4)
     {
-        fprintf(stderr, "\033[31m>> Usage:\033[0m %s \033[2;32m<\033[0;32mstart_location\033[2m> \033[35m<\033[0;35mend_location\033[2m> \033[33m<\033[0;33mvehicle_name\033[2m>\033[0m\n", argv[0]);
+        fprintf(stderr, "\33[31m>> Usage:\33[0m %s \33[2;32m<\33[0;32mstart_location\33[2m> \33[35m<\33[0;35mend_location\33[2m> \33[33m<\33[0;33mvehicle_name\33[2m>\33[0m\n", argv[0]);
         return 1;
     }
 
@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     }
     if (*(startNomin->name) == '\0')
     {
-        fprintf(stderr, "\033[31m>> Error:\033[0m Invalid departure location: \"\033[31m%s\033[0m\".\n", argv[1]);
+        fprintf(stderr, "\33[31m>> Error:\33[0m Invalid departure location: \"\33[31m%s\33[0m\".\n", argv[1]);
         // Free memory
         nominatim_destroy(startNomin);
         return 1;
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     }
     if (*(endNomin->name) == '\0')
     {
-        fprintf(stderr, "\033[31m>> Error:\033[0m Invalid arrival location: \"\033[31m%s\033[0m\".\n", argv[2]);
+        fprintf(stderr, "\33[31m>> Error:\33[0m Invalid arrival location: \"\33[31m%s\33[0m\".\n", argv[2]);
         // Free memory
         nominatim_destroy(startNomin);
         nominatim_destroy(endNomin);
