@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <curl/curl.h>
-#include <json-c/json.h>
 
 #include "coordinates.h"
 
@@ -163,43 +162,43 @@ char *api_fetch(char *query)
  */
 Nominatim_t *nominatim_parse(char *response)
 {
-    // Parse the JSON response
-    json_object *root = json_tokener_parse(response);
-    if (root == NULL) {
-        fprintf(stderr, "\033[31m>> Error:\033[0m Failed to parse JSON response.\n");
-        // Free memory
-        free(response);
+    // Initialize values
+    double lat;
+    double lon;
+    char *displayName = NULL;
+
+    // Values to fill
+    const char *latStart = strstr(response, "\"lat\":");
+    const char *lonStart = strstr(response, "\"lon\":");
+    const char *displayNameStart = strstr(response, "\"display_name\":");
+    const char *displayNameEnd = strstr(displayNameStart, "\",");
+
+    // Check if valid response
+    if (!latStart || !lonStart || !displayNameStart || !displayNameEnd) {
         return NULL;
     }
 
-    // Get the first element in the array
-    json_object *obj = json_object_array_get_idx(root, 0);
-    if (obj == NULL) {
-        // fprintf(stderr, "\033[31m>> Error:\033[0m Error: Failed to get first element in JSON array.\n");
-        // Free memory
-        json_object_put(root);
-        return NULL;
-    }
+    // Skip atrribute names
+    latStart += 7;
+    lonStart += 7;
+    displayNameStart += 16;
 
-    // Extract the latitude, longitude, and display name
-    json_object *lat, *lon, *name;
-    if (!json_object_object_get_ex(obj, "lat", &lat) ||
-        !json_object_object_get_ex(obj, "lon", &lon) ||
-        !json_object_object_get_ex(obj, "display_name", &name)) {
-        fprintf(stderr, "Error: Failed to extract data from JSON object.\n");
-        // Free memory
-        json_object_put(root);
-        return NULL;
-    }
+    // Extract coordinates
+    lat = strtod(latStart, NULL);
+    lon = strtod(lonStart, NULL);
 
-    // Create a new Nominatim_t object and set its values
-    char *nameStr = (char*)json_object_get_string(name);
-    Nominatim_t *nomin = nominatim_create(nameStr,
-                                          json_object_get_double(lat),
-                                          json_object_get_double(lon));
+    // Extract display name
+    size_t length = displayNameEnd - displayNameStart;
+    displayName = malloc((length + 1) * sizeof(char));
+    strncpy(displayName, displayNameStart, length);
+    displayName[length] = '\0';
 
-    // Clean up and return the new object
-    json_object_put(root);
+    // Create nominatim object
+    Nominatim_t *nomin = nominatim_create(displayName, lat, lon);
+
+    // Free memory
+    free(displayName);
+
     return nomin;
 }
 
@@ -221,7 +220,7 @@ Nominatim_t *nominatim_fetch(char *query)
     // Parse the API response
     Nominatim_t *nomin = nominatim_parse(response);
     if (nomin == NULL) {
-        // fprintf(stderr, "\033[31m>> Error:\033[0m Error: Failed to parse API response.\n");
+        fprintf(stderr, "\033[31m>> Error:\033[0m Error: Failed to parse API response.\n");
         // Free memory
         free(response);
         return NULL;
