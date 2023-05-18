@@ -108,13 +108,12 @@ void benchmark_call(double startLat, double startLon, double endLat, double endL
     Nominatim_t *endNomin = nominatim_create("end", endLat, endLon);
 
     // Main call
-    Journey_output_t journeyOutput = compute_journey(startNomin, endNomin, vehicleName);
+    Journey_output_t journeyOutput = compute_journey(table, startNomin, endNomin, vehicleName);
 
     // Free memory
     nominatim_destroy(startNomin);
     nominatim_destroy(endNomin);
     table_destroy(table);
-    table_destroy(journeyOutput.table);
     list_destroy(journeyOutput.journey);
 }
 
