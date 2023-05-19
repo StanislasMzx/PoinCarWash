@@ -130,10 +130,10 @@ describe(test_a_star_time_max)
             assert(range_min >= dist);
         }
 
-        printf("Expected: FRFR1PQXX0ZUA3NLQXX0ZUA3NL             |  Found: %s\n", one_list->list[0].key);  // Bordeaux, 5 Rue Robert Lateulade
-        printf("Expected: FRS87PMB87711FR*SOD*S*MB87*7*1*_*_     |  Found: %s\n", one_list->list[1].key);  // AMBAZAC - GARE
-        printf("Expected: FRTDAPAVTD1411FR*SOD*S*AVTD*14*1*_*_   |  Found: %s\n", one_list->list[2].key);  // AIRE DE MAGNY COURS
-        printf("Expected: FRFR1PRYXKLFRYXKLF                     |  Found: %s\n", one_list->list[3].key);  // Mirecourt, Rue du Bailliage
+        /printf("Expected: FRFR1PQXX0ZUA3NLQXX0ZUA3NL             |  Found: %s\n", one_list->list[0].key);  // Bordeaux, 5 Rue Robert Lateulade
+        //printf("Expected: FRS87PMB87711FR*SOD*S*MB87*7*1*_*_     |  Found: %s\n", one_list->list[1].key);  // AMBAZAC - GARE
+        //printf("Expected: FRTDAPAVTD1411FR*SOD*S*AVTD*14*1*_*_   |  Found: %s\n", one_list->list[2].key);  // AIRE DE MAGNY COURS
+        //printf("Expected: FRFR1PRYXKLFRYXKLF                     |  Found: %s\n", one_list->list[3].key);  // Mirecourt, Rue du Bailliage
 
         asserteq_str("FRFR1PQXX0ZUA3NLQXX0ZUA3NL", one_list->list[0].key);
         asserteq_str("FRS87PMB87711FR*SOD*S*MB87*7*1*_*_", one_list->list[1].key);
@@ -174,10 +174,10 @@ describe(test_a_star_time_max)
             assert(range_min >= dist);
         }
 
-        printf("Expected: FRFR1PQXX0ZUA3NLQXX0ZUA3NL             |  Found: %s\n", one_list->list[0].key);  // Bordeaux, 5 Rue Robert Lateulade
-        printf("Expected: FRS87PMB87711FR*SOD*S*MB87*7*1*_*_     |  Found: %s\n", one_list->list[1].key);  // AMBAZAC - GARE
-        printf("Expected: FRTDAPAVTD1411FR*SOD*S*AVTD*14*1*_*_   |  Found: %s\n", one_list->list[2].key);  // AIRE DE MAGNY COURS
-        printf("Expected: FRFR1PRYXKLFRYXKLF                     |  Found: %s\n", one_list->list[3].key);  // Mirecourt, Rue du Bailliage
+        //printf("Expected: FRFR1PQXX0ZUA3NLQXX0ZUA3NL             |  Found: %s\n", one_list->list[0].key);  // Bordeaux, 5 Rue Robert Lateulade
+        //printf("Expected: FRS87PMB87711FR*SOD*S*MB87*7*1*_*_     |  Found: %s\n", one_list->list[1].key);  // AMBAZAC - GARE
+        //printf("Expected: FRTDAPAVTD1411FR*SOD*S*AVTD*14*1*_*_   |  Found: %s\n", one_list->list[2].key);  // AIRE DE MAGNY COURS
+        //printf("Expected: FRFR1PRYXKLFRYXKLF                     |  Found: %s\n", one_list->list[3].key);  // Mirecourt, Rue du Bailliage
 
         asserteq_str("FRFR1PQXX0ZUA3NLQXX0ZUA3NL", one_list->list[0].key);
         asserteq_str("FRS87PMB87711FR*SOD*S*MB87*7*1*_*_", one_list->list[1].key);
