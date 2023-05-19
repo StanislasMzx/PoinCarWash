@@ -28,7 +28,7 @@ benchmark:
   stage: test
   script:
     - cd benchmark
-    - yes | .benchmark
+    - yes | ./benchmark
   artifacts:
     paths:
       - "data/benchmark/*"
