@@ -42,7 +42,7 @@ char *vehicle_position(Vehicle_t *vehicle, Trip_output_t *trip_list, int stage)
     return "on the road";
 }
 
-Trip_output_t *load_network(Table_t *table, char *file, int size)
+Trip_output_t *load_network(Table_t *table, char *file, int size, double min_power, double time_max)
 {
     FILE *fp = fopen(file, "r");
     assert(fp != NULL);
@@ -67,10 +67,11 @@ Trip_output_t *load_network(Table_t *table, char *file, int size)
         Nominatim_t *departure_nominatim = nominatim_fetch(departure);
         Nominatim_t *arrival_nominatim = nominatim_fetch(arrival);
         Vehicle_t *vehicle = vehicle_find_by_name(vehicleName);
-        if (vehicle->name == NULL) {
+        if (vehicle->name == NULL)
+        {
             continue;
         }
-        Trip_output_t trip = compute_trip(table, departure_nominatim, arrival_nominatim, vehicle);
+        Trip_output_t trip = compute_trip(table, departure_nominatim, arrival_nominatim, vehicle, min_power, time_max);
         nominatim_destroy(departure_nominatim);
         nominatim_destroy(arrival_nominatim);
         vehicle_destroy(vehicle);

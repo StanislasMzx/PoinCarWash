@@ -34,7 +34,7 @@ describe(test_load_network)
     it("Conformance test")
     {
         Table_t *table = load_stations(STATION_TABLE_PATH);
-        Trip_output_t *network = load_network(table, "../data/input/network1.csv", 2);
+        Trip_output_t *network = load_network(table, "../data/input/network1.csv", 2, 0.0, 1000000.0);
         asserteq_str(network[0].trip->list[1].value->name, "Val de Meuse, Parking Intermarché");
         asserteq_str(network[0].trip->list[2].value->name, "Langres, Place Bel Air");
         asserteq_str(network[0].trip->list[3].value->name, "SIEG63 - ePremium - Montpeyroux - Parking Entree");
