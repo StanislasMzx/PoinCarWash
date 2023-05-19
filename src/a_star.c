@@ -67,7 +67,7 @@ int a_star(char *id_start, char *id_end, Vehicle_t *one_vehicle, Table_t *table_
 
     bool again = true;
     double range_power = one_vehicle->range * (1.0 - power_min/100.0); // range if the vehicle keep always power_min% autonomy
-    double range_vehicle = one_vehicle->fast_charge*time_in_station_max/60; // range if the vehicle is charge at one_vehicle->fast_charge during time_in_station_max
+    double range_vehicle = (double)(one_vehicle->fast_charge) * time_in_station_max/60.0; // range if the vehicle is charge at one_vehicle->fast_charge during time_in_station_max
     double range_min = MIN(range_power, range_vehicle);
     double range = range_min;
 
@@ -98,7 +98,7 @@ int a_star(char *id_start, char *id_end, Vehicle_t *one_vehicle, Table_t *table_
 
         if (one_state->id_station != id_start)
         {
-            range = MIN(range_min, one_station->power*time_in_station_max/60);
+            range = MIN(range_min, (double)(one_station->power) * time_in_station_max/60.0);
         }
 
         a_star_next_stations(table_station, one_station, one_state->id_station, range, &queue, one_state->weight, end);
