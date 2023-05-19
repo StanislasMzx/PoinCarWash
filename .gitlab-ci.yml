@@ -4,6 +4,7 @@ before_script:
   - apt-get update -yq
   - apt-get install -yq clang libcurl4-openssl-dev
   - ldconfig
+  - export 'ASAN_OPTIONS=detect_leaks=0'
 
 build:
   stage: build
@@ -21,7 +22,6 @@ test:
   stage: test
   script:
     - cd tests
-    - export 'ASAN_OPTIONS=detect_leaks=0'
     - make test
 
 benchmark:
