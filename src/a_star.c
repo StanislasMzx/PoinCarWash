@@ -62,45 +62,51 @@ int a_star(char *id_start, char *id_end, Vehicle_t *one_vehicle, Table_t *table_
     char *new_id = id_start;
 
     State_t *one_state = state_create(new_id, 0);
+
     heap_append(&queue, one_state, heap_height(queue));
+
     bool again = true;
-    double range_power = one_vehicle->range - power_min*one_vehicle->range/100; // range if the vehicle keep always power_min% autonomy
+    double range_power = one_vehicle->range * (1.0 - power_min/100.0); // range if the vehicle keep always power_min% autonomy
     double range_vehicle = one_vehicle->fast_charge*time_in_station_max/60; // range if the vehicle is charge at one_vehicle->fast_charge during time_in_station_max
     double range_min = MIN(range_power, range_vehicle);
-    double range;
-    int trip = 0; //0 there is no trip, 1 there is at least 1 trip
+    double range = range_min;
+
+    // Whether a trip exists or not
+    int tripExists = 0;
+
     while (again)
     {
         one_state = heap_pop(&queue, heap_height(queue));
+
+        // No reachable station
         if (one_state == NULL){
             again = false;
-            trip = 0; // errror
+            break;
         }
+
+        // Finished trip
         if (strcmp(id_end, one_state->id_station) == 0)
         {
             state_destroy(one_state);
             again = false;
-            trip = 1; // success
+            tripExists = 1;
             break;
         }
+
         Station_t *one_station = table_get(table_station, one_state->id_station);
         assert(one_station != NULL);
 
-        // Check if start station
-        if (one_state->id_station == id_start)
-        {
-            range = one_vehicle->range;
-        }
-        else
+        if (one_state->id_station != id_start)
         {
             range = MIN(range_min, one_station->power*time_in_station_max/60);
         }
+
         a_star_next_stations(table_station, one_station, one_state->id_station, range, &queue, one_state->weight, end);
 
         state_destroy(one_state);
     }
     heap_destroy(queue);
-    return trip;
+    return tripExists;
 }
 
 void print_a_star(Table_t *table_station, List_t *one_list, double power_min, double time_in_station_max)
