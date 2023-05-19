@@ -4,26 +4,27 @@
 
 int main(int argc, char *argv[])
 {
-    if (argc > 5 || argc < 4)
-    {
-        fprintf(stderr, "Usage: %s <start_location> <end_location> <vehicle_name> <min_power=0> <time_max=10000>\n", argv[0]);
-        return 1;
-    }
     double min_power;
     double time_max;
-    if (argc < 6){
-        time_max = 10000;
-    }
-    if (argc < 6){
+    switch (argc)
+    {
+    case 4:
         min_power = 0;
-    }
-    if (argc == 6){
+        time_max = 10000;
+        break;
+    case 5:
+        min_power = atoi(argv[4]);
+        time_max = 10000;
+        break;
+    case 6:
+        min_power = atoi(argv[4]);
         time_max = atoi(argv[5]);
-        min_power = atoi(argv[4]);
+        break;
+    default:
+        fprintf(stderr, "Usage: %s <start_location> <end_location> <vehicle_name> [<min_power=0> <time_max=10000>]\n", argv[0]);
+        return 1;
     }
-    if (argc == 5){
-        min_power = atoi(argv[4]);
-    }
+
     Table_t *table = load_stations("../data/raw/consolidation-etalab-schema-irve-statique-v-2.2.0-20230415.csv");
     Coordinates_t *start_coordinates = malloc(sizeof(Coordinates_t)), *end_coordinates = malloc(sizeof(Coordinates_t));
     char *start_key = malloc(6), *end_key = malloc(4);
