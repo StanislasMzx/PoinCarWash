@@ -11,13 +11,29 @@
  */
 int main(int argc, char *argv[])
 {
-    if (argc != 4)
+    double min_power;
+    double time_max;
+
+    switch (argc)
     {
-        fprintf(stderr, "\33[31m>> Usage:\33[0m %s \33[2;32m<\33[0;32mstart_location\33[2m> \33[35m<\33[0;35mend_location\33[2m> \33[34m<\33[0;34mvehicle_name\33[2m>\33[0m\n", argv[0]);
+    case 4:
+        min_power = 0.0;
+        time_max = 10000.0;
+        break;
+    case 5:
+        min_power = atof(argv[4]);
+        time_max = 10000.0;
+        break;
+    case 6:
+        min_power = atof(argv[4]);
+        time_max = atof(argv[5]);
+        break;
+    default:
+        fprintf(stderr, "\33[31m>> Usage:\33[0m %s \33[2;32m<\33[0;32mstart_location\33[2m> \33[35m<\33[0;35mend_location\33[2m> \33[34m<\33[0;34mvehicle_name\33[2m> \33[34m[<\33[0;34mmin_autonomy=0\33[2m>] \33[34m[<\33[0;34mmax_charging_time=10000\33[2m>]\33[0m\n", argv[0]);
         return 1;
     }
 
-    // Empty arguments
+    // Bad arguments
     if (*(argv[1]) == '\0')
     {
         fprintf(stderr, "\33[31m>> Error:\33[0m Empty departure location.\n");
@@ -31,6 +47,16 @@ int main(int argc, char *argv[])
     if (*(argv[3]) == '\0')
     {
         fprintf(stderr, "\33[31m>> Error:\33[0m Empty vehicle name.\n");
+        return 1;
+    }
+    if (min_power < 0.0)
+    {
+        fprintf(stderr, "\33[31m>> Error:\33[0m Invalid minimum autonomy: \"\33[31m%f\33[0m\".\n", min_power);
+        return 1;
+    }
+    if (time_max < 0.0)
+    {
+        fprintf(stderr, "\33[31m>> Error:\33[0m Invalid maximum charging time: \"\33[31m%f\33[0m\".\n", time_max);
         return 1;
     }
 
@@ -74,15 +100,14 @@ int main(int argc, char *argv[])
         fprintf(stderr, "\33[31m>> Error:\33[0m Vehicle not found: \"\33[31m%s\33[0m\".\n", argv[3]);
         exit(1);
     }
-    printf("\33[34m>> Vehicle: \33[1m%s\33[0m\n", vehicle->name);
 
     Table_t *table = load_stations(STATION_TABLE_PATH);
 
     // Compute trip
-    Trip_output_t output = compute_trip(table, startNomin, endNomin, vehicle);
+    Trip_output_t output = compute_trip(table, startNomin, endNomin, vehicle, min_power, time_max);
     List_t *trip = output.trip;
 
-    print_a_star(table, trip, vehicle->range);
+    print_a_star(table, trip, vehicle, min_power, time_max);
 
     // Free memory
     nominatim_destroy(startNomin);
