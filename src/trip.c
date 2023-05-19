@@ -18,18 +18,18 @@ int main(int argc, char *argv[])
     {
     case 4:
         min_power = 0.0;
-        time_max = 10000.0;
+        time_max = 360.0;
         break;
     case 5:
         min_power = atof(argv[4]);
-        time_max = 10000.0;
+        time_max = 360.0;
         break;
     case 6:
         min_power = atof(argv[4]);
         time_max = atof(argv[5]);
         break;
     default:
-        fprintf(stderr, "\33[31m>> Usage:\33[0m %s \33[2;32m<\33[0;32mstart_location\33[2m> \33[35m<\33[0;35mend_location\33[2m> \33[34m<\33[0;34mvehicle_name\33[2m> \33[34m[<\33[0;34mmin_autonomy=0\33[2m>] \33[34m[<\33[0;34mmax_charging_time=10000\33[2m>]\33[0m\n", argv[0]);
+        fprintf(stderr, "\33[31m>> Usage:\33[0m %s \33[2;32m<\33[0;32mstart_location\33[2m> \33[35m<\33[0;35mend_location\33[2m> \33[34m<\33[0;34mvehicle_name\33[2m> \33[34m[<\33[0;34mmin_autonomy=0\33[2m>] \33[34m[<\33[0;34mmax_charging_time=360\33[2m>]\33[0m\n", argv[0]);
         return 1;
     }
 
@@ -49,14 +49,13 @@ int main(int argc, char *argv[])
         fprintf(stderr, "\33[31m>> Error:\33[0m Empty vehicle name.\n");
         return 1;
     }
-    if (min_power < 0.0)
+    if (min_power < 0.0 || min_power > 100.0)
     {
-        fprintf(stderr, "\33[31m>> Error:\33[0m Invalid minimum autonomy: \"\33[31m%f\33[0m\".\n", min_power);
-        return 1;
+        fprintf(stderr, "\33[31m>> Error:\33[0m Invalid minimum autonomy: \"\33[31m%s\33[0m\".\n         You must enter a value between 0.0 and 100.0.\n", argv[4]);
     }
     if (time_max < 0.0)
     {
-        fprintf(stderr, "\33[31m>> Error:\33[0m Invalid maximum charging time: \"\33[31m%f\33[0m\".\n", time_max);
+        fprintf(stderr, "\33[31m>> Error:\33[0m Invalid maximum charging time: \"\33[31m%s\33[0m\".\n         You must enter a positive value.", argv[5]);
         return 1;
     }
 

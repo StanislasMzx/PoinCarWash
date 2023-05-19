@@ -126,17 +126,25 @@ The Makefile is designed to build with Clang and cURL so make sure to have it in
 ### Compute a trip
 
 ```sh
-./trip <start_location> <end_location> <vehicle_name>
+./trip <start_location> <end_location> <vehicle_name> [<min_autonomy=0>] [<max_charging_time=360>]
 ```
+
+**Arguments:**
+
+- `start_location`: The starting location of the trip
+- `end_location`: The ending location of the trip
+- `vehicle_name`: The name of the vehicle to use for the trip
+- `min_autonomy`: The minimum autonomy percentage allowed during the trip (optional, default: 0)
+- `max_charging_time`: The maximum charging time in minutes allowed at each charging station (optional, default: 360)
 
 **Examples:**
   
 ```sh
-./trip "Auvergne" "TELECOM Nancy" "Tesla Model 3"
+./trip "Auvergne" "TELECOM Nancy" "Tesla Model 3" 30 20
 ```
 
 ```sh
-./trip "3 rue stanislas nancy" "toulouse" "zoe"
+./trip "3 rue stanislas nancy" "toulouse" "zoe" 10
 ```
 
 ### Network monitoring
