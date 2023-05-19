@@ -25,7 +25,7 @@ test:
     - make test
 
 benchmark:
-  stage: benchmark
+  stage: test
   script:
     - cd benchmark
     - yes | .benchmark
