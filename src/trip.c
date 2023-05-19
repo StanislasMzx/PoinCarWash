@@ -49,14 +49,13 @@ int main(int argc, char *argv[])
         fprintf(stderr, "\33[31m>> Error:\33[0m Empty vehicle name.\n");
         return 1;
     }
-    if (min_power < 0.0)
+    if (min_power < 0.0 || min_power > 100.0)
     {
-        fprintf(stderr, "\33[31m>> Error:\33[0m Invalid minimum autonomy: \"\33[31m%f\33[0m\".\n", min_power);
-        return 1;
+        fprintf(stderr, "\33[31m>> Error:\33[0m Invalid minimum autonomy: \"\33[31m%s\33[0m\".\n         You must enter a value between 0.0 and 100.0.\n", argv[4]);
     }
     if (time_max < 0.0)
     {
-        fprintf(stderr, "\33[31m>> Error:\33[0m Invalid maximum charging time: \"\33[31m%f\33[0m\".\n", time_max);
+        fprintf(stderr, "\33[31m>> Error:\33[0m Invalid maximum charging time: \"\33[31m%s\33[0m\".\n         You must enter a positive value.", argv[5]);
         return 1;
     }
 
