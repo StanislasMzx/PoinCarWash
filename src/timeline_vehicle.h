@@ -23,6 +23,8 @@ typedef struct _User_state_t User_state_t;
 
 struct _Timeline_user_t
 {
+    // User_state_t linked list?
+    User_state_t *state;
     Vehicle_t *vehicle;
     List_t *trip;
     int stationsNumber;
@@ -43,11 +45,10 @@ struct _Timeline_user_t
  */
 typedef struct _Timeline_user_t Timeline_user_t;
 
-
-
 struct _Timeline_all_users_t
 {
     int lastTick;
+    int userNumber;
     Timeline_user_t **listTimeline;
 };
 /**
@@ -61,12 +62,12 @@ struct _Timeline_all_users_t
  */
 typedef struct _Timeline_all_users_t Timeline_all_users_t;
 
-Timeline_all_users_t *initializeTimelineUser();
+Timeline_all_users_t *initializeTimelineUser(int userNumber);
+
+char *userLocation(Timeline_user_t *one_timeline, int one_tick);
 
 void nextTickUser(Timeline_all_users_t *one_timeline);
 
 void makeTimelineUser(Timeline_all_users_t *one_timeline);
-
-char *userLocation(Timeline_user_t *one_timeline, int one_tick);
 
 #endif /* TIMELINE_USER_H */
