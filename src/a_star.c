@@ -1,5 +1,6 @@
 #include "a_star.h"
 #include <stdlib.h>
+#include <math.h>
 
 double heuristic(Station_t *one_station, Station_t *end)
 {
@@ -146,10 +147,10 @@ void print_a_star(Table_t *table_station, List_t *one_list, Vehicle_t *one_vehic
         distanceLeft = distance(currentStation->coordinates, endStation->coordinates);
         distancePrev = distance(prevStation->coordinates, currentStation->coordinates);
         batteryBefore = (int)(100.0*(1.0 - (double)distancePrev / one_vehicle->range));
-        chargingTime = (double)(distancePrev) / (double)(one_vehicle->fast_charge) * 60.0;
+        chargingTime = (int)ceil((double)(distancePrev) / (double)(one_vehicle->fast_charge) * 60.0);
 
         printf("\33[0;33m>> Step %d: \33[1m%s\33[0m\n", i, currentStation->name);
-        printf("   \33[2;33mBattery: \33[1;5m%d%% \u2192 %d%%\33[0;2;33m  [charge for \33[1;5m%d min\33[0;2;33m]\33[0m\n", batteryBefore, batteryAfter, (int)chargingTime);
+        printf("   \33[2;33mBattery: \33[1;5m%d%% \u2192 %d%%\33[0;2;33m  [charge for \33[1;5m%d min\33[0;2;33m]\33[0m\n", batteryBefore, batteryAfter, chargingTime);
         printf("   \33[2mDistance left: \33[1m%.3f km\33[0m\n", distanceLeft);
     }
 
