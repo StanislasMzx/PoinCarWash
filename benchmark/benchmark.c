@@ -194,12 +194,12 @@ int main(int argc, char **argv)
 
     // Check if the output directory exists and is writable
     benchmark_dir_init();
-    printf("\33[32m[+] Output directory: \33[1m\33]8;;file://%s/%s\x07%s\33]8;;\x07\33[0m\n", cwd, BENCHMARK_OUT_DIR, BENCHMARK_OUT_DIR);
+    // printf("\33[32m[+] Output directory: \33[1m\33]8;;file://%s/%s\x07%s\33]8;;\x07\33[0m\n", cwd, BENCHMARK_OUT_DIR, BENCHMARK_OUT_DIR);
 
     // Get the output file name
     char *fileName = argc > 1 ? argv[1] : benchmark_fileName();
     char *outFile = benchmark_file_init(fileName);
-    printf("\33[32m[+] Output file: \33[1m\33]8;;file://%s/%s\x07%s\33]8;;\x07\33[0m\n", cwd, outFile, outFile);
+    // printf("\33[32m[+] Output file: \33[1m\33]8;;file://%s/%s\x07%s\33]8;;\x07\33[0m\n", cwd, outFile, outFile);
 
     // Prompt benchmark parameters
     int perRun = true;
@@ -225,7 +225,7 @@ int main(int argc, char **argv)
     printf("\33[2m[~] Running benchmark...\33[0m\n");
     benchmark_run(outFile, perRun, maxDist, randomDist, startLat, startLon, nbRuns);
     printf("\33[32m[+] Benchmark finished!\33[0m\n");
-    printf("\33[34m[*] You can find the results there: \33[1m\33]8;;file://%s/%s\x07%s\33]8;;\x07\33[0m\33[0m\n", cwd, outFile, outFile);
+    // printf("\33[34m[*] You can find the results there: \33[1m\33]8;;file://%s/%s\x07%s\33]8;;\x07\33[0m\33[0m\n", cwd, outFile, outFile);
 
     // Free memory
     free(cwd);
