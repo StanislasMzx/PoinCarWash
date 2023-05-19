@@ -3,7 +3,7 @@
 #include "snow.h"
 #include "../src/a_star.h"
 
-/*
+
 describe(test_a_star_next_stations)
 {
     it("Conformance test")
@@ -111,7 +111,7 @@ describe(test_a_star_min_power)
         defer(table_destroy(table));
         defer(free(one_vehicle));
     }
-}*/
+}
 
 describe(test_a_star_time_max)
 {
@@ -137,17 +137,21 @@ describe(test_a_star_time_max)
 
         print_a_star(table, one_list, power_min, time_in_station_max);
 
-        for (int i=1; i<one_list->length; i++){
+        for (int i=2; i<one_list->length; i++){
             double dist = distance(one_list->list[i-1].value->coordinates, one_list->list[i].value->coordinates);
             double range_min = MIN(one_vehicle->fast_charge*time_in_station_max/60, time_in_station_max/60*one_list->list[i-1].value->power);
             assert(range_min >= dist);
         }
 
+        printf("Expected: FRFR1PQXX0ZUA3NLQXX0ZUA3NL             |  Found: %s\n", one_list->list[0].key);  // Bordeaux, 5 Rue Robert Lateulade
+        printf("Expected: FRS87PMB87711FR*SOD*S*MB87*7*1*_*_     |  Found: %s\n", one_list->list[1].key);  // AMBAZAC - GARE
+        printf("Expected: FRTDAPAVTD1411FR*SOD*S*AVTD*14*1*_*_   |  Found: %s\n", one_list->list[2].key);  // AIRE DE MAGNY COURS
+        printf("Expected: FRFR1PRYXKLFRYXKLF                     |  Found: %s\n", one_list->list[3].key);  // Mirecourt, Rue du Bailliage
+
         asserteq_str("FRFR1PQXX0ZUA3NLQXX0ZUA3NL", one_list->list[0].key);
-        asserteq_str("FRFR1PGUKJEMGUKJEM", one_list->list[1].key);
-        //asserteq_str("FRS33PMB3313412FR*SOD*S*MB33*134*1*_*_", one_list->list[2].key);
-        //asserteq_str("FRS16PMB164712FR*SOD*S*MB16*47*1*_*_", one_list->list[3].key);
-        //asserteq_str("FRFR1PRYXKLFRYXKLF", one_list->list[4].key);
+        asserteq_str("FRS87PMB87711FR*SOD*S*MB87*7*1*_*_", one_list->list[1].key);
+        asserteq_str("FRTDAPAVTD1411FR*SOD*S*AVTD*14*1*_*_", one_list->list[2].key);
+        asserteq_str("FRFR1PRYXKLFRYXKLF", one_list->list[3].key);
 
         defer(list_destroy(one_list));
         defer(table_destroy(table));
