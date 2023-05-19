@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include <time.h>
 #include <math.h>
+#include <unistd.h>
 #include "../src/nominatim.h"
 #include "../src/compute_trip.h"
 
@@ -194,44 +195,66 @@ int main(int argc, char **argv)
 
     // Check if the output directory exists and is writable
     benchmark_dir_init();
-    // printf("\33[32m[+] Output directory: \33[1m\33]8;;file://%s/%s\x07%s\33]8;;\x07\33[0m\n", cwd, BENCHMARK_OUT_DIR, BENCHMARK_OUT_DIR);
+    printf("\33[32m[+] Output directory: \33[1m\33]8;;file://%s/%s\x07%s\33]8;;\x07\33[0m\n", cwd, BENCHMARK_OUT_DIR, BENCHMARK_OUT_DIR);
 
     // Get the output file name
-    char *fileName = argc > 1 ? argv[1] : benchmark_fileName();
-    char *outFile = benchmark_file_init(fileName);
-    // printf("\33[32m[+] Output file: \33[1m\33]8;;file://%s/%s\x07%s\33]8;;\x07\33[0m\n", cwd, outFile, outFile);
+    char *fileName = benchmark_fileName();
 
     // Prompt benchmark parameters
+    int opt;
+    bool ask_params = true;
     int perRun = true;
     int maxDist = 400;
     int randomDist = true;
     double startLat = 46.5197;
     double startLon = 2.5034;
     int nbRuns = 100;
-    printf("[?] Enter if the benchmark should be run per run (0 = false, 1 = true): ");
-    scanf("%d", &perRun);
-    printf("[?] Enter the maximum distance to search for a station (in km): ");
-    scanf("%d", &maxDist);
-    printf("[?] Enter if the distance should be random (0 = false, 1 = true): ");
-    scanf("%d", &randomDist);
-    printf("[?] Enter the latitude of the starting point: ");
-    scanf("%lf", &startLat);
-    printf("[?] Enter the longitude of the starting point: ");
-    scanf("%lf", &startLon);
-    printf("[?] Enter the number of runs: ");
-    scanf("%d", &nbRuns);
+    while ((opt = getopt(argc, argv, ":df:")) != -1)
+    {
+        switch (opt)
+        {
+        case 'f':
+            strcpy(fileName, optarg);
+            break;
+        case 'd':
+            ask_params = false;
+            break;
+        case '?':
+            fprintf(stderr, "\33[31m>> Error:\33[0m Unknown option: %c\n", optopt);
+            return 1;
+            break;
+        }
+    }
+
+    char *outFile = benchmark_file_init(fileName);
+    printf("\33[32m[+] Output file: \33[1m\33]8;;file://%s/%s\x07%s\33]8;;\x07\33[0m\n", cwd, outFile, outFile);
+
+    if (ask_params)
+    {
+        printf("[?] Enter if the benchmark should be run per run (0 = false, 1 = true): ");
+        scanf("%d", &perRun);
+        printf("[?] Enter the maximum distance to search for a station (in km): ");
+        scanf("%d", &maxDist);
+        printf("[?] Enter if the distance should be random (0 = false, 1 = true): ");
+        scanf("%d", &randomDist);
+        printf("[?] Enter the latitude of the starting point: ");
+        scanf("%lf", &startLat);
+        printf("[?] Enter the longitude of the starting point: ");
+        scanf("%lf", &startLon);
+        printf("[?] Enter the number of runs: ");
+        scanf("%d", &nbRuns);
+    }
 
     // Run the benchmark
     printf("\33[2m[~] Running benchmark...\33[0m\n");
     benchmark_run(outFile, perRun, maxDist, randomDist, startLat, startLon, nbRuns);
     printf("\33[32m[+] Benchmark finished!\33[0m\n");
-    // printf("\33[34m[*] You can find the results there: \33[1m\33]8;;file://%s/%s\x07%s\33]8;;\x07\33[0m\33[0m\n", cwd, outFile, outFile);
+    printf("\33[34m[*] You can find the results there: \33[1m\33]8;;file://%s/%s\x07%s\33]8;;\x07\33[0m\33[0m\n", cwd, outFile, outFile);
 
     // Free memory
     free(cwd);
     free(outFile);
-    if (argc <= 1)
-        free(fileName);
+    free(fileName);
 
     return 0;
 }
