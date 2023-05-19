@@ -29,6 +29,6 @@ benchmark:
   script:
     - cd benchmark
     - yes | .benchmark
-  artefacts:
+  artifacts:
     paths:
       - "data/benchmark/*"
