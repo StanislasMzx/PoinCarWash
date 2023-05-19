@@ -18,28 +18,22 @@
 \minitoc
 \chaptermark{Introduction}
 \clearpage
-    \section{Contexte et justification du projet}
-Avec la prise de conscience écologique grandissante dans la population, les citoyens et les Etats se tournent progressivement vers des modes de consommation et des politiques plus responsables et écologiques. La Commission européenne a dans cette optique récemment pris la décision d'interdire la vente de véhicules thermiques à l'horizon 2035. Le développement et l'utilisation des véhicules électriques va donc connaître une croissance élevée dans les années à venir. En effet, selon les premières projections\footnotemark[1], le marché des véhicules électirifiés pourrait représenter 24\% des parts de marché d'ici 2025 et 90\% d'ici 2040. 
-\bigskip
-\footnotetext[1]{Selon l'étude \href{https://about.bnef.com/electric-vehicle-outlook/}{BloombergNEF}}
+    
+    \section{Contexte et objectifs du projet}
 
-Pourtant, voyager dans ce type de véhicules peut encore parfois s'avérer difficile, notamment en ce qui concerne leur autonomie encore relativement limitée et la répartition des bornes de recharge sur le territoire, cette dernière étant encore très inégale sur le sol français. Il est donc nécessaire pour faciliter leur adoption d'en faciliter et d'en optimiser l'utilisation.
+Ce projet s'inscrit dans le cadre pédagogique de notre première année d'étude en école d'ingénieur au sein de l'établissement Telecom Nancy. L'objectif y est de mettre en pratique les compétences scientifiques et techniques acquises tout au long de cette première année en se rapprochant d'une étude de cas concrète.
 \bigskip
 
-La première étape de notre projet consiste alors en la conception d'un algorithme permettant de calculer pour un utilisateur le trajet le plus court entre un point A et un point B situés en France, en optimisant ses passages aux bornes de recharges. Cet outil pourra aider les conducteurs à naviguer plus efficacement et à ainsi surmonter les inquiétudes liées à l'autonomie limitée des voitures électriques.
+Il se divise en deux étapes distinctes. Il nous a été demandé dans un premier temps de construire en langage "C" un programme qui permet de planifier un parcours de charge pour un véhicule électrique et pour un trajet donnés et d'enrichir cette application en y incorporant les ajouts de notre choix. Dans un second temps, il nous a fallut réaliser toujours en langage "C" un module de simulation qui pour un ensemble d'usagers, calcule le taux de charge des bornes du territoire.
 \bigskip
 
-La seconde étape du projet est elle basé sur l'étude du remplissage des stations en fonction d'une base de trajets données. L'acquisition de ces statistiques pourrait par exemple permettre de planifier plus efficacement l'expansion future du réseau de recharge.
+Notons également que tout au long du projet nous avons dû suivre une gestion de projets rigoureuse, ce
+qui nous a permis d’assurer une planification efficace et un suivi approprié des activités. Nous étions
+obligé d'adopter une approche méthodologique solide, afin d’assurer que notre projet soit réalisé de manière efficace, dans les délais impartis.
 \bigskip
 
-Ainsi nous espérons au travers de ce projet promouvoir une mobilité plus durable en participant à l'élaboration de solutions pratiques pour surmonter les obstacles liés à l'autonomie et à la disponibilité de stations de recharge pour véhicules électriques.
-\bigskip
-
-Notons également que ce projet s'est inscrit dans le cadre d'une gestion de projets rigoureuse, ce qui nous a permis d'assurer une planification efficace et un suivi approprié des activités. Nous avons adopté une approche méthodologique solide, afin d'assurer que notre projet soit réalisé de manière efficace, dans les délais impartis.
-\bigskip
-
-Toute l'équipe a pris plaisir à travailler sur le projet et nous tenons à remercier tous ceux qui nous ont aidés.
-\clearpage
+Toute l’équipe a pris plaisir à travailler sur le projet et nous tenons à remercier tous ceux qui nous
+ont aidés.
 
     \section{Objectifs du rapport}
 
@@ -47,7 +41,6 @@ Ce rapport synthétise le travail réalisé par l'équipe de PoinCarWash pour r�
     
 \bigskip
 Le présent rapport fait état de la conception et de l'implémentation de notre travail mais également des performances et des tests sur ce dernier ainsi que d'une présentation de notre gestion de projet.
-\clearpage
 
     \section{Présentation du plan}
 
@@ -66,10 +59,31 @@ Pour conclure nous récapitulerons les résultats obtenus dans chaque partie du 
 \chaptermark{Gestion de projet}
 \clearpage
     \section{Définition du projet}
-        \subsection{Contexte et objectif du projet}
+        
+    \subsection{Contexte et justification du projet}
+
+Avec la prise de conscience écologique grandissante dans la population, les citoyens et les Etats se tournent progressivement vers des modes de consommation et des politiques plus responsables et écologiques. La Commission européenne a dans cette optique récemment pris la décision d'interdire la vente de véhicules thermiques à l'horizon 2035. Le développement et l'utilisation des véhicules électriques va donc connaître une croissance élevée dans les années à venir. En effet, selon les premières projections\footnotemark[1], le marché des véhicules électirifiés pourrait représenter 24\% des parts de marché d'ici 2025 et 90\% d'ici 2040. 
+\bigskip
+\footnotetext[1]{Selon l'étude \href{https://about.bnef.com/electric-vehicle-outlook/}{BloombergNEF}}
+
+Pourtant, voyager dans ce type de véhicules peut encore parfois s'avérer difficile, notamment en ce qui concerne leur autonomie encore relativement limitée et la répartition des bornes de recharge sur le territoire, cette dernière étant encore très inégale sur le sol français. Il est donc nécessaire pour faciliter leur adoption d'en faciliter et d'en optimiser l'utilisation.
+\bigskip
+
+La première étape de notre projet consiste alors en la conception d'un algorithme permettant de calculer pour un utilisateur le trajet le plus court entre un point A et un point B situés en France, en optimisant ses passages aux bornes de recharges. Cet outil pourra aider les conducteurs à naviguer plus efficacement et à ainsi surmonter les inquiétudes liées à l'autonomie limitée des voitures électriques.
+\bigskip
+
+La seconde étape du projet est elle basé sur l'étude du remplissage des stations en fonction d'une base de trajets données. L'acquisition de ces statistiques pourrait par exemple permettre de planifier plus efficacement l'expansion future du réseau de recharge.
+\bigskip
+
+Ainsi nous espérons au travers de ce projet promouvoir une mobilité plus durable en participant à l'élaboration de solutions pratiques pour surmonter les obstacles liés à l'autonomie et à la disponibilité de stations de recharge pour véhicules électriques.
+\bigskip
 
         \subsection{Portée du projet}
+
+
         \subsection{Parties prenantes}
+
+
         \subsection{Contraintes et risques}
 
 \clearpage
