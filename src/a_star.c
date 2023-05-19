@@ -68,7 +68,7 @@ int a_star(char *id_start, char *id_end, Vehicle_t *one_vehicle, Table_t *table_
     double range_vehicle = one_vehicle->fast_charge*time_in_station_max/60; // range if the vehicle is charge at one_vehicle->fast_charge during time_in_station_max
     double range_min = MIN(range_power, range_vehicle);
     double range;
-    int trip; //0 there is no trip, 1 there is at least 1 trip
+    int trip = 0; //0 there is no trip, 1 there is at least 1 trip
     while (again)
     {
         one_state = heap_pop(&queue, heap_height(queue));
@@ -86,7 +86,15 @@ int a_star(char *id_start, char *id_end, Vehicle_t *one_vehicle, Table_t *table_
         Station_t *one_station = table_get(table_station, one_state->id_station);
         assert(one_station != NULL);
 
-        range = MIN(range_min, one_station->power*time_in_station_max/60);
+        // Check if start station
+        if (one_state->id_station == id_start)
+        {
+            range = one_vehicle->range;
+        }
+        else
+        {
+            range = MIN(range_min, one_station->power*time_in_station_max/60);
+        }
         a_star_next_stations(table_station, one_station, one_state->id_station, range, &queue, one_state->weight, end);
 
         state_destroy(one_state);
