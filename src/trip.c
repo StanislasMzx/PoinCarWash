@@ -18,18 +18,18 @@ int main(int argc, char *argv[])
     {
     case 4:
         min_power = 0.0;
-        time_max = 10000.0;
+        time_max = 360.0;
         break;
     case 5:
         min_power = atof(argv[4]);
-        time_max = 10000.0;
+        time_max = 360.0;
         break;
     case 6:
         min_power = atof(argv[4]);
         time_max = atof(argv[5]);
         break;
     default:
-        fprintf(stderr, "\33[31m>> Usage:\33[0m %s \33[2;32m<\33[0;32mstart_location\33[2m> \33[35m<\33[0;35mend_location\33[2m> \33[34m<\33[0;34mvehicle_name\33[2m> \33[34m[<\33[0;34mmin_autonomy=0\33[2m>] \33[34m[<\33[0;34mmax_charging_time=10000\33[2m>]\33[0m\n", argv[0]);
+        fprintf(stderr, "\33[31m>> Usage:\33[0m %s \33[2;32m<\33[0;32mstart_location\33[2m> \33[35m<\33[0;35mend_location\33[2m> \33[34m<\33[0;34mvehicle_name\33[2m> \33[34m[<\33[0;34mmin_autonomy=0\33[2m>] \33[34m[<\33[0;34mmax_charging_time=360\33[2m>]\33[0m\n", argv[0]);
         return 1;
     }
 
