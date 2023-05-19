@@ -2,7 +2,7 @@
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
-#define BENCHMARK_OUT_DIR "out"
+#define BENCHMARK_OUT_DIR "../data/benchmark"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -105,7 +105,8 @@ void benchmark_call(double startLat, double startLon, double endLat, double endL
 {
     Vehicle_t *vehicle = vehicle_find_by_name(vehicleName);
 
-    if (vehicle->name == NULL) {
+    if (vehicle->name == NULL)
+    {
         return;
     }
 
@@ -114,7 +115,7 @@ void benchmark_call(double startLat, double startLon, double endLat, double endL
     Table_t *table = load_stations(STATION_TABLE_PATH);
 
     // Main call
-    Trip_output_t tripOutput = compute_trip(table, startNomin, endNomin, vehicle);
+    Trip_output_t tripOutput = compute_trip(table, startNomin, endNomin, vehicle, 0.0, 10000.0);
 
     // Free memory
     vehicle_destroy(vehicle);
@@ -201,12 +202,12 @@ int main(int argc, char **argv)
     printf("\33[32m[+] Output file: \33[1m\33]8;;file://%s/%s\x07%s\33]8;;\x07\33[0m\n", cwd, outFile, outFile);
 
     // Prompt benchmark parameters
-    int perRun = false;
-    int maxDist = 10;
-    int randomDist = false;
-    double startLat = 45;
-    double startLon = 0;
-    int nbRuns = 0;
+    int perRun = true;
+    int maxDist = 400;
+    int randomDist = true;
+    double startLat = 46.5197;
+    double startLon = 2.5034;
+    int nbRuns = 100;
     printf("[?] Enter if the benchmark should be run per run (0 = false, 1 = true): ");
     scanf("%d", &perRun);
     printf("[?] Enter the maximum distance to search for a station (in km): ");
