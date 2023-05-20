@@ -196,6 +196,7 @@ Project Link: [https://gitlab.telecomnancy.univ-lorraine.fr/ppii2_2223/ppii2-grp
 
 - [Etalab](https://www.data.gouv.fr/fr/datasets/fichier-consolide-des-bornes-de-recharge-pour-vehicules-electriques/)
 - [EVD](https://ev-database.org/cheatsheet/range-electric-car)
+- [Snow](https://github.com/mortie/snow)
 - [OpenStreetMap](https://www.openstreetmap.org/)
 - [Google Maps](https://www.google.com/maps)
 - [cURL](https://curl.se/)
