@@ -1,6 +1,12 @@
 #ifndef TIMELINE_USER_H
 #define TIMELINE_USER_H
 
+#ifndef INCLUDE_STATION_TIMELINE
+#define INCLUDE_STATION_TIMELINE
+#include "timeline_station.h"
+#endif // INCLUDE_STATION_TIMELINE
+
+
 #include "table.h"
 #include "stations.h"
 #include "vehicles.h"
