@@ -143,13 +143,17 @@ Timeline_all_stations_t *initializeTimelineAllStation(Timeline_all_users_t *all_
 
 int stationTimelineGetIndex(Timeline_all_stations_t *one_all_stations_timeline, char *name);
 
-void listTimelineAdd(Timeline_all_stations_t *one_all_stations_timeline, char *one_name, Table_t *one_table);
+void listTimelineAppend(Timeline_all_stations_t *one_all_stations_timeline, char *one_name, Table_t *one_table);
 
 int allStationsTimelineGetSize(Timeline_all_stations_t *one_all_stations_timeline);
 
 Timeline_station_t *createTimelineStation(char *one_name, Table_t *one_table);
 
-void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline);
+void nextTickStation(Timeline_all_stations_t *station_timeline);
+
+void stationTimelineNextTick(Timeline_station_t *one_timeline);
+
+void stationTimelineAddState(Timeline_station_t *one_timeline, Station_state_t *one_state);
 
 void makeTimelineStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline);
 

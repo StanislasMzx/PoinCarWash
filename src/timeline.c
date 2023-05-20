@@ -33,7 +33,7 @@ Timeline_all_stations_t *initializeTimelineAllStation(Timeline_all_users_t *all_
     for (int index = 0; index < one_all_stations_timeline->maxSize; index++)
     {
         if (stationTimelineGetIndex(one_all_stations_timeline, all_users_timeline->listTimeline[index]->state->station) == -1){
-            listTimelineAdd(one_all_stations_timeline, all_users_timeline->listTimeline[index]->state->station, one_table);
+            listTimelineAppend(one_all_stations_timeline, all_users_timeline->listTimeline[index]->state->station, one_table);
         }
     }
 
@@ -47,7 +47,7 @@ Timeline_all_stations_t *initializeTimelineAllStation(Timeline_all_users_t *all_
  * @param one_name The name of the station to add
  * @param one_table The table of the station
  */
-void listTimelineAdd(Timeline_all_stations_t *one_all_stations_timeline, char *one_name, Table_t *one_table)
+void listTimelineAppend(Timeline_all_stations_t *one_all_stations_timeline, char *one_name, Table_t *one_table)
 {
     int index = 0;
 
@@ -130,6 +130,68 @@ int allStationsTimelineGetSize(Timeline_all_stations_t *one_all_stations_timelin
 
     return index;
 }
+
+/**
+ * @brief Calculates the state of a all stations at the next tick
+ * 
+ * @param station_timeline The all stations timeline
+ */
+void nextTickStation(Timeline_all_stations_t *station_timeline)
+{
+    for (int index = 0; index < allStationsTimelineGetSize(station_timeline); index++)
+    {
+        if (station_timeline->listTimeline[index] != NULL)
+        {
+            stationTimelineNextTick(station_timeline->listTimeline[index]);
+        }
+    }
+}
+
+/**
+ * @brief Creates the state of a station for the next tick
+ * 
+ * @param one_timeline The station timeline
+ */
+void stationTimelineNextTick(Timeline_station_t *one_timeline)
+{
+    Station_state_t *one_state = malloc(sizeof(Station_state_t));
+    assert(one_state != NULL);
+
+    one_state->tick = one_timeline->stateValue->tick + 1;
+    
+    one_state->numberVehicle = 0; // will be calculated during the calculation of the next tick for the users
+
+    one_state->availablePlugs = one_timeline->stateValue->availablePlugs; // will be calculated during the calculation of the next tick for the users
+
+    one_state->waitingTime = 0; // will be calculated during the calculation of the next tick for the users
+
+    stationTimelineAddState(one_timeline, one_state);
+}
+
+/**
+ * @brief Add a state to a station timeline
+ * 
+ * @param one_timeline The station timeline
+ * @param one_state The state to add
+*/
+void stationTimelineAddState(Timeline_station_t *one_timeline, Station_state_t *one_state)
+{
+    Timeline_station_t *current = one_timeline;
+
+    while (current->next != NULL)
+    {
+        current = current->next;
+    }
+
+    current->next = malloc(sizeof(Timeline_station_t));
+    assert(current->next != NULL);
+
+    current->next->name = current->name;
+    current->next->statesNumber = current->statesNumber + 1;
+    current->next->stateValue = one_state;
+    current->next->next = NULL;
+}
+
 
 /**
  * @brief Destroy the all-stations timeline
