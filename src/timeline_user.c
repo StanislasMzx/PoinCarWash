@@ -87,7 +87,7 @@ void nextTickUser(Timeline_all_users_t *one_timeline)
             // Charge the vehicle
             station_state->availablePlugs -= 1;
 
-            double chargingTime; // TODO: compute charging time
+            double chargingTime; // TODO: compute charging time => USE PREVIOUS TIMELINE
             // double distancePrev = distance(prevStation->coordinates, currentStation->coordinates);
             // double chargingTime = (int)ceil((double)(distancePrev) / (double)(one_vehicle->fast_charge) * 60.0);
             int next_tick = one_timeline->lastTick + (int)ceil(chargingTime / 10.0);
@@ -111,6 +111,7 @@ void nextTickUser(Timeline_all_users_t *one_timeline)
         // Queue at the station
         else
         {
+            // TODO: add 1 to station queue if user just arrived at the station (check previous timeline)
             // TODO: add User_state_t with those values
             one_state->tick = one_state->tick + 1;
             one_state->station = one_state->station;
