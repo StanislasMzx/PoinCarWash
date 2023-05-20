@@ -49,7 +49,7 @@ struct _Timeline_station_t
  * @var Timeline_station::next
  * Next element of the linked list
  */
-typedef _Timeline_station_t Timeline_station_t;
+typedef struct _Timeline_station_t Timeline_station_t;
 
 
 struct _Timeline_all_stations_t
