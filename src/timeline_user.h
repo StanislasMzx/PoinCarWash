@@ -6,7 +6,6 @@
 #include "timeline_station.h"
 #endif // INCLUDE_STATION_TIMELINE
 
-
 #include "table.h"
 #include "stations.h"
 #include "vehicles.h"
@@ -29,12 +28,10 @@ typedef struct _User_state_t User_state_t;
 
 struct _Timeline_user_t
 {
-    // User_state_t linked list?
     User_state_t *state;
     Vehicle_t *vehicle;
     List_t *trip;
     int stationsNumber;
-    User_state_t *stateValue;
     struct _Timeline_user_t *next;
 };
 /**
@@ -69,7 +66,15 @@ struct _Timeline_all_users_t
  */
 typedef struct _Timeline_all_users_t Timeline_all_users_t;
 
-Timeline_all_users_t *initializeTimelineUser(int userNumber);
+void timelineUserPrepend(Timeline_user_t **one_timeline, int tick, char *station, Vehicle_t *one_vehicle, List_t *one_trip, int one_stationsNumber);
+
+void timelineUserAppend(Timeline_user_t **one_timeline, int tick, char *station, Vehicle_t *one_vehicle, List_t *one_trip, int one_stationsNumber);
+
+User_state_t *timelineUserGet(Timeline_user_t *one_timeline, int tick);
+
+void timelineUserDestroy(Timeline_user_t **one_timeline);
+
+Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *network_file);
 
 char *userLocation(Timeline_user_t *one_timeline, int one_tick);
 
