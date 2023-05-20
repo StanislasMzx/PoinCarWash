@@ -55,6 +55,7 @@ typedef struct _Timeline_station_t Timeline_station_t;
 struct _Timeline_all_stations_t
 {
     int lastTick;
+    int maxSize;
     Timeline_station_t **listTimeline;
 };
 /**
@@ -138,7 +139,15 @@ typedef struct _Timeline_all_users_t Timeline_all_users_t;
 
 
 
-Timeline_all_stations_t *initializeTimelineStation(Timeline_all_users_t *user_timeline);
+Timeline_all_stations_t *initializeTimelineAllStation(Timeline_all_users_t *all_users_timeline, Table_t *one_table);
+
+int stationTimelineGetIndex(Timeline_all_stations_t *one_all_stations_timeline, char *name);
+
+void listTimelineAdd(Timeline_all_stations_t *one_all_stations_timeline, char *one_name, Table_t *one_table);
+
+int allStationsTimelineGetSize(Timeline_all_stations_t *one_all_stations_timeline);
+
+Timeline_station_t *createTimelineStation(char *one_name, Table_t *one_table);
 
 void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline);
 
@@ -147,6 +156,11 @@ void makeTimelineStation(Timeline_all_stations_t *station_timeline, Timeline_all
 void readTimelineStation(Timeline_all_stations_t *one_timeline);
 
 void readTimelineStationByTick(Timeline_all_stations_t *one_timeline, int one_tick);
+
+void destroyTimelineAllStations(Timeline_all_stations_t *one_all_stations_timeline);
+
+void destroyTimelineStation(Timeline_station_t *one_timeline);
+
 
 
 
