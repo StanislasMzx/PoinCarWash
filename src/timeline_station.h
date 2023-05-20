@@ -9,6 +9,7 @@
 #include "table.h"
 #include "stations.h"
 #include "vehicles.h"
+#include "timeline_user.h"
 
 struct _Station_state_t
 {
@@ -67,11 +68,11 @@ struct _Timeline_all_stations_t
  */
 typedef struct _Timeline_all_stations_t Timeline_all_stations_t;
 
-Timeline_all_stations_t *initializeTimelineStation();
+Timeline_all_stations_t *initializeTimelineStation(Timeline_all_users_t *user_timeline);
 
-void nextTickStation(Timeline_all_stations_t *user_timeline, Timeline_all_stations_t *station_timeline);
+void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline);
 
-void makeTimelineStation(Timeline_all_stations_t *one_timeline);
+void makeTimelineStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline);
 
 void readTimelineStation(Timeline_all_stations_t *one_timeline);
 

@@ -34,6 +34,7 @@ struct _Timeline_user_t
     Vehicle_t *vehicle;
     List_t *trip;
     int stationsNumber;
+    User_state_t *stateValue;
     struct _Timeline_user_t *next;
 };
 /**
