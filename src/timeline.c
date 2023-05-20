@@ -4,7 +4,19 @@
 #include <stdio.h>
 #include <math.h>
 #include "compute_trip.h"
-#include "timeline_user.h"
+#include "timeline.h"
+
+
+
+// ##########################################################TIMELINE STATION #########################################################
+
+
+
+
+
+
+
+// ##########################################################TIMELINE USER #########################################################
 
 /**
  * @brief Prepend a user state to a timeline
