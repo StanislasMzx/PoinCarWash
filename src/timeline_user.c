@@ -1,4 +1,4 @@
-#include "timeline_vehicle.h"
+#include "timeline_station.h"
 
 #include <stdlib.h>
 #include <assert.h>
@@ -8,7 +8,7 @@
 #include "table.h"
 #include "stations.h"
 #include "vehicles.h"
-#include "timeline_station.h"
+#include "timeline_user.h"
 
 /**
  * @brief Initialize a user timeline

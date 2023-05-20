@@ -10,6 +10,7 @@ struct _Station_state_t
     int tick;
     int numberVehicle;
     int availablePlugs;
+    int waitingTime;
 };
 /**
  * @typedef Station_state_t
@@ -63,7 +64,7 @@ typedef struct _Timeline_all_stations_t Timeline_all_stations_t;
 
 Timeline_all_stations_t *initializeTimelineStation();
 
-void nextTickStation(Timeline_all_stations_t *one_timeline);
+void nextTickStation(Timeline_all_stations_t *user_timeline, Timeline_all_stations_t *station_timeline);
 
 void makeTimelineStation(Timeline_all_stations_t *one_timeline);
 
