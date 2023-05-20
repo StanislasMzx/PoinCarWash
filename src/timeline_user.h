@@ -76,6 +76,8 @@ void timelineUserDestroy(Timeline_user_t **one_timeline);
 
 Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *network_file);
 
+void timelineUserDestroyAll(Timeline_all_users_t **one_timeline);
+
 char *userLocation(Timeline_user_t *one_timeline, int one_tick);
 
 void nextTickUser(Timeline_all_users_t *one_timeline);

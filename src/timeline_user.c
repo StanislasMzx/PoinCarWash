@@ -153,6 +153,17 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
     return one_timeline;
 }
 
+void timelineUserDestroyAll(Timeline_all_users_t **one_timeline)
+{
+    for (int i = 0; i < (*one_timeline)->userNumber; i++)
+    {
+        timelineUserDestroy(&(*one_timeline)->listTimeline[i]);
+    }
+    free((*one_timeline)->listTimeline);
+    free(*one_timeline);
+    *one_timeline = NULL;
+}
+
 /**
  * @brief Locate the last station of a user at a given tick
  *

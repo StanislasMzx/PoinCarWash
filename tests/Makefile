@@ -3,7 +3,7 @@ CFLAGS=-std=c99 -Wall -Wextra -pedantic -fdiagnostics-color=always -Wno-strict-p
 CFLAGS+=-O0 -g3 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
 LDFLAGS+=-fsanitize=address -lcurl
 
-ALL_EXECUTABLES=coordinates_test nominatim_test vehicles_test stations_test heap_test a_star_test monitoring_test
+ALL_EXECUTABLES=coordinates_test nominatim_test vehicles_test stations_test heap_test a_star_test
 
 all: $(ALL_EXECUTABLES)
 
@@ -15,7 +15,7 @@ table.o: ../src/table.c ../src/table.h ../src/list.o
 stations.o: ../src/stations.c ../src/stations.h ../src/table.o 
 heap.o: ../src/heap.c ../src/heap.h ../src/stations.o
 a_star.o: ../src/a_star.c ../src/a_star.h ../src/heap.o ../src/vehicles.o
-monitoring.o: ../src/monitoring.c ../src/monitoring.h ../src/compute_trip.o
+timeline_user.o: ../src/timeline_user.c ../src/timeline_user.h ../src/compute_trip.o
 
 
 coordinates_test: coordinates_test.o ../src/coordinates.o
@@ -40,8 +40,8 @@ opti_test: opti_test.o ../src/stations.o ../src/table.o ../src/list.o ../src/coo
 opti_test.o: opti_test.c ../src/stations.h
 
 
-monitoring_test: monitoring_test.o ../src/monitoring.o ../src/compute_trip.o ../src/a_star.o ../src/heap.o ../src/vehicles.o ../src/stations.o ../src/table.o ../src/list.o ../src/nominatim.o ../src/coordinates.o
-monitoring_test.o: monitoring_test.c ../src/monitoring.h snow.h 
+timeline_user_test: timeline_user_test.o ../src/timeline_user.o ../src/compute_trip.o ../src/a_star.o ../src/heap.o ../src/vehicles.o ../src/stations.o ../src/table.o ../src/list.o ../src/nominatim.o ../src/coordinates.o
+timeline_user_test.o: timeline_user_test.c ../src/timeline_user.h snow.h 
 
 
 clean: 
