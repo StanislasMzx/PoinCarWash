@@ -1,6 +1,11 @@
 #ifndef TIMELINE_STATION_H
 #define TIMELINE_STATION_H
 
+#ifndef INCLUDE_USER_TIMELINE
+#define INCLUDE_USER_TIMELINE
+#include "timeline_user.h"
+#endif // INCLUDE_USER_TIMELINE
+
 #include "table.h"
 #include "stations.h"
 #include "vehicles.h"
@@ -10,6 +15,7 @@ struct _Station_state_t
     int tick;
     int numberVehicle;
     int availablePlugs;
+    int waitingTime;
 };
 /**
  * @typedef Station_state_t
@@ -63,7 +69,7 @@ typedef struct _Timeline_all_stations_t Timeline_all_stations_t;
 
 Timeline_all_stations_t *initializeTimelineStation();
 
-void nextTickStation(Timeline_all_stations_t *one_timeline);
+void nextTickStation(Timeline_all_stations_t *user_timeline, Timeline_all_stations_t *station_timeline);
 
 void makeTimelineStation(Timeline_all_stations_t *one_timeline);
 

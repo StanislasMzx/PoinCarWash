@@ -184,3 +184,18 @@ Station_t *station_copy(Station_t *one_station)
     copy->weight = one_station->weight;
     return copy;
 }
+
+/**
+ * @brief Calculate the travel time between two stations
+ * 
+ * @param one_station first station
+ * @param other_station second station
+ * @return double travel time in minutes
+*/
+double travel_time(Station_t *one_station, Station_t *other_station)
+{
+    double dist = distance(one_station->coordinates, other_station->coordinates);
+    double time = dist / VEHICLE_SPEED * 60.0;
+
+    return time;
+}
