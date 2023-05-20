@@ -30,7 +30,7 @@ Timeline_all_stations_t *initializeTimelineAllStation(Timeline_all_users_t *all_
     {
         if (stationTimelineGetIndex(one_all_stations_timeline, all_users_timeline->listTimeline[index]->state->station) == -1)
         {
-            listTimelineAdd(one_all_stations_timeline, all_users_timeline->listTimeline[index]->state->station, one_table);
+            // listTimelineAdd(one_all_stations_timeline, all_users_timeline->listTimeline[index]->state->station, one_table);
         }
     }
 
@@ -130,7 +130,7 @@ int allStationsTimelineGetSize(Timeline_all_stations_t *one_all_stations_timelin
 
 /**
  * @brief Calculates the state of a all stations at the next tick
- * 
+ *
  * @param station_timeline The all stations timeline
  */
 void nextTickStation(Timeline_all_stations_t *station_timeline)
@@ -146,7 +146,7 @@ void nextTickStation(Timeline_all_stations_t *station_timeline)
 
 /**
  * @brief Creates the state of a station for the next tick
- * 
+ *
  * @param one_timeline The station timeline
  */
 void stationTimelineNextTick(Timeline_station_t *one_timeline)
@@ -155,7 +155,7 @@ void stationTimelineNextTick(Timeline_station_t *one_timeline)
     assert(one_state != NULL);
 
     one_state->tick = one_timeline->stateValue->tick + 1;
-    
+
     one_state->numberVehicle = 0; // will be calculated during the calculation of the next tick for the users
 
     one_state->availablePlugs = one_timeline->stateValue->availablePlugs; // will be calculated during the calculation of the next tick for the users
@@ -167,10 +167,10 @@ void stationTimelineNextTick(Timeline_station_t *one_timeline)
 
 /**
  * @brief Add a state to a station timeline
- * 
+ *
  * @param one_timeline The station timeline
  * @param one_state The state to add
-*/
+ */
 void stationTimelineAddState(Timeline_station_t *one_timeline, Station_state_t *one_state)
 {
     Timeline_station_t *current = one_timeline;
@@ -188,7 +188,6 @@ void stationTimelineAddState(Timeline_station_t *one_timeline, Station_state_t *
     current->next->stateValue = one_state;
     current->next->next = NULL;
 }
-
 
 /**
  * @brief Destroy the all-stations timeline
