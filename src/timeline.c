@@ -278,7 +278,7 @@ Timeline_station_t *createTimelineStation(char *one_name, Table_t *one_table)
 
 
 void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline, Table_t *table){
-    nextTickUser(user_timeline);
+    nextTickUser(user_timeline, table);
     for (int i=0; i<station_timeline->maxSize; i++){
         Timeline_station_t *one_timeline = station_timeline->listTimeline[i];
         Timeline_station_t* new = malloc(sizeof(Timeline_station_t));
@@ -295,6 +295,7 @@ void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_use
         }
         new->next = one_timeline;
         station_timeline->listTimeline[i] = new; // on vient d'ajouter une case
+    }
     for (int i=0; i<user_timeline->userNumber; i++){
         Timeline_user_t *one_timeline = user_timeline->listTimeline[i];
         if (one_timeline->state->idStation != -1){
@@ -316,7 +317,6 @@ void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_use
                 one_state->waitingTime += (double) distance(oldTickStation->coordinates, currentTickStation->coordinates)/v;
             }
         }
-    }
     }
 }
 
@@ -549,7 +549,7 @@ char *userLocation(Timeline_user_t *one_timeline, int one_tick)
  *
  * @param one_timeline The user timeline
  */
-void nextTickUser(Timeline_all_users_t *one_timeline)
+void nextTickUser(Timeline_all_users_t *one_timeline, Table_t *one_table)
 {
     one_timeline->lastTick++;
 
@@ -568,17 +568,17 @@ void nextTickUser(Timeline_all_users_t *one_timeline)
         }
 
         // Update is scheduled for this tick
-        Station_t *currentStation = list_find(one_user_timeline->trip, one_state->station);
+        Station_t *currentStation = list_find(one_user_timeline->trip, one_state->station); // ###### table_get(table, one_state->station);
         assert(currentStation != NULL);
 
         // Empty queue at the station
-        Station_state_t *station_state; // TODO: fetch Station_state_t of currentStation
+        Station_state_t *station_state = NULL; // TODO: fetch Station_state_t of currentStation
         if (station_state->availablePlugs > 0)
         {
             // Charge the vehicle
             station_state->availablePlugs -= 1;
 
-            double chargingTime; // TODO: compute charging time => USE PREVIOUS TIMELINE
+            double chargingTime = 0; // TODO: compute charging time => USE PREVIOUS TIMELINE
             // double distancePrev = distance(prevStation->coordinates, currentStation->coordinates);
             // double chargingTime = (int)ceil((double)(distancePrev) / (double)(one_vehicle->fast_charge) * 60.0);
             int next_tick = one_timeline->lastTick + (int)ceil(chargingTime / 10.0);
@@ -588,14 +588,14 @@ void nextTickUser(Timeline_all_users_t *one_timeline)
             one_state->station = one_state->station;
 
             // Plan next step
-            Station_t *nextStation = currentStation->last_station;
+            Station_t *nextStation = table_get(one_table, currentStation->last_station); // ######
             assert(nextStation != NULL);
 
-            double travelTicks = (int)ceil(travel_time(currentStation->coordinates, nextStation->coordinates) / 10.0);
-            next_tick += (int)ceil(travelTicks);
+            int travelTicks = (int)ceil(travel_time(currentStation, nextStation) / 10.0);
+            next_tick += travelTicks;
 
             // TODO: add User_state_t with those values
-            char *nextStationId; // TODO: fetch id of nextStation
+            char *nextStationId = currentStation->last_station; // TODO: fetch id of nextStation
             one_state->tick = next_tick;
             one_state->station = nextStationId;
         }
@@ -615,13 +615,13 @@ void nextTickUser(Timeline_all_users_t *one_timeline)
  *
  * @param one_timeline The user timeline
  */
-void makeTimelineUser(Timeline_all_users_t *one_timeline)
+void makeTimelineUser(Timeline_all_users_t *one_timeline, Table_t *table)
 {
     bool allUsersArrived = false;
 
     while (!allUsersArrived)
     {
-        nextTickUser(one_timeline);
+        nextTickUser(one_timeline, table);
 
         allUsersArrived = true;
         for (int userId = 0; userId < one_timeline->userNumber; userId++)

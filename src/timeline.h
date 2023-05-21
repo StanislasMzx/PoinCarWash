@@ -190,9 +190,9 @@ void timelineUserDestroyAll(Timeline_all_users_t **one_timeline);
 
 char *userLocation(Timeline_user_t *one_timeline, int one_tick);
 
-void nextTickUser(Timeline_all_users_t *one_timeline);
+void nextTickUser(Timeline_all_users_t *one_timeline, Table_t *one_table);
 
-void makeTimelineUser(Timeline_all_users_t *one_timeline);
+void makeTimelineUser(Timeline_all_users_t *one_timeline, Table_t *table);
 
 
 #endif /* TIMELINE */
