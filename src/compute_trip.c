@@ -37,8 +37,12 @@ Trip_output_t compute_trip(Table_t *table, Nominatim_t *startNomin, Nominatim_t 
         strcpy(endKey, "end");
         Station_t *start = station_create(NULL, startNomin->name, startCoordinates, 0, 0, 0);
         Station_t *end = station_create(NULL, endNomin->name, endCoordinates, 0, 0, 0);
-        table_add(table, startKey, start);
-        table_add(table, endKey, end);
+        
+        table->nbStation++;
+        list_append(table->slots[0], startKey, start);
+
+        table->nbStation++;
+        list_append(table->slots[1], endKey, end);
     }
 
     List_t *trip = a_star_list(table, "start", "end", vehicle, min_power, time_max);
