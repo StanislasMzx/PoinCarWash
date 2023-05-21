@@ -1,7 +1,7 @@
 #define SNOW_ENABLED
 
 #include "snow.h"
-#include "../src/timeline.h"
+#include "../src/timeline_station.h"
 #include <math.h>
 
 describe(test_initializeTimelineUser)
