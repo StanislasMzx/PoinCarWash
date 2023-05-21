@@ -35,8 +35,8 @@ Trip_output_t compute_trip(Table_t *table, Nominatim_t *startNomin, Nominatim_t 
         char *startKey = malloc(6), *endKey = malloc(4);
         strcpy(startKey, "start");
         strcpy(endKey, "end");
-        Station_t *start = station_create(startNomin->name, startCoordinates, 0, 0, 0);
-        Station_t *end = station_create(endNomin->name, endCoordinates, 0, 0, 0);
+        Station_t *start = station_create(NULL, startNomin->name, startCoordinates, 0, 0, 0);
+        Station_t *end = station_create(NULL, endNomin->name, endCoordinates, 0, 0, 0);
         table_add(table, startKey, start);
         table_add(table, endKey, end);
     }

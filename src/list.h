@@ -8,7 +8,7 @@
 
 struct _Station_t
 {
-    int id;
+    int *id;
     char *name;
     Coordinates_t *coordinates;
     int plugs_number;
@@ -93,7 +93,7 @@ bool list_contains(List_t *one_list, char *one_key);
 
 Station_t *list_find(List_t *one_list, char *one_key);
 
-Station_t *station_create(int id, char *name, Coordinates_t *coordinates, int plugs_number, int power, bool free);
+Station_t *station_create(int *id, char *name, Coordinates_t *coordinates, int plugs_number, int power, bool free);
 
 Station_t *station_copy(Station_t *one_station);
 

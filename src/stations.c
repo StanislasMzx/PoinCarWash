@@ -95,7 +95,7 @@ Table_t *load_stations(char *filename)
         coordinates->longitude = atof(token);
         token = strsep(&line_str, ";"); // latitude
         coordinates->latitude = atof(token);
-        Station_t *station = station_create(id, name, coordinates, plugs_number, power, is_free);
+        Station_t *station = station_create(&id, name, coordinates, plugs_number, power, is_free);
         id++;
         char *station_id = malloc(strlen(global_id) + strlen(local_id) + 1);
         assert(station_id != NULL);

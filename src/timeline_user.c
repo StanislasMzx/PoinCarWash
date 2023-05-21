@@ -120,7 +120,7 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
 
     one_timeline->lastTick = -1;
     one_timeline->userNumber = 0;
-    one_timeline->listTimeline = malloc(sizeof(Timeline_user_t));//malloc(sizeof(Timeline_user_t *) * 1);
+    one_timeline->listTimeline = malloc(sizeof(Timeline_user_t));//malloc(sizeof(Timeline_user_t) * 1);
     assert(one_timeline->listTimeline != NULL);
 
     const unsigned max_line = 256;
@@ -149,7 +149,7 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
         nominatim_destroy(departure_nominatim);
         nominatim_destroy(arrival_nominatim);
         one_timeline->userNumber++;
-        one_timeline->listTimeline = realloc(one_timeline->listTimeline, sizeof(Timeline_user_t)*one_timeline->userNumber);//sizeof(Timeline_user_t *) * one_timeline->userNumber);
+        one_timeline->listTimeline = realloc(one_timeline->listTimeline, sizeof(Timeline_user_t)*one_timeline->userNumber);//sizeof(Timeline_user_t) * one_timeline->userNumber);
         one_timeline->listTimeline[one_timeline->userNumber - 1] = NULL;
         timelineUserPrepend(&one_timeline->listTimeline[one_timeline->userNumber - 1], departureTick, "", -1, vehicle, trip.trip, trip.trip->length);
         one_timeline->lastTick = departureTick > one_timeline->lastTick ? departureTick : one_timeline->lastTick;

@@ -160,7 +160,7 @@ Timeline_all_stations_t *initializeTimelineAllStation(Table_t *one_table)
     assert(one_all_stations_timeline != NULL);
 
     one_all_stations_timeline->lastTick = -1;
-    one_all_stations_timeline->listTimeline = malloc(sizeof(Timeline_station_t *) * one_all_stations_timeline->maxSize);
+    one_all_stations_timeline->listTimeline = malloc(sizeof(Timeline_station_t) * one_all_stations_timeline->maxSize);
     assert(one_all_stations_timeline->listTimeline != NULL);
 
     /*for (int index = 0; index < one_all_stations_timeline->maxSize; index++)
@@ -176,7 +176,7 @@ Timeline_all_stations_t *initializeTimelineAllStation(Table_t *one_table)
         List_t *one_list = one_table->slots[i];
         for (int j=0; j<one_list->length; j++){
             station = one_list->list[j].value;
-            one_timeline = one_all_stations_timeline->listTimeline[station->id];
+            one_timeline = one_all_stations_timeline->listTimeline[*station->id];
             one_timeline->name = one_list->list[j].key;
             one_timeline->next = NULL;
             one_timeline->statesNumber = 0;
@@ -209,7 +209,7 @@ void listTimelineAppend(Timeline_all_stations_t *one_all_stations_timeline, char
 
     if (index == one_all_stations_timeline->maxSize)
     {
-        one_all_stations_timeline->listTimeline = realloc(one_all_stations_timeline->listTimeline, sizeof(Timeline_station_t *) * (one_all_stations_timeline->maxSize * 2));
+        one_all_stations_timeline->listTimeline = realloc(one_all_stations_timeline->listTimeline, sizeof(Timeline_station_t) * (one_all_stations_timeline->maxSize * 2));
         assert(one_all_stations_timeline->listTimeline != NULL);
     }
 
