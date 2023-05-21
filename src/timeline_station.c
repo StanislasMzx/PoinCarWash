@@ -424,6 +424,51 @@ void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_use
     }
 }
 
+/**
+ * @brief For a given station, print the timeline
+ *
+ * @param one_timeline The all stations timeline to read
+ * @param one_station The station to read the timeline
+ */
+void readTimelineStation(Timeline_all_stations_t *one_timeline, Station_t *one_station)
+{
+    Timeline_station_t *current = one_timeline->listTimeline[one_station->id];
+
+    printf("Station %s :\n", one_station->name);
+
+    while (current != NULL)
+    {
+        printf("Tick : %d; Vehicles : %d; Available plugs : %d; Waiting Time : %d\n", current->stateValue->tick, current->stateValue->numberVehicle, current->stateValue->availablePlugs, current->stateValue->waitingTime);
+        current = current->next;
+    }
+}
+
+
+/**
+ * @brief For a given tick, print the state of all the stations
+ * 
+ * @param one_timeline The all stations timeline to read
+ * @param one_tick The tick to read
+ */
+void readTimelineStationByTick(Timeline_all_stations_t *one_timeline, int one_tick)
+{
+    for (int index = 0; index < one_timeline->maxSize; index++)
+    {
+        Timeline_station_t *current = one_timeline->listTimeline[index];
+
+        while (current != NULL && current->stateValue->tick != one_tick)
+        {
+            current = current->next;
+        }
+
+        if (current != NULL)
+        {
+            printf("Station %s : Vehicle : %d; Available Plugs : %d; Waiting Time : %d\n", current->name, current->stateValue->numberVehicle, current->stateValue->availablePlugs, current->stateValue->waitingTime);
+        }
+    }
+}
+
+
 
 /**
  * @brief Destroy the all-stations timeline
