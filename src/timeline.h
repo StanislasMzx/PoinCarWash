@@ -77,7 +77,8 @@ typedef struct _Timeline_all_stations_t Timeline_all_stations_t;
 struct _User_state_t
 {
     int tick;
-    int station;
+    int idStation;
+    char *station;
 };
 /**
  * @typedef User_state_t
@@ -175,9 +176,9 @@ void destroyTimelineStation(Timeline_station_t *one_timeline);
 
 
 
-void timelineUserPrepend(Timeline_user_t **one_timeline, int tick, char *station, Vehicle_t *one_vehicle, List_t *one_trip, int one_stationsNumber);
+void timelineUserPrepend(Timeline_user_t **one_timeline, int tick, char *station, int idStation, Vehicle_t *one_vehicle, List_t *one_trip, int one_stationsNumber);
 
-void timelineUserAppend(Timeline_user_t **one_timeline, int tick, char *station, Vehicle_t *one_vehicle, List_t *one_trip, int one_stationsNumber);
+void timelineUserAppend(Timeline_user_t **one_timeline, int tick, char *station, int idStation, Vehicle_t *one_vehicle, List_t *one_trip, int one_stationsNumber);
 
 User_state_t *timelineUserGet(Timeline_user_t *one_timeline, int tick);
 

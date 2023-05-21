@@ -91,7 +91,7 @@ Timeline_all_stations_t *initializeTimelineAllStation(Table_t *one_table)
 
     assert(one_all_stations_timeline != NULL);
 
-    one_all_stations_timeline->lastTick = 0;
+    one_all_stations_timeline->lastTick = -1;
     one_all_stations_timeline->listTimeline = malloc(sizeof(Timeline_station_t *) * one_all_stations_timeline->maxSize);
     assert(one_all_stations_timeline->listTimeline != NULL);
 
@@ -297,19 +297,23 @@ void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_use
         station_timeline->listTimeline[i] = new; // on vient d'ajouter une case
     for (int i=0; i<user_timeline->userNumber; i++){
         Timeline_user_t *one_timeline = user_timeline->listTimeline[i];
-        if (one_timeline->state->station != -1){
-            Station_state_t *one_state = station_timeline->listTimeline[one_timeline->state->station]->stateValue;
-            if (one_timeline->next != NULL && one_timeline->state->station == one_timeline->next->state->station) // on veut savoir si la voiture part ou arrive dans une station
+        if (one_timeline->state->idStation != -1){
+            Station_state_t *one_state = station_timeline->listTimeline[one_timeline->state->idStation]->stateValue;
+            Timeline_user_t *current = one_timeline;
+            while (current->next != NULL && current->next->state->tick > one_state->tick){
+                current = current->next;
+            }
+            if (one_timeline->next != NULL && one_timeline->state->idStation == one_timeline->next->state->idStation) // on veut savoir si la voiture part ou arrive dans une station
             {
                 one_state->availablePlugs ++;
                 one_state->numberVehicle --;
             }else{
                 one_state->availablePlugs --;
                 one_state->numberVehicle ++;
-                double v = MIN(one_timeline->vehicle->fast_charge, station_timeline->listTimeline[one_timeline->state->station]->power);
-                Station_t *oldTickStation = table_get(table, station_timeline->listTimeline[one_timeline->next->state->station]->name);
-                Station_t *currentTickStation = table_get(table, station_timeline->listTimeline[one_timeline->state->station]->name);
-                one_state->waitingTime += (double) distance(oldTickStation->coordinates, currentTickStation->coordinates);
+                double v = MIN((int) one_timeline->vehicle->fast_charge, station_timeline->listTimeline[one_timeline->state->idStation]->power);
+                Station_t *oldTickStation = table_get(table, station_timeline->listTimeline[current->next->state->idStation]->name);
+                Station_t *currentTickStation = table_get(table, station_timeline->listTimeline[current->state->idStation]->name);
+                one_state->waitingTime += (double) distance(oldTickStation->coordinates, currentTickStation->coordinates)/v;
             }
         }
     }
@@ -363,11 +367,12 @@ void destroyTimelineStation(Timeline_station_t *one_timeline)
  * @param one_timeline Timeline to prepend to
  * @param tick Tick of the state
  * @param station Station of the state
+ * @param idStation Id of the station
  * @param one_vehicle Vehicle of the state
  * @param one_trip Trip of the state
  * @param one_stationsNumber Number of stations of the state
  */
-void timelineUserPrepend(Timeline_user_t **one_timeline, int tick, char *station, Vehicle_t *one_vehicle, List_t *one_trip, int one_stationsNumber)
+void timelineUserPrepend(Timeline_user_t **one_timeline, int tick, char *station, int idStation, Vehicle_t *one_vehicle, List_t *one_trip, int one_stationsNumber)
 {
     Timeline_user_t *node = malloc(sizeof(Timeline_user_t));
     assert(node != NULL);
@@ -375,6 +380,7 @@ void timelineUserPrepend(Timeline_user_t **one_timeline, int tick, char *station
     assert(node->state != NULL);
     node->state->tick = tick;
     node->state->station = station;
+    node->state->idStation = idStation;
     node->vehicle = one_vehicle;
     node->trip = one_trip;
     node->stationsNumber = one_stationsNumber;
@@ -388,15 +394,16 @@ void timelineUserPrepend(Timeline_user_t **one_timeline, int tick, char *station
  * @param one_timeline Timeline to append to
  * @param tick Tick of the state
  * @param station Station of the state
+ * @param idStation Id of the station
  * @param one_vehicle Vehicle of the state
  * @param one_trip Trip of the state
  * @param one_stationsNumber Number of stations of the state
  */
-void timelineUserAppend(Timeline_user_t **one_timeline, int tick, char *station, Vehicle_t *one_vehicle, List_t *one_trip, int one_stationsNumber)
+void timelineUserAppend(Timeline_user_t **one_timeline, int tick, char *station, int idStation, Vehicle_t *one_vehicle, List_t *one_trip, int one_stationsNumber)
 {
     if (*one_timeline == NULL)
     {
-        timelineUserPrepend(one_timeline, tick, station, one_vehicle, one_trip, one_stationsNumber);
+        timelineUserPrepend(one_timeline, tick, station, idStation, one_vehicle, one_trip, one_stationsNumber);
         return;
     }
     Timeline_user_t *tmp = *one_timeline;
@@ -404,7 +411,7 @@ void timelineUserAppend(Timeline_user_t **one_timeline, int tick, char *station,
     {
         tmp = tmp->next;
     }
-    timelineUserPrepend(&tmp->next, tick, station, one_vehicle, one_trip, one_stationsNumber);
+    timelineUserPrepend(&tmp->next, tick, station, idStation, one_vehicle, one_trip, one_stationsNumber);
 }
 
 /**
@@ -466,7 +473,7 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
 
     one_timeline->lastTick = -1;
     one_timeline->userNumber = 0;
-    one_timeline->listTimeline = malloc(sizeof(Timeline_user_t *) * 1);
+    one_timeline->listTimeline = malloc(sizeof(Timeline_user_t));//malloc(sizeof(Timeline_user_t *) * 1);
     assert(one_timeline->listTimeline != NULL);
 
     const unsigned max_line = 256;
@@ -495,9 +502,9 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
         nominatim_destroy(departure_nominatim);
         nominatim_destroy(arrival_nominatim);
         one_timeline->userNumber++;
-        one_timeline->listTimeline = realloc(one_timeline->listTimeline, sizeof(Timeline_user_t *) * one_timeline->userNumber);
+        one_timeline->listTimeline = realloc(one_timeline->listTimeline, sizeof(Timeline_user_t)*one_timeline->userNumber);//sizeof(Timeline_user_t *) * one_timeline->userNumber);
         one_timeline->listTimeline[one_timeline->userNumber - 1] = NULL;
-        timelineUserAppend(&one_timeline->listTimeline[one_timeline->userNumber - 1], departureTick, "", vehicle, trip.trip, trip.trip->length);
+        timelineUserPrepend(&one_timeline->listTimeline[one_timeline->userNumber - 1], departureTick, "", -1, vehicle, trip.trip, trip.trip->length);
         one_timeline->lastTick = departureTick > one_timeline->lastTick ? departureTick : one_timeline->lastTick;
         printf("\33[32m[~] Success:\33[0m User %d added.\n", one_timeline->userNumber);
     }
@@ -522,7 +529,7 @@ void timelineUserDestroyAll(Timeline_all_users_t **one_timeline)
  *
  * @param one_timeline The user timeline
  * @param one_tick The tick
- * @return char* The station id
+ * @return char* The station id string
  */
 char *userLocation(Timeline_user_t *one_timeline, int one_tick)
 {
