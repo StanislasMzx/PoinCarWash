@@ -6,11 +6,10 @@
 #include "compute_trip.h"
 #include "timeline.h"
 
-
-
 // ##########################################################TIMELINE STATION #########################################################
 
-Timeline_all_stations_t *initializeTimelineStation(Timeline_all_users_t *user_timeline, Table_t *one_table){
+
+/*Timeline_all_stations_t *initializeTimelineStation(Timeline_all_users_t *user_timeline, Table_t *one_table){
     Timeline_all_stations_t *station_timeline = malloc(sizeof(Timeline_all_stations_t));
     station_timeline->listTimeline = calloc(one_table->nbStation, sizeof(Timeline_station_t));
     station_timeline->stationNumber = one_table->nbStation;
@@ -33,6 +32,8 @@ Timeline_all_stations_t *initializeTimelineStation(Timeline_all_users_t *user_ti
     }
     return station_timeline;
 }
+
+
 
 
 void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline){
@@ -73,7 +74,286 @@ void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_use
 }
 
 
+*/
 
+
+/**
+ * @brief Initialize the all stations timeline
+ *
+ * @param all_users_timeline The all users timeline
+ * @param one_table The table of the station
+ * @return Timeline_station_t* The station timeline
+ */
+Timeline_all_stations_t *initializeTimelineAllStation(Table_t *one_table)
+{
+    Timeline_all_stations_t *one_all_stations_timeline = malloc(sizeof(Timeline_all_stations_t));
+    one_all_stations_timeline->maxSize = one_table->nbStation;
+
+    assert(one_all_stations_timeline != NULL);
+
+    one_all_stations_timeline->lastTick = 0;
+    one_all_stations_timeline->listTimeline = malloc(sizeof(Timeline_station_t *) * one_all_stations_timeline->maxSize);
+    assert(one_all_stations_timeline->listTimeline != NULL);
+
+    /*for (int index = 0; index < one_all_stations_timeline->maxSize; index++)
+    {
+        if (stationTimelineGetIndex(one_all_stations_timeline, all_users_timeline->listTimeline[index]->state->station) == -1)
+        {
+            // listTimelineAdd(one_all_stations_timeline, all_users_timeline->listTimeline[index]->state->station, one_table);
+        }
+    }*/
+    Station_t *station;
+    Timeline_station_t *one_timeline;
+    for (int i=0; i<one_table->length; i++){
+        List_t *one_list = one_table->slots[i];
+        for (int j=0; j<one_list->length; j++){
+            station = one_list->list[j].value;
+            one_timeline = one_all_stations_timeline->listTimeline[station->id];
+            one_timeline->name = one_list->list[j].key;
+            one_timeline->next = NULL;
+            one_timeline->statesNumber = 0;
+            one_timeline->stateValue = malloc(sizeof(Station_state_t));
+            one_timeline->stateValue->availablePlugs = station->plugs_number;
+            one_timeline->stateValue->numberVehicle = 0;
+            one_timeline->stateValue->tick = 0;
+            one_timeline->stateValue->waitingTime = 0;
+        }
+    }
+
+    return one_all_stations_timeline;
+}
+
+/**
+ * @brief add a station timeline
+ *
+ * @param one_all_station_timeline The all-stations timeline
+ * @param one_name The name of the station to add
+ * @param one_table The table of the station
+ *//*
+void listTimelineAppend(Timeline_all_stations_t *one_all_stations_timeline, char *one_name, Table_t *one_table)
+{
+    int index = 0;
+
+    while (one_all_stations_timeline->listTimeline[index] != NULL)
+    {
+        index++;
+    }
+
+    if (index == one_all_stations_timeline->maxSize)
+    {
+        one_all_stations_timeline->listTimeline = realloc(one_all_stations_timeline->listTimeline, sizeof(Timeline_station_t *) * (one_all_stations_timeline->maxSize * 2));
+        assert(one_all_stations_timeline->listTimeline != NULL);
+    }
+
+    one_all_stations_timeline->listTimeline[index] = createTimelineStation(one_name, one_table);
+}*/
+
+/**
+ * @brief Initialize a station timeline
+ *
+ * @param one_name The name of the station
+ * @param one_table The table of the station
+ * @return Timeline_station_t* The station timeline
+ */
+/*
+Timeline_station_t *createTimelineStation(char *one_name, Table_t *one_table)
+{
+    Timeline_station_t *one_timeline = malloc(sizeof(Timeline_station_t));
+    assert(one_timeline != NULL);
+
+    one_timeline->name = one_name;
+    one_timeline->statesNumber = 1;
+
+    Station_state_t *one_state = malloc(sizeof(Station_state_t));
+    assert(one_state != NULL);
+
+    one_state->tick = 0;
+    one_state->numberVehicle = 0;
+    one_state->availablePlugs = one_table->slots[table_indexof(one_table, one_name)]->list->value->plugs_number;
+    one_state->waitingTime = 0;
+
+    one_timeline->stateValue = one_state;
+    one_timeline->next = NULL;
+
+    return one_timeline;
+}*/
+
+/**
+ * @brief find the index of a station timeline in the all-stations timeline
+ *
+ * @param one_all_stations_timeline The all-stations timeline
+ * @param name The name of the station to find
+ */
+/*int stationTimelineGetIndex(Timeline_all_stations_t *one_all_stations_timeline, char *name)
+{
+    for (int index = 0; index < allStationsTimelineGetSize(one_all_stations_timeline); index++)
+    {
+        if (strcmp(one_all_stations_timeline->listTimeline[index]->name, name) == 0)
+        {
+            return index;
+        }
+    }
+
+    return -1;
+}*/
+
+/**
+ * @brief Get the size of the all-stations timeline
+ *
+ * @param one_all_stations_timeline The all-stations timeline
+ * @return int The size of the all-stations timeline
+ */
+/*int allStationsTimelineGetSize(Timeline_all_stations_t *one_all_stations_timeline)
+{
+    int index = 0;
+
+    while ((one_all_stations_timeline->listTimeline[index] != NULL) && (index < one_all_stations_timeline->maxSize))
+    {
+        index++;
+    }
+
+    return index;
+}*/
+
+/**
+ * @brief Calculates the state of a all stations at the next tick
+ *
+ * @param station_timeline The all stations timeline
+ */
+/*void nextTickStation(Timeline_all_stations_t *station_timeline)
+{
+    for (int index = 0; index < station_timeline->maxSize; index++)
+    {
+        if (station_timeline->listTimeline[index] != NULL)
+        {
+            stationTimelineNextTick(station_timeline->listTimeline[index]);
+        }
+    }
+}*/
+
+/**
+ * @brief Creates the state of a station for the next tick
+ *
+ * @param one_timeline The station timeline
+ */
+/*void stationTimelineNextTick(Timeline_station_t *one_timeline)
+{
+    Station_state_t *one_state = malloc(sizeof(Station_state_t));
+    assert(one_state != NULL);
+
+    one_state->tick = one_timeline->stateValue->tick + 1;
+
+    one_state->numberVehicle = one_timeline->stateValue->numberVehicle; // will be calculated during the calculation of the next tick for the users
+
+    one_state->availablePlugs = one_timeline->stateValue->availablePlugs; // will be calculated during the calculation of the next tick for the users
+
+    one_state->waitingTime = 0; // will be calculated during the calculation of the next tick for the users
+
+    stationTimelineAddState(one_timeline, one_state);
+}*/
+
+/**
+ * @brief Add a state to a station timeline
+ *
+ * @param one_timeline The station timeline
+ * @param one_state The state to add
+ */
+/*void stationTimelineAddState(Timeline_station_t *one_timeline, Station_state_t *one_state)
+{
+    Timeline_station_t *current = one_timeline;
+
+    while (current->next != NULL)
+    {
+        current = current->next;
+    }
+
+    current->next = malloc(sizeof(Timeline_station_t));
+    assert(current->next != NULL);
+
+    current->next->name = current->name;
+    current->next->statesNumber = current->statesNumber + 1;
+    current->next->stateValue = one_state;
+    current->next->next = NULL;
+}*/
+
+
+void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline, Table_t *table){
+    nextTickUser(user_timeline);
+    for (int i=0; i<station_timeline->maxSize; i++){
+        Timeline_station_t *one_timeline = station_timeline->listTimeline[i];
+        Timeline_station_t* new = malloc(sizeof(Timeline_station_t));
+        new->name = one_timeline->name;
+        new->statesNumber = one_timeline->statesNumber + 1;
+        new->stateValue = malloc(sizeof(Station_state_t));
+        new->stateValue->availablePlugs = one_timeline->stateValue->availablePlugs;
+        new->stateValue->numberVehicle = one_timeline->stateValue->numberVehicle;
+        new->stateValue->tick = one_timeline->stateValue->tick + 1;
+        if (one_timeline->stateValue->waitingTime > 0){
+            new->stateValue->waitingTime = one_timeline->stateValue->waitingTime - 1;
+        }else{
+            new->stateValue->waitingTime = 0;
+        }
+        new->next = one_timeline;
+        station_timeline->listTimeline[i] = new; // on vient d'ajouter une case
+    for (int i=0; i<user_timeline->userNumber; i++){
+        Timeline_user_t *one_timeline = user_timeline->listTimeline[i];
+        if (one_timeline->state->station != -1){
+            Station_state_t *one_state = station_timeline->listTimeline[one_timeline->state->station]->stateValue;
+            if (one_timeline->next != NULL && one_timeline->state->station == one_timeline->next->state->station) // on veut savoir si la voiture part ou arrive dans une station
+            {
+                one_state->availablePlugs ++;
+                one_state->numberVehicle --;
+            }else{
+                one_state->availablePlugs --;
+                one_state->numberVehicle ++;
+                double v = MIN(one_timeline->vehicle->fast_charge, station_timeline->listTimeline[one_timeline->state->station]->power);
+                Station_t *oldTickStation = table_get(table, station_timeline->listTimeline[one_timeline->next->state->station]->name);
+                Station_t *currentTickStation = table_get(table, station_timeline->listTimeline[one_timeline->state->station]->name);
+                one_state->waitingTime += (double) distance(oldTickStation->coordinates, currentTickStation->coordinates);
+            }
+        }
+    }
+    }
+}
+
+
+/**
+ * @brief Destroy the all-stations timeline
+ *
+ * @param one_all_stations_timeline The all-stations timeline to destroy
+ */
+void destroyTimelineAllStations(Timeline_all_stations_t *one_all_stations_timeline)
+{
+    for (int index = 0; index < one_all_stations_timeline->maxSize; index++)
+    {
+        if (one_all_stations_timeline->listTimeline[index] != NULL)
+        {
+            destroyTimelineStation(one_all_stations_timeline->listTimeline[index]);
+        }
+    }
+
+    free(one_all_stations_timeline->listTimeline);
+    free(one_all_stations_timeline);
+}
+
+/**
+ * @brief destroy a station timeline
+ *
+ * @param one_timeline The station timeline to destroy
+ */
+void destroyTimelineStation(Timeline_station_t *one_timeline)
+{
+    Timeline_station_t *current = one_timeline;
+    Timeline_station_t *next = NULL;
+
+    while (current != NULL)
+    {
+        next = current->next;
+        free(current->stateValue);
+        free(current);
+        current = next;
+    }
+}
 
 // ##########################################################TIMELINE USER #########################################################
 
@@ -116,7 +396,7 @@ void timelineUserAppend(Timeline_user_t **one_timeline, int tick, char *station,
 {
     if (*one_timeline == NULL)
     {
-        list_prepend(one_timeline, tick, station, one_vehicle, one_trip, one_stationsNumber);
+        timelineUserPrepend(one_timeline, tick, station, one_vehicle, one_trip, one_stationsNumber);
         return;
     }
     Timeline_user_t *tmp = *one_timeline;
@@ -124,7 +404,7 @@ void timelineUserAppend(Timeline_user_t **one_timeline, int tick, char *station,
     {
         tmp = tmp->next;
     }
-    list_prepend(&tmp->next, tick, station, one_vehicle, one_trip, one_stationsNumber);
+    timelineUserPrepend(&tmp->next, tick, station, one_vehicle, one_trip, one_stationsNumber);
 }
 
 /**
@@ -154,12 +434,13 @@ void timelineUserDestroy(Timeline_user_t **one_timeline)
     while (tmp->next != NULL)
     {
         Timeline_user_t *next = tmp->next;
-        free(tmp->vehicle);
+        vehicle_destroy(tmp->vehicle);
         free(tmp->state);
         free(tmp);
         tmp = next;
     }
-    free(tmp->vehicle);
+    list_destroy(tmp->trip);
+    vehicle_destroy(tmp->vehicle);
     free(tmp->state);
     free(tmp);
     *one_timeline = NULL;
@@ -198,7 +479,7 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
         char arrival[max_line];
         char vehicleName[max_line];
         int departureTick;
-        if (sscanf(line, "%[^,],%[^,],%[^,],%[^\n]", departure, arrival, vehicleName, departureTick) != 4)
+        if (sscanf(line, "%[^,],%[^,],%[^,],%d\n", departure, arrival, vehicleName, &departureTick) != 4)
         {
             fprintf(stderr, "\33[31m>> Error:\33[0m Incorrect line format : %s.\n", line);
             continue;
@@ -213,11 +494,12 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
         Trip_output_t trip = compute_trip(station_table, departure_nominatim, arrival_nominatim, vehicle, 0.0, 360.0);
         nominatim_destroy(departure_nominatim);
         nominatim_destroy(arrival_nominatim);
-        vehicle_destroy(vehicle);
         one_timeline->userNumber++;
-        realloc(one_timeline->listTimeline, sizeof(Timeline_user_t *) * one_timeline->userNumber);
-        timelineUserAppend(&one_timeline->listTimeline[one_timeline->userNumber - 1], departureTick, NULL, vehicle, trip.trip, trip.trip->length);
+        one_timeline->listTimeline = realloc(one_timeline->listTimeline, sizeof(Timeline_user_t *) * one_timeline->userNumber);
+        one_timeline->listTimeline[one_timeline->userNumber - 1] = NULL;
+        timelineUserAppend(&one_timeline->listTimeline[one_timeline->userNumber - 1], departureTick, "", vehicle, trip.trip, trip.trip->length);
         one_timeline->lastTick = departureTick > one_timeline->lastTick ? departureTick : one_timeline->lastTick;
+        printf("\33[32m[~] Success:\33[0m User %d added.\n", one_timeline->userNumber);
     }
 
     fclose(fp);

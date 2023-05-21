@@ -34,7 +34,6 @@ struct _Timeline_station_t
     char *name;
     int statesNumber;
     Station_state_t *stateValue;
-    Coordinates_t *coord;
     int power;
     struct _Timeline_station_t *next;
 };
@@ -55,7 +54,7 @@ typedef struct _Timeline_station_t Timeline_station_t;
 struct _Timeline_all_stations_t
 {
     int lastTick;
-    int stationNumber;
+    int maxSize;
     Timeline_station_t **listTimeline;
 };
 /**
@@ -139,15 +138,32 @@ typedef struct _Timeline_all_users_t Timeline_all_users_t;
 
 
 
-Timeline_all_stations_t *initializeTimelineStation(Timeline_all_users_t *user_timeline, Table_t *one_table);
+Timeline_all_stations_t *initializeTimelineAllStation(Table_t *one_table);
 
-void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline);
+//int stationTimelineGetIndex(Timeline_all_stations_t *one_all_stations_timeline, char *name);
+
+//void listTimelineAppend(Timeline_all_stations_t *one_all_stations_timeline, char *one_name, Table_t *one_table);
+
+//int allStationsTimelineGetSize(Timeline_all_stations_t *one_all_stations_timeline);
+
+//Timeline_station_t *createTimelineStation(char *one_name, Table_t *one_table);
+
+void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline, Table_t *table);
+
+//void stationTimelineNextTick(Timeline_station_t *one_timeline);
+
+void stationTimelineAddState(Timeline_station_t *one_timeline, Station_state_t *one_state);
 
 void makeTimelineStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline);
 
 void readTimelineStation(Timeline_all_stations_t *one_timeline);
 
 void readTimelineStationByTick(Timeline_all_stations_t *one_timeline, int one_tick);
+
+void destroyTimelineAllStations(Timeline_all_stations_t *one_all_stations_timeline);
+
+void destroyTimelineStation(Timeline_station_t *one_timeline);
+
 
 
 
