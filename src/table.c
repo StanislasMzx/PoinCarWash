@@ -32,6 +32,7 @@ Table_t *table_create(int size)
     Table_t *table = malloc(sizeof(Table_t));
     table->slots = malloc(sizeof(List_t) * size);
     table->length = size;
+    table->nbStation = 0;
     for (int i = 0; i < size; i++)
     {
         table->slots[i] = list_create();
@@ -85,7 +86,7 @@ void table_add(Table_t *one_table, char *one_key, Station_t *one_station)
         free(one_station);
         return;
     }
-    one_table->nbStation ++;
+    one_table->nbStation++;
     List_t *list = one_table->slots[index];
     list_append(list, one_key, one_station);
 }
@@ -118,12 +119,14 @@ Station_t *table_get(Table_t *one_table, char *one_key)
     return list_find(list, one_key);
 }
 
-
-void table_print(Table_t *one_table){
+void table_print(Table_t *one_table)
+{
     printf("\n");
-    for (int i = 0; i<one_table->length; i++){
+    for (int i = 0; i < one_table->length; i++)
+    {
         List_t *one_list = one_table->slots[i];
-        if (!list_is_empty(one_list)){
+        if (!list_is_empty(one_list))
+        {
             list_print(one_list);
         }
     }
