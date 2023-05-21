@@ -18,7 +18,7 @@ int hash(char *some_value)
     {
         res = res + some_value[i];
     }
-    return res;
+    return res+2; // 0 is the start and 1 is the end
 }
 
 /**
@@ -30,7 +30,7 @@ int hash(char *some_value)
 Table_t *table_create(int size)
 {
     Table_t *table = malloc(sizeof(Table_t));
-    table->slots = malloc(sizeof(List_t) * size);
+    table->slots = malloc(sizeof(List_t) * (size+2));
     table->length = size;
     table->nbStation = 0;
     for (int i = 0; i < size; i++)
