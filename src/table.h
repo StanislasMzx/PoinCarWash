@@ -8,6 +8,7 @@ struct _Table_t
 {
     List_t **slots;
     int length;
+    int nbStation;
 };
 /**
  * @typedef Table_t

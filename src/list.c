@@ -91,7 +91,7 @@ void station_print(Station_t *one_station)
         printf("Pointeur vide");
         return;
     }
-    printf("\n\n{name: %s, coordinates: (%f, %f), plugs_number: %d, power: %d, free: %s, last station: %s}\n", one_station->name, one_station->coordinates->longitude, one_station->coordinates->latitude, one_station->plugs_number, one_station->power, one_station->free ? "true" : "false", one_station->last_station);
+    printf("\n\nid:%d{name: %s, coordinates: (%f, %f), plugs_number: %d, power: %d, free: %s, last station: %s}\n", one_station->id, one_station->name, one_station->coordinates->longitude, one_station->coordinates->latitude, one_station->plugs_number, one_station->power, one_station->free ? "true" : "false", one_station->last_station);
 }
 
 /**
@@ -146,7 +146,7 @@ Station_t *list_find(List_t *one_list, char *one_key)
     return NULL;
 }
 
-Station_t *station_create(char *name, Coordinates_t *coordinates, int plugs_number, int power, bool free)
+Station_t *station_create(int id, char *name, Coordinates_t *coordinates, int plugs_number, int power, bool free)
 {
     Station_t *station = malloc(sizeof(Station_t));
     assert(station != NULL);
@@ -154,6 +154,7 @@ Station_t *station_create(char *name, Coordinates_t *coordinates, int plugs_numb
     station->name = malloc(strlen(name) + 1);
     strcpy(station->name, name);
 
+    station->id = id;
     station->coordinates = coordinates;
     station->plugs_number = plugs_number;
     station->power = power;
@@ -179,7 +180,7 @@ Station_t *station_copy(Station_t *one_station)
         copy_last_station = malloc(strlen(one_station->last_station) + 1);
         strcpy(copy_last_station, one_station->last_station);
     }
-    Station_t *copy = station_create(one_station->name, copy_coord, one_station->plugs_number, one_station->power, one_station->free);
+    Station_t *copy = station_create(one_station->id, one_station->name, copy_coord, one_station->plugs_number, one_station->power, one_station->free);
     copy->last_station = copy_last_station;
     copy->weight = one_station->weight;
     return copy;

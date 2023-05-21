@@ -40,8 +40,8 @@ opti_test: opti_test.o ../src/stations.o ../src/table.o ../src/list.o ../src/coo
 opti_test.o: opti_test.c ../src/stations.h
 
 
-timeline_user_test: timeline_user_test.o ../src/timeline.o ../src/compute_trip.o ../src/a_star.o ../src/heap.o ../src/vehicles.o ../src/stations.o ../src/table.o ../src/list.o ../src/nominatim.o ../src/coordinates.o
-timeline_user_test.o: timeline_user_test.c ../src/timeline.h snow.h 
+timeline_test: timeline_test.o ../src/timeline.o ../src/compute_trip.o ../src/a_star.o ../src/heap.o ../src/vehicles.o ../src/stations.o ../src/table.o ../src/list.o ../src/nominatim.o ../src/coordinates.o
+timeline_test.o: timeline_test.c ../src/timeline.h snow.h 
 
 
 clean: 

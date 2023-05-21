@@ -85,6 +85,7 @@ void table_add(Table_t *one_table, char *one_key, Station_t *one_station)
         free(one_station);
         return;
     }
+    one_table->nbStation ++;
     List_t *list = one_table->slots[index];
     list_append(list, one_key, one_station);
 }

@@ -2,9 +2,7 @@
 #define TIMELINE_H
 
 
-#include "table.h"
-#include "stations.h"
-#include "vehicles.h"
+#include "a_star.h"
 
 
 
@@ -36,6 +34,8 @@ struct _Timeline_station_t
     char *name;
     int statesNumber;
     Station_state_t *stateValue;
+    Coordinates_t *coord;
+    int power;
     struct _Timeline_station_t *next;
 };
 /**
@@ -55,6 +55,7 @@ typedef struct _Timeline_station_t Timeline_station_t;
 struct _Timeline_all_stations_t
 {
     int lastTick;
+    int stationNumber;
     Timeline_station_t **listTimeline;
 };
 /**
@@ -77,7 +78,7 @@ typedef struct _Timeline_all_stations_t Timeline_all_stations_t;
 struct _User_state_t
 {
     int tick;
-    char *station;
+    int station;
 };
 /**
  * @typedef User_state_t
@@ -138,7 +139,7 @@ typedef struct _Timeline_all_users_t Timeline_all_users_t;
 
 
 
-Timeline_all_stations_t *initializeTimelineStation(Timeline_all_users_t *user_timeline);
+Timeline_all_stations_t *initializeTimelineStation(Timeline_all_users_t *user_timeline, Table_t *one_table);
 
 void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline);
 
