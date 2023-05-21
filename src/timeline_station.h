@@ -69,7 +69,7 @@ typedef struct _Timeline_all_stations_t Timeline_all_stations_t;
 void nextTickUser(Timeline_all_users_t *one_timeline, Table_t *one_table);
 
 
-Timeline_all_stations_t *initializeTimelineAllStation(Table_t *one_table);
+Timeline_all_stations_t *initializeTimelineAllStation(Timeline_all_users_t *all_users_timeline, Table_t *one_table);
 
 //int stationTimelineGetIndex(Timeline_all_stations_t *one_all_stations_timeline, char *name);
 

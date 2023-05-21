@@ -152,10 +152,11 @@ void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_use
  * @param one_table The table of the station
  * @return Timeline_station_t* The station timeline
  */
-Timeline_all_stations_t *initializeTimelineAllStation(Table_t *one_table)
+Timeline_all_stations_t *initializeTimelineAllStation(Timeline_all_users_t *all_users_timeline, Table_t *one_table)
 {
     Timeline_all_stations_t *one_all_stations_timeline = malloc(sizeof(Timeline_all_stations_t));
-    one_all_stations_timeline->maxSize = one_table->nbStation;
+    // one_all_stations_timeline->maxSize = one_table->nbStation;
+    one_all_stations_timeline->maxSize = 0;
 
     assert(one_all_stations_timeline != NULL);
 
@@ -163,20 +164,55 @@ Timeline_all_stations_t *initializeTimelineAllStation(Table_t *one_table)
     one_all_stations_timeline->listTimeline = malloc(sizeof(Timeline_station_t) * one_all_stations_timeline->maxSize);
     assert(one_all_stations_timeline->listTimeline != NULL);
 
-    /*for (int index = 0; index < one_all_stations_timeline->maxSize; index++)
+    // for (int index = 0; index < one_all_stations_timeline->maxSize; index++)
+    // {
+    //     if (stationTimelineGetIndex(one_all_stations_timeline, all_users_timeline->listTimeline[index]->state->station) == -1)
+    //     {
+    //         // listTimelineAdd(one_all_stations_timeline, all_users_timeline->listTimeline[index]->state->station, one_table);
+    //     }
+    // }
+
+    for (int idTimeline = 0; idTimeline < all_users_timeline->userNumber; idTimeline++)
     {
-        if (stationTimelineGetIndex(one_all_stations_timeline, all_users_timeline->listTimeline[index]->state->station) == -1)
+        Timeline_user_t *one_user_timeline = all_users_timeline->listTimeline[idTimeline];
+        assert(one_user_timeline != NULL);
+        List_t *trip = one_user_timeline->trip;
+        assert(trip != NULL);
+        Station_t *station = trip->list[0].value;
+        assert(station != NULL);
+
+        while (station != NULL)
         {
-            // listTimelineAdd(one_all_stations_timeline, all_users_timeline->listTimeline[index]->state->station, one_table);
+            // TODO: check for potential errors with start and end stations
+            if (station->id == -1)
+            {
+                one_all_stations_timeline->maxSize += 1;
+                station->id = one_all_stations_timeline->maxSize;
+                Timeline_station_t *one_timeline = malloc(sizeof(Timeline_station_t));
+                assert(one_timeline != NULL);
+                one_timeline->name = station->name;
+                one_timeline->next = NULL;
+                one_timeline->statesNumber = 1;
+                Station_state_t *one_state = malloc(sizeof(Station_state_t));
+                assert(one_state != NULL);
+                one_state->availablePlugs = station->plugs_number;
+                one_state->numberVehicle = 0;
+                one_state->tick = 0;
+                one_state->waitingTime = 0;
+                one_timeline->stateValue = one_state;
+                one_all_stations_timeline->listTimeline[one_all_stations_timeline->maxSize - 1] = one_timeline;
+            }
+            station = table_get(one_table, station->last_station);
         }
-    }*/
+    }
+
     Station_t *station;
     Timeline_station_t *one_timeline;
     for (int i=0; i<one_table->length; i++){
         List_t *one_list = one_table->slots[i];
         for (int j=0; j<one_list->length; j++){
             station = one_list->list[j].value;
-            one_timeline = one_all_stations_timeline->listTimeline[*station->id];
+            one_timeline = one_all_stations_timeline->listTimeline[station->id];
             one_timeline->name = one_list->list[j].key;
             one_timeline->next = NULL;
             one_timeline->statesNumber = 0;

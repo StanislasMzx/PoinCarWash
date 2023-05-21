@@ -91,7 +91,7 @@ void station_print(Station_t *one_station)
         printf("Pointeur vide");
         return;
     }
-    printf("\n\nid:%d{name: %s, coordinates: (%f, %f), plugs_number: %d, power: %d, free: %s, last station: %s}\n", *one_station->id, one_station->name, one_station->coordinates->longitude, one_station->coordinates->latitude, one_station->plugs_number, one_station->power, one_station->free ? "true" : "false", one_station->last_station);
+    printf("\n\nid:%d{name: %s, coordinates: (%f, %f), plugs_number: %d, power: %d, free: %s, last station: %s}\n", one_station->id, one_station->name, one_station->coordinates->longitude, one_station->coordinates->latitude, one_station->plugs_number, one_station->power, one_station->free ? "true" : "false", one_station->last_station);
 }
 
 /**
@@ -146,7 +146,7 @@ Station_t *list_find(List_t *one_list, char *one_key)
     return NULL;
 }
 
-Station_t *station_create(int *id, char *name, Coordinates_t *coordinates, int plugs_number, int power, bool free)
+Station_t *station_create(int id, char *name, Coordinates_t *coordinates, int plugs_number, int power, bool free)
 {
     Station_t *station = malloc(sizeof(Station_t));
     assert(station != NULL);
