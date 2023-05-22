@@ -32,6 +32,14 @@ void timelineUserPrepend(Timeline_user_t **one_timeline, int tick, char *station
     node->trip = one_trip;
     node->stationsNumber = one_stationsNumber;
     node->next = *one_timeline;
+    if (node->next == NULL){
+        node->state->stepTrip = 0;
+    }
+    else if (idStation == node->next->state->idStation){
+        node->state->stepTrip = node->next->state->stepTrip;
+    }else{
+        node->state->stepTrip = node->next->state->stepTrip + 1;
+    }
     *one_timeline = node;
 }
 
@@ -120,6 +128,7 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
 
     one_timeline->lastTick = -1;
     one_timeline->userNumber = 0;
+    one_timeline->userArrived = 0;
     one_timeline->listTimeline = malloc(sizeof(Timeline_user_t));//malloc(sizeof(Timeline_user_t) * 1);
     assert(one_timeline->listTimeline != NULL);
 
@@ -178,7 +187,7 @@ void timelineUserDestroyAll(Timeline_all_users_t **one_timeline)
  * @param one_tick The tick
  * @return char* The station id string
  */
-char *userLocation(Timeline_user_t *one_timeline, int one_tick)
+/*char *userLocation(Timeline_user_t *one_timeline, int one_tick)
 {
     User_state_t *one_state = one_timeline->state;
     assert(one_state != NULL);
@@ -189,7 +198,25 @@ char *userLocation(Timeline_user_t *one_timeline, int one_tick)
     }
 
     return one_state->station;
+}*/
+int userLocation(Timeline_user_t *one_timeline, int one_tick, Table_t *table){
+    User_state_t *one_state = one_timeline->state;
+    assert(one_state != NULL);
+
+    if (one_timeline->next != NULL && one_timeline->next->state->idStation == one_state->idStation){
+        // on est parti d'une station
+        Station_t *old_station = table_get(table, one_state->station);
+        Station_t *new_station = one_timeline->trip->list[one_state->stepTrip].value;
+        double dist = distance(old_station->coordinates, new_station->coordinates);
+        int tick_arrived = (int)floor(dist/100*3.6); // celery = 100km/h
+        assert(tick_arrived <= one_tick);
+        if (tick_arrived == one_tick){
+            return new_station->id;
+        }
+        return -1;
+    }
 }
+
 
 /**
  * @brief Generate the whole user timeline

@@ -10,6 +10,7 @@ struct _User_state_t
     int tick;
     int idStation;
     char *station;
+    int stepTrip;
 };
 /**
  * @typedef User_state_t
@@ -77,7 +78,7 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
 
 void timelineUserDestroyAll(Timeline_all_users_t **one_timeline);
 
-char *userLocation(Timeline_user_t *one_timeline, int one_tick);
+int userLocation(Timeline_user_t *one_timeline, int one_tick, Table_t *table);
 
 void makeTimelineUser(Timeline_all_users_t *one_timeline, Table_t *table);
 

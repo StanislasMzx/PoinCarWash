@@ -76,6 +76,18 @@ void nextTickUser(Timeline_all_users_t *one_timeline, Table_t *one_table)
 }
 
 
+void nextTickUser(Timeline_all_users_t *user_timeline, Timeline_all_stations_t *station_timeline, Table_t *one_table){
+    assert(station_timeline->lastTick == user_timeline->lastTick);
+    user_timeline->lastTick++;
+    for (int i=0; i<user_timeline->userNumber; i++){
+        User_state_t *user_state = user_timeline->listTimeline[i]->state;
+        if (user_timeline->lastTick <= user_state->tick){
+            continue;
+        }
+        Station_state_t *station_state = station_timeline->listTimeline[user_state->idStation]->stateValue;
+        if (station_state )
+    }
+}
 
 /*Timeline_all_stations_t *initializeTimelineStation(Timeline_all_users_t *user_timeline, Table_t *one_table){
     Timeline_all_stations_t *station_timeline = malloc(sizeof(Timeline_all_stations_t));
@@ -383,6 +395,7 @@ Timeline_station_t *createTimelineStation(char *one_name, Table_t *one_table)
 
 void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline, Table_t *table){
     nextTickUser(user_timeline, table);
+    station_timeline->lastTick++;
     for (int i=0; i<station_timeline->maxSize; i++){
         Timeline_station_t *one_timeline = station_timeline->listTimeline[i];
         Timeline_station_t* new = malloc(sizeof(Timeline_station_t));
@@ -401,24 +414,24 @@ void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_use
         station_timeline->listTimeline[i] = new; // on vient d'ajouter une case
     }
     for (int i=0; i<user_timeline->userNumber; i++){
-        Timeline_user_t *one_timeline = user_timeline->listTimeline[i];
-        if (one_timeline->state->idStation != -1){
-            Station_state_t *one_state = station_timeline->listTimeline[one_timeline->state->idStation]->stateValue;
-            Timeline_user_t *current = one_timeline;
-            while (current->next != NULL && current->next->state->tick > one_state->tick){
-                current = current->next;
+        Timeline_user_t *one_user_timeline = user_timeline->listTimeline[i];
+        if (one_user_timeline->state->idStation != -1){
+            Station_state_t *station_state = station_timeline->listTimeline[one_user_timeline->state->idStation]->stateValue;
+            Timeline_user_t *current_user = one_user_timeline;
+            while (current_user != NULL && current_user->state->tick == station_state->tick){
+                current_user = current_user->next;
             }
-            if (one_timeline->next != NULL && one_timeline->state->idStation == one_timeline->next->state->idStation) // on veut savoir si la voiture part ou arrive dans une station
+            if (current_user->next != NULL && current_user->state->idStation == current_user->next->state->idStation) // on veut savoir si la voiture part ou arrive dans une station
             {
-                one_state->availablePlugs ++;
-                one_state->numberVehicle --;
+                station_state->availablePlugs ++;
+                station_state->numberVehicle --;
             }else{
-                one_state->availablePlugs --;
-                one_state->numberVehicle ++;
-                double v = MIN((int) one_timeline->vehicle->fast_charge, station_timeline->listTimeline[one_timeline->state->idStation]->power);
-                Station_t *oldTickStation = table_get(table, station_timeline->listTimeline[current->next->state->idStation]->name);
+                station_state->availablePlugs --;
+                station_state->numberVehicle ++;
+                double v = MIN((int) current_user->vehicle->fast_charge, station_timeline->listTimeline[current_user->state->idStation]->power);
+                Station_t *oldTickStation = table_get(table, station_timeline->listTimeline[current_user->next->state->idStation]->name);
                 Station_t *currentTickStation = table_get(table, station_timeline->listTimeline[current->state->idStation]->name);
-                one_state->waitingTime += (double) distance(oldTickStation->coordinates, currentTickStation->coordinates)/v;
+                station_state->waitingTime += (double) distance(oldTickStation->coordinates, currentTickStation->coordinates)/v;
             }
         }
     }
