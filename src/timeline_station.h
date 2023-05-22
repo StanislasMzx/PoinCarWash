@@ -51,7 +51,7 @@ typedef struct _Timeline_station_t Timeline_station_t;
 struct _Timeline_all_stations_t
 {
     int lastTick;
-    int maxSize;
+    int nbStations;
     Timeline_station_t **listTimeline;
 };
 /**
@@ -60,6 +60,8 @@ struct _Timeline_all_stations_t
  *
  * @var Timeline::lastTick
  * Last tick of the timeline
+ * @var Timeline::nbStations
+ * Number of stations in the timeline
  * @var Timeline::listTimeline
  * Table of timeline of stations
  */
@@ -68,6 +70,7 @@ typedef struct _Timeline_all_stations_t Timeline_all_stations_t;
 
 void nextTickUser(Timeline_all_users_t *one_timeline, Table_t *one_table);
 
+int initializeStationIds(Timeline_all_users_t *all_users_timeline, Table_t *one_table);
 
 Timeline_all_stations_t *initializeTimelineAllStation(Timeline_all_users_t *all_users_timeline, Table_t *one_table);
 

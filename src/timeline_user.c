@@ -160,7 +160,7 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
         one_timeline->userNumber++;
         one_timeline->listTimeline = realloc(one_timeline->listTimeline, sizeof(Timeline_user_t)*one_timeline->userNumber);//sizeof(Timeline_user_t) * one_timeline->userNumber);
         one_timeline->listTimeline[one_timeline->userNumber - 1] = NULL;
-        timelineUserPrepend(&one_timeline->listTimeline[one_timeline->userNumber - 1], departureTick, "", -1, vehicle, trip.trip, trip.trip->length);
+        timelineUserPrepend(&one_timeline->listTimeline[one_timeline->userNumber - 1], departureTick, "", -1, vehicle, trip.trip, trip.trip->length);  // TODO: length of the linked list NOT trip.trip->length
         one_timeline->lastTick = departureTick > one_timeline->lastTick ? departureTick : one_timeline->lastTick;
         printf("\33[32m[~] Success:\33[0m User %d added.\n", one_timeline->userNumber);
     }
