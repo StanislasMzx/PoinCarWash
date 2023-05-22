@@ -83,7 +83,7 @@ void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_use
 
 //void stationTimelineNextTick(Timeline_station_t *one_timeline);
 
-void stationTimelineAddState(Timeline_station_t *one_timeline, Station_state_t *one_state);
+//void stationTimelineAddState(Timeline_station_t *one_timeline, Station_state_t *one_state);
 
 void makeTimelineStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline);
 

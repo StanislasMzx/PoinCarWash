@@ -83,7 +83,7 @@ void nextTickUser(Timeline_all_users_t *one_timeline, Table_t *one_table)
     station_timeline->stationNumber = one_table->nbStation;
     Station_t *station;
     Timeline_station_t *one_timeline;
-    for (int i=0; i<one_table->length; i++){
+    for (int i=2; i<one_table->length; i++){
         List_t *one_list = one_table->slots[i];
         for (int j=0; j<one_list->length; j++){
             station = one_list->list[j].value;
@@ -208,7 +208,7 @@ Timeline_all_stations_t *initializeTimelineAllStation(Timeline_all_users_t *all_
 
     Station_t *station;
     Timeline_station_t *one_timeline;
-    for (int i=0; i<one_table->length; i++){
+    for (int i=2; i<one_table->length; i++){
         List_t *one_list = one_table->slots[i];
         for (int j=0; j<one_list->length; j++){
             station = one_list->list[j].value;
@@ -507,3 +507,5 @@ void destroyTimelineStation(Timeline_station_t *one_timeline)
         current = next;
     }
 }
+
+

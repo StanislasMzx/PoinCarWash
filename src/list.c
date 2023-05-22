@@ -76,6 +76,9 @@ void list_append(List_t *one_list, char *one_key, Station_t *one_station)
  */
 void element_print(Element_t *one_element)
 {
+    assert(one_element != NULL);
+    assert(one_element->value != NULL);
+    assert(one_element->value->coordinates != NULL);
     printf("%s: {name: %s, coordinates: (%f, %f), plugs_number: %d, power: %d, free: %s, last station: %s}\n", one_element->key, one_element->value->name, one_element->value->coordinates->longitude, one_element->value->coordinates->latitude, one_element->value->plugs_number, one_element->value->power, one_element->value->free ? "true" : "false", one_element->value->last_station);
 }
 
@@ -167,6 +170,7 @@ Station_t *station_create(int id, char *name, Coordinates_t *coordinates, int pl
 
 Station_t *station_copy(Station_t *one_station)
 {
+    assert(one_station != NULL);
     Coordinates_t *copy_coord = malloc(sizeof(Coordinates_t));
     copy_coord->latitude = one_station->coordinates->latitude;
     copy_coord->longitude = one_station->coordinates->longitude;

@@ -61,7 +61,7 @@ int main(){
     List_coord *coords = empty();
     int count = 0;
     int count2 = 0;
-    for (int i = 0; i<table->length; i++){
+    for (int i = 2; i<table->length; i++){
         List_t *one_list = table->slots[i];
         for (int j = 0; j<one_list->length; j++){
             Element_t *element = &one_list->list[j];

@@ -46,7 +46,7 @@ describe(test_reinitialize_table)
         int N = 100; // number of changes
         int index;
         for (int i=0; i<N; i++){
-            index = rand()%N;
+            index = rand()%(table->length-2)+2;
             List_t *one_list = table->slots[index];
             for (int j=0; j<one_list->length; j++){
                 one_list->list[j].value->weight = (double) index;
@@ -54,7 +54,7 @@ describe(test_reinitialize_table)
             }
         }
         reinitializeTable(table);
-        for (int i=0; i<table->length; i++){
+        for (int i=2; i<table->length; i++){
             List_t *one_list = table->slots[i];
             for (int j=0; j<one_list->length; j++){
                 asserteq_dbl(one_list->list[j].value->weight, -1);

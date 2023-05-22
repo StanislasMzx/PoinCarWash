@@ -23,32 +23,16 @@ Trip_output_t compute_trip(Table_t *table, Nominatim_t *startNomin, Nominatim_t 
     endCoordinates->latitude = endNomin->coord->latitude;
     endCoordinates->longitude = endNomin->coord->longitude;
 
-    if (table_contains(table, "start") && table_contains(table, "end"))
-    {
-        free(table_get(table, "start")->coordinates);
-        table_get(table, "start")->coordinates = startCoordinates;
-        free(table_get(table, "end")->coordinates);
-        table_get(table, "end")->coordinates = endCoordinates;
-    }
-    else
-    {
-        char *startKey = malloc(6), *endKey = malloc(4);
-        strcpy(startKey, "start");
-        strcpy(endKey, "end");
-        Station_t *start = station_create(-1, startNomin->name, startCoordinates, 0, 0, 0);
-        Station_t *end = station_create(-1, endNomin->name, endCoordinates, 0, 0, 0);
+    char *startKey = malloc(6), *endKey = malloc(4);
+    strcpy(startKey, "start");
+    strcpy(endKey, "end");
+    Station_t *start = station_create(-1, startNomin->name, startCoordinates, 0, 0, 0);
+    Station_t *end = station_create(-1, endNomin->name, endCoordinates, 0, 0, 0);
+    
+ 
+    list_append(table->slots[0], startKey, start);
 
-     
-        table_add(table, startKey, start);
-        table_add(table, endKey, end); 
-
-        // DOESNT WORK YET  
-        // table->nbStation++;
-        // list_append(table->slots[0], startKey, start);
-
-        // table->nbStation++;
-        // list_append(table->slots[1], endKey, end);
-    }
+    list_append(table->slots[1], endKey, end);
 
     List_t *trip = a_star_list(table, "start", "end", vehicle, min_power, time_max);
 

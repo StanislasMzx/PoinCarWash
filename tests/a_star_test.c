@@ -11,15 +11,21 @@ describe(test_a_star_next_stations)
 
         Vehicle_t *one_vehicle = vehicle_find_by_name("Tesla Model 3");
 
-        char *end_key = "FROTHPOTHR18111FR*SOD*S*OTHR*181*1*_*_";
+        char *end_key = malloc(39*sizeof(char));
+        strcpy(end_key, "FROTHPOTHR18111FR*SOD*S*OTHR*181*1*_*_");
 
-        char *start_key = "FROTHPOTHR17951FR*SOD*S*OTHR*179*5*_*_";
+        char *start_key = malloc(39*sizeof(char));
+        strcpy(start_key, "FROTHPOTHR17951FR*SOD*S*OTHR*179*5*_*_");
 
-        Station_t *end = table_get(table, end_key);
+        Station_t *end = station_copy(table_get(table, end_key));
         assert(end != NULL);
 
-        Station_t *start = table_get(table, start_key);
+        Station_t *start = station_copy(table_get(table, start_key));
         assert(start != NULL);
+
+        list_append(table->slots[0], start_key, start);
+        list_append(table->slots[1], end_key, end);
+
 
         Heap_t *one_heap = heap_empty();
 
@@ -50,9 +56,20 @@ describe(test_a_star)
 
         Vehicle_t *one_vehicle = vehicle_find_by_name("Tesla Model 3");
 
-        char *end_key = "FRFR1PRYXKLFRYXKLF";
+        char *a = "FRFR1PRYXKLFRYXKLF";
+        char *end_key = malloc(strlen(a)+1);
+        strcpy(end_key, a);
 
-        char *start_key = "FRFR1PQXX0ZUA3NLQXX0ZUA3NL";
+        char *b = "FRFR1PQXX0ZUA3NLQXX0ZUA3NL";
+        char *start_key = malloc(strlen(b)+1);
+        strcpy(start_key, b);
+
+        Station_t *end = station_copy(table_get(table, a));
+        Station_t *start = station_copy(table_get(table, b));
+
+        list_append(table->slots[0], start_key, start);
+        list_append(table->slots[1], end_key, end);
+
 
         List_t *one_list = a_star_list(table, start_key, end_key, one_vehicle, 0.0, 10000000.0);
 
@@ -82,9 +99,19 @@ describe(test_a_star_time_max)
 
         one_vehicle->range = 100.0 / (100.0 - power_min) * one_vehicle->range;
 
-        char *end_key = "FRFR1PRYXKLFRYXKLF";
+        char *a = "FRFR1PRYXKLFRYXKLF";
+        char *end_key = malloc(strlen(a)+1);
+        strcpy(end_key, a);
 
-        char *start_key = "FRFR1PQXX0ZUA3NLQXX0ZUA3NL";
+        char *b = "FRFR1PQXX0ZUA3NLQXX0ZUA3NL";
+        char *start_key = malloc(strlen(b)+1);
+        strcpy(start_key, b);
+
+        Station_t *end = station_copy(table_get(table, a));
+        Station_t *start = station_copy(table_get(table, b));
+
+        list_append(table->slots[0], start_key, start);
+        list_append(table->slots[1], end_key, end);
 
         List_t *one_list = a_star_list(table, start_key, end_key, one_vehicle, power_min, time_in_station_max);
 
@@ -121,13 +148,23 @@ describe(test_a_star_min_power)
 
         Vehicle_t *one_vehicle = vehicle_find_by_name("Tesla Model 3");
 
-        char *end_key = "FRFR1PRYXKLFRYXKLF";
+        char *a = "FRFR1PRYXKLFRYXKLF";
+        char *end_key = malloc(strlen(a)+1);
+        strcpy(end_key, a);
 
-        char *start_key = "FRFR1PQXX0ZUA3NLQXX0ZUA3NL";
+        char *b = "FRFR1PQXX0ZUA3NLQXX0ZUA3NL";
+        char *start_key = malloc(strlen(b)+1);
+        strcpy(start_key, b);
+
+        Station_t *end = station_copy(table_get(table, a));
+        Station_t *start = station_copy(table_get(table, b));
 
         double power_min = 0.0;
 
         double time_in_station_max = 30.0;
+
+        list_append(table->slots[0], start_key, start);
+        list_append(table->slots[1], end_key, end);
 
         List_t *one_list = a_star_list(table, start_key, end_key, one_vehicle, power_min, time_in_station_max);
 

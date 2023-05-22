@@ -31,9 +31,9 @@ Table_t *table_create(int size)
 {
     Table_t *table = malloc(sizeof(Table_t));
     table->slots = malloc(sizeof(List_t) * (size+2));
-    table->length = size;
+    table->length = size+2;
     table->nbStation = 0;
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < size+2; i++)
     {
         table->slots[i] = list_create();
     }

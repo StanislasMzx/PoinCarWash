@@ -7,6 +7,7 @@ double heuristic(Station_t *one_station, Station_t *end)
     return distance(one_station->coordinates, end->coordinates);
 }
 
+
 /**
  * @brief Add the reachable station neighbors in a heap
  *
@@ -22,9 +23,10 @@ int a_star_next_stations(Table_t *one_table, Station_t* one_station, char *one_s
     double dist_to_end = heuristic(one_station, end);
     double new_weight;
     bool added = 0; //if a station has been added in the heap (1 => at least one station has been added)
-    for (int i = 0; i < one_table->length; i++)
+    for (int i = 2; i < one_table->length; i++)
     {
         List_t *list = one_table->slots[i];
+        assert(list != NULL);
         for (int j = 0; j < list->length; j++)
         {
             Element_t *element = &list->list[j];
@@ -38,7 +40,7 @@ int a_star_next_stations(Table_t *one_table, Station_t* one_station, char *one_s
 
                     // On copie les id des stations pour éviter un problème de mémoire lors du free (on va de A vers B)
                     // station A
-                    char *last_station = malloc(strlen(one_station_key) + 1);
+                    char *last_station = malloc((strlen(one_station_key) + 1)*sizeof(char));
                     assert(last_station != NULL);
                     strcpy(last_station, one_station_key);
                     free(element->value->last_station);
@@ -53,16 +55,45 @@ int a_star_next_stations(Table_t *one_table, Station_t* one_station, char *one_s
             }
         }
     }
+    // End station
+    List_t *endList = one_table->slots[1];
+    assert(!list_is_empty(endList));
+    Element_t *endElement = &endList->list[endList->length-1];
+    assert(endElement != NULL);
+    double dist = dist_to_end;
+    if (dist > 1e-10 && dist <= range)
+    {
+        new_weight = one_weight + dist + heuristic(endElement->value, end) - dist_to_end;
+        if (endElement->value->weight == -1 || endElement->value->weight > new_weight)
+        {
+            endElement->value->weight = new_weight;
+
+            // On copie les id des stations pour éviter un problème de mémoire lors du free (on va de A vers B)
+            // station A
+            char *last_station = malloc((strlen(one_station_key) + 1)*sizeof(char));
+            assert(last_station != NULL);
+            strcpy(last_station, one_station_key);
+            free(endElement->value->last_station);
+            endElement->value->last_station = last_station;
+            // station B
+            char *new_key = endElement->key;
+
+            heap_append(one_heap, state_create(new_key, new_weight), heap_height(*one_heap));
+
+            added = 1;
+        }
+    }
     return added;
 }
 
-int a_star(char *id_start, char *id_end, Vehicle_t *one_vehicle, Table_t *table_station, double power_min, double time_in_station_max)
+int a_star(Vehicle_t *one_vehicle, Table_t *table_station, double power_min, double time_in_station_max)
 {
-    Station_t *end = table_get(table_station, id_end);
+    char *id_start = table_station->slots[0]->list[table_station->slots[0]->length-1].key;
+    char *id_end = table_station->slots[1]->list[table_station->slots[1]->length-1].key;
+    Station_t *end = table_station->slots[1]->list[table_station->slots[1]->length-1].value;
     Heap_t *queue = heap_empty();
-    char *new_id = id_start;
 
-    State_t *one_state = state_create(new_id, 0);
+    State_t *one_state = state_create(id_start, 0);
 
     heap_append(&queue, one_state, heap_height(queue));
 
@@ -93,8 +124,13 @@ int a_star(char *id_start, char *id_end, Vehicle_t *one_vehicle, Table_t *table_
             tripExists = 1;
             break;
         }
-
-        Station_t *one_station = table_get(table_station, one_state->id_station);
+        Station_t *one_station = NULL;
+        if (strcmp(id_start, one_state->id_station) == 0){
+            one_station = table_station->slots[0]->list[table_station->slots[0]->length-1].value;
+        }
+        else{
+            one_station = table_get(table_station, one_state->id_station);
+        }
         assert(one_station != NULL);
 
         if (one_state->id_station != id_start)
@@ -123,8 +159,8 @@ void print_a_star(Table_t *table_station, List_t *one_list, Vehicle_t *one_vehic
     }
 
     int steps = one_list->length;
-    Station_t *startStation = table_get(table_station, one_list->list[0].key);
-    Station_t *endStation = table_get(table_station, one_list->list[steps - 1].key);
+    Station_t *startStation = table_station->slots[0]->list[table_station->slots[0]->length-1].value;
+    Station_t *endStation = table_station->slots[1]->list[table_station->slots[1]->length-1].value;
 
     // Start
     Station_t *prevStation;
@@ -179,18 +215,22 @@ void print_a_star(Table_t *table_station, List_t *one_list, Vehicle_t *one_vehic
 List_t *a_star_list(Table_t *table_station, char *id_start, char *id_end, Vehicle_t *one_vehicle, double power_min, double time_in_station_max)
 {
     List_t *one_list = list_create();
-    if (!a_star(id_start, id_end, one_vehicle, table_station, power_min, time_in_station_max)){
+    if (!a_star(one_vehicle, table_station, power_min, time_in_station_max)){
         return one_list; // error
     }
     char *id = malloc(strlen(id_end) + 1);
     strcpy(id, id_end);
-    Station_t *one_station = station_copy(table_get(table_station, id));
+    Station_t *one_station = station_copy(table_station->slots[1]->list[table_station->slots[1]->length - 1].value);
     while (strcmp(id, id_start) != 0)
     {
         list_append(one_list, id, one_station);
         id = malloc(strlen(one_station->last_station) + 1);
         strcpy(id, one_station->last_station);
         assert(id != NULL);
+        if (strcmp(id, id_start) == 0){
+            one_station = station_copy(table_station->slots[0]->list[table_station->slots[0]->length-1].value);
+            break;
+        }
         one_station = station_copy(table_get(table_station, id));
     }
     list_append(one_list, id, one_station);

@@ -116,7 +116,7 @@ Table_t *load_stations(char *filename)
  * @return void
  */
 void reinitializeTable(Table_t *one_table){
-    for (int i=0; i<one_table->length; i++){
+    for (int i=2; i<one_table->length; i++){
         List_t *one_list = one_table->slots[i];
         for (int j=0; j<one_list->length; j++){
             one_list->list[j].value->last_station = NULL;
@@ -140,7 +140,7 @@ List_t *reachable_station_neighbors(Table_t *one_table, char *one_station_key, u
     Station_t *one_station = table_get(one_table, one_station_key);
     assert(one_station != NULL);
     List_t *neighbors = list_create();
-    for (int i = 0; i < one_table->length; i++)
+    for (int i = 2; i < one_table->length; i++)
     {
         List_t *list = one_table->slots[i];
         for (int j = 0; j < list->length; j++)
