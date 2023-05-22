@@ -84,8 +84,16 @@ void nextTickUser(Timeline_all_users_t *user_timeline, Timeline_all_stations_t *
         if (user_timeline->lastTick <= user_state->tick){
             continue;
         }
-        Station_state_t *station_state = station_timeline->listTimeline[user_state->idStation]->stateValue;
-        if (station_state )
+        Timeline_user_t *old_timeline_user = user_timeline->listTimeline[i]->next;
+        assert((old_timeline_user == NULL || user_state->idStation != old_timeline_user->state->idStation)); //not waiting at a station
+        int loc = userLocation(user_timeline->listTimeline[i], user_timeline->lastTick, one_table);
+        if (loc != -1){
+            char *new_station = station_timeline->listTimeline[loc]->name;
+            timelineUserPrepend(&user_timeline[i], user_timeline->lastTick, new_station, loc, user_timeline->listTimeline[i]->vehicle, user_timeline->listTimeline[i]->trip, user_timeline->listTimeline[i]->stationsNumber+1);
+            if (user_timeline->listTimeline[i]->trip->length == user_timeline->listTimeline[i]->state->stepTrip){
+                user_timeline->userArrived++;
+            }
+        }
     }
 }
 

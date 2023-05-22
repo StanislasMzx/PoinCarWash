@@ -18,8 +18,12 @@ struct _User_state_t
  *
  * @var User_state::tick
  * Tick of the state update
+ * @var User_state::idStation
+ * Numeric id of station
  * @var User_state::station
  * Station where the user is at this tick
+ * @var User_state::stepTrip
+ * Step in the trip
  */
 typedef struct _User_state_t User_state_t;
 
@@ -58,7 +62,11 @@ struct _Timeline_all_users_t
  * @brief Timeline type
  *
  * @var Timeline::lastTick
- * Last tick of the timeline
+ * Last tick of the timeline 
+ * @var Timeline::userNumber
+ * Number of user
+ * @var Timeline::userArrived
+ * Number of user who ended their trip
  * @var Timeline::listTimeline
  * Table of timeline of users
  */
