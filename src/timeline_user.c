@@ -207,7 +207,7 @@ int userLocation(Timeline_user_t *one_timeline, int one_tick, Table_t *table){
         // on est parti d'une station
         Station_t *old_station = table_get(table, one_state->station);
         Station_t *new_station = one_timeline->trip->list[one_state->stepTrip].value;
-        int travelTicks = (int)ceil(travel_time(old_station, new_station) / 10.0);
+        int travelTicks = travel_ticks(old_station, new_station);
         // TODO: check behavior
         int tick_arrived = one_state->tick + travelTicks;
         assert(tick_arrived <= one_tick);

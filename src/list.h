@@ -4,7 +4,7 @@
 #ifndef __LIST_H__
 #define __LIST_H__
 
-#define VEHICLE_SPEED 60
+#define VEHICLE_SPEED 100
 
 struct _Station_t
 {
@@ -97,6 +97,6 @@ Station_t *station_create(int id, char *name, Coordinates_t *coordinates, int pl
 
 Station_t *station_copy(Station_t *one_station);
 
-double travel_time(Station_t *one_station, Station_t *other_station);
+int travel_ticks(Station_t *one_station, Station_t *other_station);
 
 #endif /* __LIST_H__ */

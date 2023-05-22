@@ -1,4 +1,3 @@
-#define SPEED 100
 #define INTERVAL 0.1666666667
 
 #include "monitoring.h"
@@ -28,7 +27,7 @@ char *vehicle_position(Vehicle_t *vehicle, Trip_output_t *trip_list, int stage)
         }
         dist_to_next_station = distance(trip_list->trip->list[step].value->coordinates, trip_list->trip->list[step + 1].value->coordinates);
         step++;
-        traveled_stages += ceil((dist_to_next_station / SPEED) / INTERVAL);
+        traveled_stages += ceil((dist_to_next_station / VEHICLE_SPEED) / INTERVAL);
         if (step + 1 < trip_list->trip->length && traveled_stages <= stage)
         {
             charging_time = ceil((distance(trip_list->trip->list[step].value->coordinates, trip_list->trip->list[step + 1].value->coordinates) / vehicle->fast_charge) / INTERVAL);

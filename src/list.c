@@ -191,16 +191,17 @@ Station_t *station_copy(Station_t *one_station)
 }
 
 /**
- * @brief Calculate the travel time between two stations
+ * @brief Calculate the travel time between two stations in ticks
  * 
  * @param one_station first station
  * @param other_station second station
- * @return double travel time in minutes
+ * @return int travel time in ticks
 */
-double travel_time(Station_t *one_station, Station_t *other_station)
+int travel_ticks(Station_t *one_station, Station_t *other_station)
 {
     double dist = distance(one_station->coordinates, other_station->coordinates);
-    double time = dist / VEHICLE_SPEED * 60.0;
+    double travelTime = dist / VEHICLE_SPEED * 60.0;
+    int travelTicks = (int)ceil(travelTime * 6.0);
 
-    return time;
+    return travelTicks;
 }
