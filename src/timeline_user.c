@@ -213,38 +213,6 @@ int userLocation(Timeline_user_t *one_timeline, int one_tick, Table_t *table){
         if (tick_arrived == one_tick){
             return new_station->id;
         }
-        return -1;
     }
-}
-
-
-/**
- * @brief Generate the whole user timeline
- *
- * @param one_timeline The user timeline
- */
-void makeTimelineUser(Timeline_all_users_t *one_timeline, Table_t *table)
-{
-    bool allUsersArrived = false;
-
-    while (!allUsersArrived)
-    {
-        nextTickUser(one_timeline, table);
-
-        allUsersArrived = true;
-        for (int userId = 0; userId < one_timeline->userNumber; userId++)
-        {
-            Timeline_user_t *one_user_timeline = one_timeline->listTimeline[userId];
-            assert(one_user_timeline != NULL);
-
-            User_state_t *one_state = one_user_timeline->state;
-            assert(one_state != NULL);
-
-            if (one_state->tick > one_timeline->lastTick)
-            {
-                allUsersArrived = false;
-                break;
-            }
-        }
-    }
+    return -1;
 }

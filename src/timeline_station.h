@@ -68,7 +68,9 @@ struct _Timeline_all_stations_t
 typedef struct _Timeline_all_stations_t Timeline_all_stations_t;
 
 
-void nextTickUser(Timeline_all_users_t *one_timeline, Table_t *one_table);
+void nextTickUser(Timeline_all_users_t *user_timeline, Timeline_all_stations_t *station_timeline, Table_t *one_table);
+
+void makeTimelineUser(Timeline_all_users_t *user_timeline, Timeline_all_stations_t *station_timeline, Table_t *table);
 
 int initializeStationIds(Timeline_all_users_t *all_users_timeline, Table_t *one_table);
 

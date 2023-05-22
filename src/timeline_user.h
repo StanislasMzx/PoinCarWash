@@ -88,7 +88,5 @@ void timelineUserDestroyAll(Timeline_all_users_t **one_timeline);
 
 int userLocation(Timeline_user_t *one_timeline, int one_tick, Table_t *table);
 
-void makeTimelineUser(Timeline_all_users_t *one_timeline, Table_t *table);
-
 
 #endif /* TIMELINE_USER_H */

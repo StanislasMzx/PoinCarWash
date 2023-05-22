@@ -14,69 +14,70 @@
  *
  * @param one_timeline The user timeline
  */
-void nextTickUser(Timeline_all_users_t *one_timeline, Table_t *one_table)
+// void nextTickUser(Timeline_all_users_t *user_timeline, Timeline_all_stations_t *station_timeline, Table_t *one_table)
+// {
+//     one_timeline->lastTick++;
+
+//     for (int userId = 0; userId < one_timeline->userNumber; userId++)
+//     {
+//         Timeline_user_t *one_user_timeline = one_timeline->listTimeline[userId];
+//         assert(one_user_timeline != NULL);
+
+//         User_state_t *one_state = one_user_timeline->state;
+//         assert(one_state != NULL);
+
+//         // Update is scheduled for a later tick (>) or user has arrived (<)
+//         if (one_state->tick != one_timeline->lastTick)
+//         {
+//             continue;
+//         }
+
+//         // Update is scheduled for this tick
+//         Station_t *currentStation = list_find(one_user_timeline->trip, one_state->station); // ###### table_get(table, one_state->station);
+//         assert(currentStation != NULL);
+
+//         // Empty queue at the station
+//         Station_state_t *station_state = NULL; // TODO: fetch Station_state_t of currentStation
+//         if (station_state->availablePlugs > 0)
+//         {
+//             // Charge the vehicle
+//             station_state->availablePlugs -= 1;
+
+//             double chargingTime = 0; // TODO: compute charging time => USE PREVIOUS TIMELINE
+//             // double distancePrev = distance(prevStation->coordinates, currentStation->coordinates);
+//             // double chargingTime = (int)ceil((double)(distancePrev) / (double)(one_vehicle->fast_charge) * 60.0);
+//             int next_tick = one_timeline->lastTick + (int)ceil(chargingTime / 10.0);
+
+//             // TODO: add User_state_t with those values
+//             one_state->tick = next_tick;
+//             one_state->station = one_state->station;
+
+//             // Plan next step
+//             Station_t *nextStation = table_get(one_table, currentStation->last_station); // ######
+//             assert(nextStation != NULL);
+
+//             int travelTicks = (int)ceil(travel_time(currentStation, nextStation) / 10.0);
+//             next_tick += travelTicks;
+
+//             // TODO: add User_state_t with those values
+//             char *nextStationId = currentStation->last_station; // TODO: fetch id of nextStation
+//             one_state->tick = next_tick;
+//             one_state->station = nextStationId;
+//         }
+//         // Queue at the station
+//         else
+//         {
+//             // TODO: add 1 to station queue if user just arrived at the station (check previous timeline)
+//             // TODO: add User_state_t with those values
+//             one_state->tick = one_state->tick + 1;
+//             one_state->station = one_state->station;
+//         }
+//     }
+// }
+
+
+void nextTickUser(Timeline_all_users_t *user_timeline, Timeline_all_stations_t *station_timeline, Table_t *one_table)
 {
-    one_timeline->lastTick++;
-
-    for (int userId = 0; userId < one_timeline->userNumber; userId++)
-    {
-        Timeline_user_t *one_user_timeline = one_timeline->listTimeline[userId];
-        assert(one_user_timeline != NULL);
-
-        User_state_t *one_state = one_user_timeline->state;
-        assert(one_state != NULL);
-
-        // Update is scheduled for a later tick (>) or user has arrived (<)
-        if (one_state->tick != one_timeline->lastTick)
-        {
-            continue;
-        }
-
-        // Update is scheduled for this tick
-        Station_t *currentStation = list_find(one_user_timeline->trip, one_state->station); // ###### table_get(table, one_state->station);
-        assert(currentStation != NULL);
-
-        // Empty queue at the station
-        Station_state_t *station_state = NULL; // TODO: fetch Station_state_t of currentStation
-        if (station_state->availablePlugs > 0)
-        {
-            // Charge the vehicle
-            station_state->availablePlugs -= 1;
-
-            double chargingTime = 0; // TODO: compute charging time => USE PREVIOUS TIMELINE
-            // double distancePrev = distance(prevStation->coordinates, currentStation->coordinates);
-            // double chargingTime = (int)ceil((double)(distancePrev) / (double)(one_vehicle->fast_charge) * 60.0);
-            int next_tick = one_timeline->lastTick + (int)ceil(chargingTime / 10.0);
-
-            // TODO: add User_state_t with those values
-            one_state->tick = next_tick;
-            one_state->station = one_state->station;
-
-            // Plan next step
-            Station_t *nextStation = table_get(one_table, currentStation->last_station); // ######
-            assert(nextStation != NULL);
-
-            int travelTicks = (int)ceil(travel_time(currentStation, nextStation) / 10.0);
-            next_tick += travelTicks;
-
-            // TODO: add User_state_t with those values
-            char *nextStationId = currentStation->last_station; // TODO: fetch id of nextStation
-            one_state->tick = next_tick;
-            one_state->station = nextStationId;
-        }
-        // Queue at the station
-        else
-        {
-            // TODO: add 1 to station queue if user just arrived at the station (check previous timeline)
-            // TODO: add User_state_t with those values
-            one_state->tick = one_state->tick + 1;
-            one_state->station = one_state->station;
-        }
-    }
-}
-
-
-void nextTickUser(Timeline_all_users_t *user_timeline, Timeline_all_stations_t *station_timeline, Table_t *one_table){
     assert(station_timeline->lastTick == user_timeline->lastTick);
     user_timeline->lastTick++;
     for (int i=0; i<user_timeline->userNumber; i++){
@@ -89,9 +90,40 @@ void nextTickUser(Timeline_all_users_t *user_timeline, Timeline_all_stations_t *
         int loc = userLocation(user_timeline->listTimeline[i], user_timeline->lastTick, one_table);
         if (loc != -1){
             char *new_station = station_timeline->listTimeline[loc]->name;
-            timelineUserPrepend(&user_timeline[i], user_timeline->lastTick, new_station, loc, user_timeline->listTimeline[i]->vehicle, user_timeline->listTimeline[i]->trip, user_timeline->listTimeline[i]->stationsNumber+1);
+            timelineUserPrepend(&user_timeline->listTimeline[i], user_timeline->lastTick, new_station, loc, user_timeline->listTimeline[i]->vehicle, user_timeline->listTimeline[i]->trip, user_timeline->listTimeline[i]->stationsNumber+1);
             if (user_timeline->listTimeline[i]->trip->length == user_timeline->listTimeline[i]->state->stepTrip){
                 user_timeline->userArrived++;
+            }
+        }
+    }
+}
+
+/**
+ * @brief Generate the whole user timeline
+ *
+ * @param user_timeline The user timeline
+ */
+void makeTimelineUser(Timeline_all_users_t *user_timeline, Timeline_all_stations_t *station_timeline, Table_t *table)
+{
+    bool allUsersArrived = false;
+
+    while (!allUsersArrived)
+    {
+        nextTickUser(user_timeline, station_timeline, table);
+
+        allUsersArrived = true;
+        for (int userId = 0; userId < user_timeline->userNumber; userId++)
+        {
+            Timeline_user_t *one_user_timeline = user_timeline->listTimeline[userId];
+            assert(one_user_timeline != NULL);
+
+            User_state_t *one_state = one_user_timeline->state;
+            assert(one_state != NULL);
+
+            if (one_state->tick > user_timeline->lastTick)
+            {
+                allUsersArrived = false;
+                break;
             }
         }
     }
@@ -418,7 +450,7 @@ Timeline_station_t *createTimelineStation(char *one_name, Table_t *one_table)
 
 
 void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline, Table_t *table){
-    nextTickUser(user_timeline, table);
+    nextTickUser(user_timeline, station_timeline, table);
     station_timeline->lastTick++;
     for (int i=0; i<station_timeline->nbStations; i++){
         Timeline_station_t *one_timeline = station_timeline->listTimeline[i];
