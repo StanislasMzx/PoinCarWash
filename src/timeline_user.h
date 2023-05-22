@@ -49,6 +49,7 @@ struct _Timeline_all_users_t
 {
     int lastTick;
     int userNumber;
+    int userArrived;
     Timeline_user_t **listTimeline;
 };
 /**

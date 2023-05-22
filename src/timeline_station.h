@@ -85,7 +85,7 @@ void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_use
 
 //void stationTimelineAddState(Timeline_station_t *one_timeline, Station_state_t *one_state);
 
-void makeTimelineStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline);
+void makeTimelineStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline, Table_t *table);
 
 void readTimelineStation(Timeline_all_stations_t *one_timeline, Station_t *one_station);
 

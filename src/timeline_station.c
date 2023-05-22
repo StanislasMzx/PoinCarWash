@@ -509,3 +509,8 @@ void destroyTimelineStation(Timeline_station_t *one_timeline)
 }
 
 
+void makeTimelineStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline, Table_t *table){
+    while (user_timeline->userArrived != user_timeline->userNumber){
+        nextTickStation(station_timeline, user_timeline, table);
+    }
+}
