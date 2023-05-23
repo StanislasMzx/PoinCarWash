@@ -1,91 +1,44 @@
-#define INTERVAL 0.1666666667
+#define _GNU_SOURCE
+#define MONITORING_OUT_FILE "../data/monitoring/monitoring.csv"
 
-#include "monitoring.h"
-#include <math.h>
-#include <stdlib.h>
-#include <assert.h>
+#include "timeline_station.h"
+#include <getopt.h>
+#include <stdio.h>
 
-/**
- * @brief Get the position of the vehicle at a given step after is departure
- *
- * @param vehicle Vehicle
- * @param trip Trip
- * @param stage number of steps after departure (stage 0 is the departure)
- * @return char* 'on the road' if the vehicle is on the road else station key
- */
-char *vehicle_position(Vehicle_t *vehicle, List_t *trip_list, int stage)
+int main(int argc, char *argv[])
 {
-    int step = 0;
-    double dist_to_next_station = 0;
-    int traveled_stages = 0;
-    int charging_time = 0;
-    while (traveled_stages < stage)
+    // Parse command line arguments
+    int opt;
+    char *output_file = MONITORING_OUT_FILE;
+    while ((opt = getopt(argc, argv, ":hf:")) != -1)
     {
-        if (step + 1 >= trip_list->length)
+        switch (opt)
         {
-            return "on the road";
-        }
-        dist_to_next_station = distance(trip_list->list[step].value->coordinates, trip_list->list[step + 1].value->coordinates);
-        step++;
-        traveled_stages += ceil((dist_to_next_station / VEHICLE_SPEED) / INTERVAL);
-        if (step + 1 < trip_list->length && traveled_stages <= stage)
-        {
-            charging_time = ceil((distance(trip_list->list[step].value->coordinates, trip_list->list[step + 1].value->coordinates) / vehicle->fast_charge) / INTERVAL);
-            if (traveled_stages + charging_time >= stage)
-            {
-                return trip_list->list[step].key;
-            }
-            traveled_stages += charging_time;
+        case 'h':
+            printf("USAGE: %s [options] file\n", argv[0]);
+            printf("\n");
+            printf("OPTIONS:\n");
+            printf("  -h\t\tShow this help message\n");
+            printf("  -f <file>\tSet the output file name\n");
+            return 0;
+        case 'f':
+            output_file = optarg;
+            break;
+        case '?':
+            fprintf(stderr, "\33[31m>> Error:\33[0m Unknown option: %c\n", optopt);
+            return 1;
+            break;
         }
     }
-    return "on the road";
-}
-
-List_t **load_network(Table_t *table, char *file, int size, double min_power, double time_max)
-{
-    FILE *fp = fopen(file, "r");
-    assert(fp != NULL);
-
-    List_t **network = malloc(sizeof(List_t *) * size);
-
-    const unsigned max_line = 256;
-    char line[max_line];
-    int i = 0;
-
-    fgets(line, 1024, fp);
-    while (fgets(line, 1024, fp))
+    if (optind >= argc)
     {
-        char departure[max_line];
-        char arrival[max_line];
-        char vehicleName[max_line];
-        if (sscanf(line, "%[^,],%[^,],%[^\n]", departure, arrival, vehicleName) != 3)
-        {
-            fprintf(stderr, "\33[31m>> Error:\33[0m Incorrect line format.\n");
-            continue;
-        }
-        Nominatim_t *departure_nominatim = nominatim_fetch(departure);
-        Nominatim_t *arrival_nominatim = nominatim_fetch(arrival);
-        Vehicle_t *vehicle = vehicle_find_by_name(vehicleName);
-        if (vehicle->name == NULL)
-        {
-            continue;
-        }
-        List_t *trip = compute_trip(table, departure_nominatim, arrival_nominatim, vehicle, min_power, time_max);
-        nominatim_destroy(departure_nominatim);
-        nominatim_destroy(arrival_nominatim);
-        vehicle_destroy(vehicle);
-        network[i] = trip;
-        i++;
+        fprintf(stderr, "\33[31m>> Error:\33[0m No input file specified\n");
+        return (EXIT_FAILURE);
     }
+    char *input_file = argv[optind];
 
-    fclose(fp);
-    return network;
-}
+    // Start monitoring process
+    printf("\33[2m[~] Starting monitoring...\33[0m\n");
 
-void network_destroy(Table_t *table, List_t **network, int size)
-{
-    // for (int i = 0; i < size; i++)
-    // {
-    //     trip_destroy(table, network[i].trip);
-    // }
+    return 0;
 }

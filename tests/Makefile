@@ -55,3 +55,5 @@ clean:
 
 test:
 	for test_file in ${ALL_EXECUTABLES}; do ./$$test_file; done
+	
+.SILENT: clean test
