@@ -314,6 +314,33 @@ On peut synthétiser cette analyse sous forme de tableau :
 \chaptermark{Première étape}
 \clearpage
 \section{Analyse}
+
+La première consiste à construire en langage "C" un programme qui permet de proposer à tout usager souhaitant se rendre d'un point A à un point B du territoire, un parcours de charge de son véhicule électrique.
+
+\subsection{Etat de l'art}
+\subsubsection{Le problème}
+Le problème qui nous a été donné est un problème de recherche de plus court chemin. Il est alors fortement probable que nous soyons amenés à utiliser une structure de type graphe. Le problème du plus court chemin entre un sommet A et un sommet B revient à chercher le chemin de A à B où la somme des poids des arcs qu’il traverse est minimale\footnotemark[1]. Il faut donc choisir un algorithme qui trouve des solutions à ce problème.
+
+\subsubsection{Algorithme}
+Les potentiels algorithmes pour ce problème sont :
+\begin{itemize}
+    \item Dijkstra
+    \item A*
+    \item Bellman-Ford
+    \item Viterbi
+    \item Floyd-Warshall
+    \item Johnson
+\end{itemize}
+
+
+\footnotetext[1]{Si on ajoute des contraintes à ce problème comme des fenêtres de temps, le problème peut devenir NP-difficile.}
+
+\subsection{Charte de projet}
+
+\subsection{Planification}
+\clearpage
+
+\section{Conception}
 \subsection{Manipulation des données}
 L'énoncé fournit deux ressources. La première est une basse de données du gouvernement répertoriant les stations de recharges pour véhicules électriques du territoire français ainsi que diverses informations sur ces stations (nombre de bornes, puissance, \dots). La seconde est une base de données tirée du site \url{https://ev-database.org/} qui contient une kyrielle de données sur les véhicules électriques du marché (autonomie, vitesse de recharge, \dots).\par\bigskip
 La première étape de cette partie consiste à extraire les données mises à notre disposition de manière à pouvoir être exploitées facilement en \texttt{C} par la suite. Pour les stations de recharge, le site du gouvernement (\href{https://www.data.gouv.fr/fr/datasets/fichier-consolide-des-bornes-de-recharge-pour-vehicules-electriques/}{serveur Etalab}) propose nativement un export au format \texttt{CSV} qui est un format qui nous  être le plus simple pour arriver à nos fins. Cependant, le site qui fournit les données sur les véhicules, lui, ne propose aucune option d'export. Nous avons donc commencé par écrire un script de \textit{parsing} en \texttt{Python} qui va récupérer les données sur le site et les enregistrer dans un fichier \texttt{CSV}. Nous n'avons récupéré que les données qui nous semblaient utiles parmis toutes celles proposées sur le site internet. C'est-à-dire le nom du véhicule, son autonomie ainsi que sa vitesse de recharge\par\bigskip
@@ -371,7 +398,7 @@ En plus des deux fichiers \texttt{CSV} contenant les données sur les stations d
         \end{itemize}
 \end{description}
 \clearpage
-\section{Conception et développement}
+\section{Développement}
 \subsection{Structures de données}
 La première structure de données à choisir et sans aucun doute la plus importante est celle qui va contenir les informations sur les stations importées depuis le fichier \texttt{CSV}. Étant données que ces informations vont être consultées plusieurs fois à chaque étape du calcul de plus court chemin, il est important de choisir une structure de données qui profère un accès rapide. Ainsi, nous nous sommes tournés vers une table de hachage appelée \textbf{\texttt{Table\_t}} qui sera chargée une seule fois à partir du fichier \texttt{CSV} puis qui permettra de consulter les informations avec une complexité temporelle en $\mathcal{O}(1)$.\par\bigskip
 En ce qui concerne les informations sur les véhicules électriques, nul besoin d'une table de hachage, lors de l'appel de la fonction, le fichier \texttt{CSV} sera parcouru une seule fois de manière linéaire et les informations associées au véhicule considérées seront placées dans une structure de données appelée \textbf{\texttt{Vehicle\_t}}.\par\bigskip
