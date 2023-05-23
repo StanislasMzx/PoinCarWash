@@ -358,7 +358,7 @@ En plus des deux fichiers \texttt{CSV} contenant les données sur les stations d
 \begin{description}
     \item[Entrée] :
         \begin{itemize}
-            \item Adresse de départ ou coordonnées GPS
+            \item Adresse de départ ou coordonnées géographiques
             \item Véhicule utilisé
             \item \textit{(optionnel)} Pourcentage de batterie minimum à ne pas dépasser
             \item \textit{(optionnel)} Temps de recharge maximum
@@ -379,12 +379,16 @@ Le résultat de l'algorithme \textit{i.e.} la liste des stations à visiter, ser
 \subsection{Algorithmes}
 \subsubsection{Calcul de plus court chemin : \texttt{A-star}}
 % TODO : Corentin
-\subsubsection{Conversion d'adresse en coordonnées GPS}
-% TODO : Antonin
+\subsubsection{Conversion d'adresse en coordonnées géographiques}
+Afin de faciliter l'utilisation de l'application, et d'être plus productifs lors des tests de nos programmes, nous avons implémenté l'utilisation d'une API de nominatims pour rechercher les coordonnées géographiques d'un endroit à partir d'une description variable de son adresse. Par exemple : "TELECOM Nancy", "193 avenue paul muller", "LORRAINE", "Place Stanislas", etc.\par\bigskip
+Pour ce faire, nous avons utilisé la librairie \texttt{libcurl}\footnote{\url{https://curl.se/libcurl/}} du projet \textit{open source} cURL. Cette librairie permet de faire des requêtes HTTP et HTTPS, et donc de communiquer avec des API. Il nous a donc fallu créer un certain nombre de structures de données, car la requête à l'API génère un \textit{buffer} en temps direct, et gérer tous les éventuels cas d'erreurs : réponse nulle, connexion impossible, etc.\par\bigskip
+L'API utilisée est celle d'\textbf{OpenStreetMap}\footnote{\url{https://nominatim.org/release-docs/develop/api/Search/}}. Elle permet de faire des recherches d'adresses, de lieux, de villes, etc. à partir d'une description textuelle. Elle renvoie un fichier JSON contenant les informations demandées, dont les coordonnées géographiques.\par\bigskip
+Notre programme exécute donc une requête HTTPS à cette API et récupère la réponse sous forme de JSON, qu'une autre fonction parse pour en extraire les informations utiles.\par\bigskip
+\texttt{libcurl}\footnote{\url{}}
 \subsection{Visualisation}
 L'utilisation de bibliothèques graphiques telles que \texttt{GTK}\footnote{\url{https://www.gtk.org/}} ou d'un framework web tel que \texttt{Flask}\footnote{\url{https://flask.palletsprojects.com/en/1.1.x/}} aurait été une solution envisageable pour la visualisation des résultats. Cependant, nous avons choisi d'utiliser \texttt{Google Maps}\footnote{\url{https://www.google.com/maps}} pour plusieurs raisons :
 \begin{itemize}
-    \item Beaucoup plus simple à mettre en place car il suffit de générer un lien avec les coordonnées GPS des stations à visiter et les points de départ er d'arriver pour obtenir une carte interactive
+    \item Beaucoup plus simple à mettre en place car il suffit de générer un lien avec les coordonnées géographiques des stations à visiter et les points de départ er d'arriver pour obtenir une carte interactive
     \item Le lien peut être partagé facilement
     \item Le temps économisé sur cette partie nous a permis d'ajouter des fonctionnalités supplémentaires
 \end{itemize}
