@@ -21,10 +21,10 @@
 
 \section{Contexte et objectifs du projet}
 
-Ce projet s'inscrit dans le cadre pédagogique de notre première année d'étude en école d'ingénieur au sein de l'établissement Telecom Nancy. L'objectif y est de mettre en pratique les compétences scientifiques et techniques acquises tout au long de cette première année en se rapprochant d'une étude de cas concrète.
+Ce projet s'inscrit dans le cadre pédagogique de notre première année d'étude en école d'ingénieur au sein de l'établissement TELECOM Nancy. L'objectif y est de mettre en pratique les compétences scientifiques et techniques acquises tout au long de cette première année en se rapprochant d'une étude de cas concrète.
 \bigskip
 
-Il se divise en deux étapes distinctes. Il nous a été demandé dans un premier temps de construire en langage "C" un programme qui permet de planifier un parcours de charge pour un véhicule électrique et pour un trajet donnés et d'enrichir cette application en y incorporant les ajouts de notre choix. Dans un second temps, il nous a fallut réaliser toujours en langage "C" un module de simulation qui pour un ensemble d'usagers, calcule le taux de charge des bornes du territoire.
+Il se divise en deux étapes distinctes. Il nous a été demandé dans un premier temps de construire en langage "C" un programme qui permet de planifier un parcours de charge pour un véhicule électrique et pour un trajet donné et d'enrichir cette application en y incorporant les ajouts de notre choix. Dans un second temps, il nous a fallu réaliser, toujours en langage "C", un module de simulation qui pour un ensemble d'usagers, calcule le taux de charge des bornes du territoire.
 \bigskip
 
 Notons également que tout au long du projet nous avons dû suivre une gestion de projets rigoureuse, ce
@@ -37,17 +37,17 @@ ont aidés.
 
 \section{Objectifs du rapport}
 
-Ce rapport synthétise le travail réalisé par l'équipe de PoinCarWash pour répondre à la problématique posée. À savoir travailler à l'élaboration d'outils utiles au développement d'une mobilités plus écologique.
+Ce rapport synthétise le travail réalisé par l'équipe de PoinCarWash pour répondre à la problématique posée. À savoir travailler à l'élaboration d'outils utiles au développement d'une mobilité plus écologique.
 
 \bigskip
-Le présent rapport fait état de la conception et de l'implémentation de notre travail mais également des performances et des tests sur ce dernier ainsi que d'une présentation de notre gestion de projet.
+Le présent rapport fait état de la conception et de l'implémentation de notre travail mais également des performances et des tests sur ce dernier, ainsi que d'une présentation de notre gestion de projet.
 
 \section{Présentation du plan}
 
 Au cours de ce rapport, nous aborderons dans un premier temps les éléments de gestion de projet communs aux deux étapes. Cette première partie nous permettra ainsi de justifier nos choix d'approches méthodologiques pour la réalisation de ce projet.
 \bigskip
 
-Nous procéderons ensuite de manière similaire pour les deux étapes du projet. En premier lieu, nous décrirons les éléments de gestion de projet spécifiques à chacune d'elles. Nous détaillerons ensuite les phases de conception et de développement avant d'enfin présenter les performances et les tests de nos applications.
+Nous procéderons ensuite de manière similaire pour les deux étapes du projet. En premier lieu, nous décrirons les éléments de gestion de projet spécifiques à chacune d'entre elles. Nous détaillerons ensuite les phases de conception et de développement avant d'enfin présenter les performances et les tests de nos applications.
 \bigskip
 
 
@@ -66,13 +66,13 @@ Avec la prise de conscience écologique grandissante dans la population, les cit
 \bigskip
 \footnotetext[1]{Selon l'étude \href{https://about.bnef.com/electric-vehicle-outlook/}{BloombergNEF}}
 
-Pourtant, voyager dans ce type de véhicules peut encore parfois s'avérer difficile, notamment en ce qui concerne leur autonomie encore relativement limitée et la répartition des bornes de recharge sur le territoire, cette dernière étant encore très inégale sur le sol français. Il est donc nécessaire pour faciliter leur adoption d'en faciliter et d'en optimiser l'utilisation.
+Pourtant, voyager dans ce type de véhicules peut encore parfois s'avérer difficile, notamment en ce qui concerne leur autonomie toujours relativement limitée et la répartition des bornes de recharge sur le territoire, cette dernière étant encore très inégale sur le sol français. Il est donc nécessaire pour faciliter leur adoption d'en faciliter et d'en optimiser l'utilisation.
 \bigskip
 
-La première étape de notre projet consiste alors en la conception d'un algorithme permettant de calculer pour un utilisateur le trajet le plus court entre un point A et un point B situés en France, en optimisant ses passages aux bornes de recharges. Cet outil pourra aider les conducteurs à naviguer plus efficacement et à ainsi surmonter les inquiétudes liées à l'autonomie limitée des voitures électriques.
+La première étape de notre projet consiste alors en la conception d'un algorithme permettant de calculer pour un utilisateur le trajet le plus court entre deux endroits situés en France, en optimisant ses passages aux bornes de recharges. Cet outil pourra aider les conducteurs à naviguer plus efficacement et à ainsi surmonter les inquiétudes liées à l'autonomie limitée des voitures électriques.
 \bigskip
 
-La seconde étape du projet est elle basé sur l'étude du remplissage des stations en fonction d'une base de trajets données. L'acquisition de ces statistiques pourrait par exemple permettre de planifier plus efficacement l'expansion future du réseau de recharge.
+La seconde étape du projet est basée sur l'étude du remplissage des stations en fonction d'un ensemble de trajets donnés. L'acquisition de ces statistiques pourrait par exemple permettre de planifier plus efficacement l'expansion future du réseau de recharge.
 \bigskip
 
 Ainsi nous espérons au travers de ce projet promouvoir une mobilité plus durable en participant à l'élaboration de solutions pratiques pour surmonter les obstacles liés à l'autonomie et à la disponibilité de stations de recharge pour véhicules électriques.
@@ -83,15 +83,15 @@ Ainsi nous espérons au travers de ce projet promouvoir une mobilité plus durab
 \textbf{\underline{Objectifs du projet} :}
 \begin{itemize}
     \item Conception d'un algorithme de calcul d'itinéraire optimisé pour véhicule électrique
-    \item Conception d'une application de monitoring du remplissage des stations de recharge
+    \item Conception d'une application d'analyse du remplissage des stations de recharge
 \end{itemize}
 \bigskip
 
 \textbf{\underline{Ressources} :}
 \begin{itemize}
     \item Groupe de projet (4 personnes) : temps de travail variable pendant 9 semaines
-    \item Equipe pédagogique de Telecom Nancy : aide ponctuelle
-    \item Bases de données relatives aus stations de recharge et aux véhicules électriques
+    \item Equipe pédagogique de TELECOM Nancy : aide ponctuelle
+    \item Bases de données relatives aux stations de recharge et aux véhicules électriques
 \end{itemize}
 \clearpage
 
@@ -133,7 +133,7 @@ Ainsi nous espérons au travers de ce projet promouvoir une mobilité plus durab
 \end{itemize}
 \bigskip
 
-On peut synthétiser cette analyse au traver de ce diagramme:
+On peut synthétiser cette analyse au travers de ce diagramme:
 
 \begin{center}
     \includegraphics[width = 0.45\textwidth]{IMG/parties_prenantes.png}
@@ -176,12 +176,12 @@ On peut synthétiser cette analyse au traver de ce diagramme:
 \begin{itemize}
     \item Techniques :
           \begin{itemize}
-              \item Incompatibilités matérielles : on ne travail pas tous sous le même OS.
+              \item Incompatibilités matérielles : nous ne travaillons pas tous sous le même OS.
               \item Problèmes de performance : les outils demandés peuvent demander des traitements lourds, nos machines pourraient être dépassées.
           \end{itemize}
     \item Gestion de projet :
           \begin{itemize}
-              \item Gestion du temps et planification : on ne travail pas à temps plein sur le projet et nos autres activités peuvent nous empêcher de consacrer suffisament de temps au projet.
+              \item Gestion du temps et planification : nous ne travaillons pas à temps plein sur le projet et nos autres activités peuvent nous empêcher de consacrer suffisament de temps au projet.
           \end{itemize}
     \item Liés aux données :
           \begin{itemize}
@@ -271,7 +271,7 @@ Pour travailler efficacement il est important de connaître les forces sur lesqu
 \textbf{\underline{Nos faiblesses} :}
 \begin{itemize}
     \item Nos connaissances en langage "C" sont encore très récentes, ainsi on aura de manière certaine besoin de plus temps pour développer ce type d'outils que des développeurs expérimentés.
-    \item On est tous très engagés dans le mileu associatif de Telecom et les cours nous prennent beaucoup de temps, on a donc peu de temps à consacrer au projet.  Il faudra être discipliner sur le temps que l'on arrive à dégager.
+    \item On est tous très engagés dans le mileu associatif de TELECOM et les cours nous prennent beaucoup de temps, on a donc peu de temps à consacrer au projet.  Il faudra être discipliner sur le temps que l'on arrive à dégager.
 \end{itemize}
 \clearpage
 
