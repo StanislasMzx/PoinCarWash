@@ -7,7 +7,6 @@ double heuristic(Station_t *one_station, Station_t *end)
     return distance(one_station->coordinates, end->coordinates);
 }
 
-
 /**
  * @brief Add the reachable station neighbors in a heap
  *
@@ -18,11 +17,11 @@ double heuristic(Station_t *one_station, Station_t *end)
  * @param end end of A*
  * @return None
  */
-int a_star_next_stations(Table_t *one_table, Station_t* one_station, char *one_station_key, double range, Heap_t **one_heap, double one_weight, Station_t *end)
+int a_star_next_stations(Table_t *one_table, Station_t *one_station, char *one_station_key, double range, Heap_t **one_heap, double one_weight, Station_t *end)
 {
     double dist_to_end = heuristic(one_station, end);
     double new_weight;
-    bool added = 0; //if a station has been added in the heap (1 => at least one station has been added)
+    bool added = 0; // if a station has been added in the heap (1 => at least one station has been added)
     for (int i = 2; i < one_table->length; i++)
     {
         List_t *list = one_table->slots[i];
@@ -40,7 +39,7 @@ int a_star_next_stations(Table_t *one_table, Station_t* one_station, char *one_s
 
                     // On copie les id des stations pour éviter un problème de mémoire lors du free (on va de A vers B)
                     // station A
-                    char *last_station = malloc((strlen(one_station_key) + 1)*sizeof(char));
+                    char *last_station = malloc((strlen(one_station_key) + 1) * sizeof(char));
                     assert(last_station != NULL);
                     strcpy(last_station, one_station_key);
                     free(element->value->last_station);
@@ -58,7 +57,7 @@ int a_star_next_stations(Table_t *one_table, Station_t* one_station, char *one_s
     // End station
     List_t *endList = one_table->slots[1];
     assert(!list_is_empty(endList));
-    Element_t *endElement = &endList->list[endList->length-1];
+    Element_t *endElement = &endList->list[endList->length - 1];
     assert(endElement != NULL);
     double dist = dist_to_end;
     if (dist > 1e-10 && dist <= range)
@@ -70,7 +69,7 @@ int a_star_next_stations(Table_t *one_table, Station_t* one_station, char *one_s
 
             // On copie les id des stations pour éviter un problème de mémoire lors du free (on va de A vers B)
             // station A
-            char *last_station = malloc((strlen(one_station_key) + 1)*sizeof(char));
+            char *last_station = malloc((strlen(one_station_key) + 1) * sizeof(char));
             assert(last_station != NULL);
             strcpy(last_station, one_station_key);
             free(endElement->value->last_station);
@@ -88,9 +87,9 @@ int a_star_next_stations(Table_t *one_table, Station_t* one_station, char *one_s
 
 int a_star(Vehicle_t *one_vehicle, Table_t *table_station, double power_min, double time_in_station_max)
 {
-    char *id_start = table_station->slots[0]->list[table_station->slots[0]->length-1].key;
-    char *id_end = table_station->slots[1]->list[table_station->slots[1]->length-1].key;
-    Station_t *end = table_station->slots[1]->list[table_station->slots[1]->length-1].value;
+    char *id_start = table_station->slots[0]->list[table_station->slots[0]->length - 1].key;
+    char *id_end = table_station->slots[1]->list[table_station->slots[1]->length - 1].key;
+    Station_t *end = table_station->slots[1]->list[table_station->slots[1]->length - 1].value;
     Heap_t *queue = heap_empty();
 
     State_t *one_state = state_create(id_start, 0);
@@ -98,8 +97,8 @@ int a_star(Vehicle_t *one_vehicle, Table_t *table_station, double power_min, dou
     heap_append(&queue, one_state, heap_height(queue));
 
     bool again = true;
-    double range_power = one_vehicle->range * (1.0 - power_min/100.0); // range if the vehicle keep always power_min% autonomy
-    double range_vehicle = (double)(one_vehicle->fast_charge) * time_in_station_max/60.0; // range if the vehicle is charge at one_vehicle->fast_charge during time_in_station_max
+    double range_power = one_vehicle->range * (1.0 - power_min / 100.0);                    // range if the vehicle keep always power_min% autonomy
+    double range_vehicle = (double)(one_vehicle->fast_charge) * time_in_station_max / 60.0; // range if the vehicle is charge at one_vehicle->fast_charge during time_in_station_max
     double range_min = MIN(range_power, range_vehicle);
     double range = range_min;
 
@@ -111,7 +110,8 @@ int a_star(Vehicle_t *one_vehicle, Table_t *table_station, double power_min, dou
         one_state = heap_pop(&queue, heap_height(queue));
 
         // No reachable station
-        if (one_state == NULL){
+        if (one_state == NULL)
+        {
             again = false;
             break;
         }
@@ -125,17 +125,19 @@ int a_star(Vehicle_t *one_vehicle, Table_t *table_station, double power_min, dou
             break;
         }
         Station_t *one_station = NULL;
-        if (strcmp(id_start, one_state->id_station) == 0){
-            one_station = table_station->slots[0]->list[table_station->slots[0]->length-1].value;
+        if (strcmp(id_start, one_state->id_station) == 0)
+        {
+            one_station = table_station->slots[0]->list[table_station->slots[0]->length - 1].value;
         }
-        else{
+        else
+        {
             one_station = table_get(table_station, one_state->id_station);
         }
         assert(one_station != NULL);
 
         if (one_state->id_station != id_start)
         {
-            range = MIN(range_min, (double)(one_station->power) * time_in_station_max/60.0);
+            range = MIN(range_min, (double)(one_station->power) * time_in_station_max / 60.0);
         }
 
         a_star_next_stations(table_station, one_station, one_state->id_station, range, &queue, one_state->weight, end);
@@ -159,17 +161,30 @@ void print_a_star(Table_t *table_station, List_t *one_list, Vehicle_t *one_vehic
     }
 
     int steps = one_list->length;
-    Station_t *startStation = table_station->slots[0]->list[table_station->slots[0]->length-1].value;
-    Station_t *endStation = table_station->slots[1]->list[table_station->slots[1]->length-1].value;
+    Station_t *startStation = table_station->slots[0]->list[table_station->slots[0]->length - 1].value;
+    Station_t *endStation = table_station->slots[1]->list[table_station->slots[1]->length - 1].value;
 
     // Start
     Station_t *prevStation;
     Station_t *currentStation = startStation;
-    double distanceLeft = distance(currentStation->coordinates, endStation->coordinates);
+    double distanceLeft = 0.0;
     double distancePrev;
     int batteryBefore;
     int batteryAfter = 100;
     int chargingTime;
+
+    // Calcul real trip distance
+    for (int i = 1; i < steps - 1; i++)
+    {
+        prevStation = currentStation;
+        currentStation = table_get(table_station, one_list->list[i].key);
+        distancePrev = distance(prevStation->coordinates, currentStation->coordinates);
+        distanceLeft += distancePrev;
+    }
+    // Add distance of last step
+    distanceLeft += distance(currentStation->coordinates, endStation->coordinates);
+    // Reset currentStation
+    currentStation = startStation;
 
     printf("\33[0;32m>> Departure: \33[1m%s\33[0m\n", startStation->name);
     printf("              \33[2;32mBattery: \33[1;5m%d%%\33[0m\n", batteryAfter);
@@ -180,9 +195,9 @@ void print_a_star(Table_t *table_station, List_t *one_list, Vehicle_t *one_vehic
     {
         prevStation = currentStation;
         currentStation = table_get(table_station, one_list->list[i].key);
-        distanceLeft = distance(currentStation->coordinates, endStation->coordinates);
         distancePrev = distance(prevStation->coordinates, currentStation->coordinates);
-        batteryBefore = (int)(100.0*(1.0 - (double)distancePrev / one_vehicle->range));
+        distanceLeft -= distancePrev;
+        batteryBefore = (int)(100.0 * (1.0 - (double)distancePrev / one_vehicle->range));
         chargingTime = (int)ceil((double)(distancePrev) / (double)(one_vehicle->fast_charge) * 60.0);
 
         printf("\33[0;33m>> Step %d: \33[1m%s\33[0m\n", i, currentStation->name);
@@ -194,15 +209,15 @@ void print_a_star(Table_t *table_station, List_t *one_list, Vehicle_t *one_vehic
     prevStation = currentStation;
     currentStation = endStation;
     distancePrev = distance(prevStation->coordinates, currentStation->coordinates);
-    batteryBefore = (int)(100.0*(1.0 - (double)distancePrev / one_vehicle->range));
+    batteryBefore = (int)(100.0 * (1.0 - (double)distancePrev / one_vehicle->range));
 
     printf("\33[0;35m>> Arrival: \33[1m%s\33[0m\n", currentStation->name);
     printf("            \33[2;35mBattery: \33[1;5m%d%%\33[0m\n", batteryBefore);
 
     // Print Google Maps URL
     printf("\33[0;36m>> View trip:\33[0m\nhttps://www.google.com/maps/dir/?api=1&origin=%f,%f&destination=%f,%f&waypoints=",
-            startStation->coordinates->latitude, startStation->coordinates->longitude,
-            endStation->coordinates->latitude, endStation->coordinates->longitude);
+           startStation->coordinates->latitude, startStation->coordinates->longitude,
+           endStation->coordinates->latitude, endStation->coordinates->longitude);
     for (int i = 1; i < steps - 1; i++)
     {
         Station_t *one_station = table_get(table_station, one_list->list[i].key);
@@ -215,7 +230,8 @@ void print_a_star(Table_t *table_station, List_t *one_list, Vehicle_t *one_vehic
 List_t *a_star_list(Table_t *table_station, char *id_start, char *id_end, Vehicle_t *one_vehicle, double power_min, double time_in_station_max)
 {
     List_t *one_list = list_create();
-    if (!a_star(one_vehicle, table_station, power_min, time_in_station_max)){
+    if (!a_star(one_vehicle, table_station, power_min, time_in_station_max))
+    {
         return one_list; // error
     }
     char *id = malloc(strlen(id_end) + 1);
@@ -227,8 +243,9 @@ List_t *a_star_list(Table_t *table_station, char *id_start, char *id_end, Vehicl
         id = malloc(strlen(one_station->last_station) + 1);
         strcpy(id, one_station->last_station);
         assert(id != NULL);
-        if (strcmp(id, id_start) == 0){
-            one_station = station_copy(table_station->slots[0]->list[table_station->slots[0]->length-1].value);
+        if (strcmp(id, id_start) == 0)
+        {
+            one_station = station_copy(table_station->slots[0]->list[table_station->slots[0]->length - 1].value);
             break;
         }
         one_station = station_copy(table_get(table_station, id));

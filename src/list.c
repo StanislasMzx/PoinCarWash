@@ -3,8 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include <stdbool.h>
 #include <assert.h>
+#include <math.h>
 
 /**
  * @brief Create a List_t object
@@ -191,16 +193,17 @@ Station_t *station_copy(Station_t *one_station)
 }
 
 /**
- * @brief Calculate the travel time between two stations
- * 
+ * @brief Calculate the travel time between two stations in ticks
+ *
  * @param one_station first station
  * @param other_station second station
- * @return double travel time in minutes
-*/
-double travel_time(Station_t *one_station, Station_t *other_station)
+ * @return int travel time in ticks
+ */
+int travel_ticks(Station_t *one_station, Station_t *other_station)
 {
     double dist = distance(one_station->coordinates, other_station->coordinates);
-    double time = dist / VEHICLE_SPEED * 60.0;
+    double travelTime = dist / VEHICLE_SPEED * 60.0;
+    int travelTicks = (int)ceil(travelTime * 6.0);
 
-    return time;
+    return travelTicks;
 }

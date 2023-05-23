@@ -154,13 +154,13 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
         {
             continue;
         }
-        Trip_output_t trip = compute_trip(station_table, departure_nominatim, arrival_nominatim, vehicle, 0.0, 360.0);
+        List_t *trip = compute_trip(station_table, departure_nominatim, arrival_nominatim, vehicle, 0.0, 360.0);
         nominatim_destroy(departure_nominatim);
         nominatim_destroy(arrival_nominatim);
         one_timeline->userNumber++;
         one_timeline->listTimeline = realloc(one_timeline->listTimeline, sizeof(Timeline_user_t)*one_timeline->userNumber);//sizeof(Timeline_user_t) * one_timeline->userNumber);
         one_timeline->listTimeline[one_timeline->userNumber - 1] = NULL;
-        timelineUserPrepend(&one_timeline->listTimeline[one_timeline->userNumber - 1], departureTick, "", -1, vehicle, trip.trip, trip.trip->length);
+        timelineUserPrepend(&one_timeline->listTimeline[one_timeline->userNumber - 1], departureTick, "", -1, vehicle, trip, trip->length);  // TODO: length of the linked list NOT trip.trip->length
         one_timeline->lastTick = departureTick > one_timeline->lastTick ? departureTick : one_timeline->lastTick;
         printf("\33[32m[~] Success:\33[0m User %d added.\n", one_timeline->userNumber);
     }
@@ -207,44 +207,13 @@ int userLocation(Timeline_user_t *one_timeline, int one_tick, Table_t *table){
         // on est parti d'une station
         Station_t *old_station = table_get(table, one_state->station);
         Station_t *new_station = one_timeline->trip->list[one_state->stepTrip].value;
-        double dist = distance(old_station->coordinates, new_station->coordinates);
-        int tick_arrived = (int)floor(dist/100*3.6); // celery = 100km/h
+        int travelTicks = travel_ticks(old_station, new_station);
+        // TODO: check behavior
+        int tick_arrived = one_state->tick + travelTicks;
         assert(tick_arrived <= one_tick);
         if (tick_arrived == one_tick){
             return new_station->id;
         }
-        return -1;
     }
-}
-
-
-/**
- * @brief Generate the whole user timeline
- *
- * @param one_timeline The user timeline
- */
-void makeTimelineUser(Timeline_all_users_t *one_timeline, Table_t *table)
-{
-    bool allUsersArrived = false;
-
-    while (!allUsersArrived)
-    {
-        nextTickUser(one_timeline, table);
-
-        allUsersArrived = true;
-        for (int userId = 0; userId < one_timeline->userNumber; userId++)
-        {
-            Timeline_user_t *one_user_timeline = one_timeline->listTimeline[userId];
-            assert(one_user_timeline != NULL);
-
-            User_state_t *one_state = one_user_timeline->state;
-            assert(one_state != NULL);
-
-            if (one_state->tick > one_timeline->lastTick)
-            {
-                allUsersArrived = false;
-                break;
-            }
-        }
-    }
+    return -1;
 }

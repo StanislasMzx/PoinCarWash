@@ -10,8 +10,8 @@ describe(test_initializeTimelineStation)
 
     // Timeline_all_stations_t *one_all_timeline = initializeTimelineAllStation(table);
 
-    // asserteq_int(one_all_timeline->maxSize, table->nbStation);
-    // for (int i=0; i<one_all_timeline->maxSize; i++){
+    // asserteq_int(one_all_timeline->nbStations, table->nbStation);
+    // for (int i=0; i<one_all_timeline->nbStations; i++){
     //     asserteq_int(one_all_timeline->listTimeline[i]->stateValue->tick, 0);
     //     assert(one_all_timeline->listTimeline[i]->next == NULL);
     // }

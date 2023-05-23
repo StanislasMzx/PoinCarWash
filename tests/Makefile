@@ -3,7 +3,7 @@ CFLAGS=-std=c99 -Wall -Wextra -pedantic -fdiagnostics-color=always -Wno-strict-p
 CFLAGS+=-O0 -g3 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
 LDFLAGS+=-fsanitize=address -lcurl
 
-ALL_EXECUTABLES=coordinates_test nominatim_test vehicles_test stations_test heap_test a_star_test timeline_station_test
+ALL_EXECUTABLES=coordinates_test nominatim_test vehicles_test stations_test heap_test a_star_test timeline_station_test timeline_user_test
 
 all: $(ALL_EXECUTABLES)
 
@@ -40,10 +40,10 @@ a_star_test.o: a_star_test.c ../src/a_star.h snow.h
 opti_test: opti_test.o ../src/stations.o ../src/table.o ../src/list.o ../src/coordinates.o
 opti_test.o: opti_test.c ../src/stations.h
 
-timeline_user_test: timeline_user_test.o ../src/timeline_station.o ../src/compute_trip.o ../src/a_star.o ../src/heap.o ../src/vehicles.o ../src/stations.o ../src/table.o ../src/list.o ../src/nominatim.o ../src/coordinates.o
-timeline_user_test.o: timeline_user_test.c ../src/timeline_station.h snow.h 
+timeline_user_test: timeline_user_test.o ../src/timeline_station.o ../src/timeline_user.o ../src/compute_trip.o ../src/a_star.o ../src/heap.o ../src/vehicles.o ../src/stations.o ../src/table.o ../src/list.o ../src/nominatim.o ../src/coordinates.o
+timeline_user_test.o: timeline_user_test.c ../src/timeline_user.h ../src/timeline_station.h snow.h 
 
-timeline_station_test: timeline_station_test.o ../src/timeline_station.o ../src/compute_trip.o ../src/a_star.o ../src/heap.o ../src/vehicles.o ../src/stations.o ../src/table.o ../src/list.o ../src/nominatim.o ../src/coordinates.o
+timeline_station_test: timeline_station_test.o ../src/timeline_station.o ../src/timeline_user.o ../src/compute_trip.o ../src/a_star.o ../src/heap.o ../src/vehicles.o ../src/stations.o ../src/table.o ../src/list.o ../src/nominatim.o ../src/coordinates.o
 timeline_station_test.o: timeline_station_test.c ../src/timeline_station.h snow.h 
 
 timeline: timeline_station_test timeline_user_test

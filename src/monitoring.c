@@ -1,4 +1,3 @@
-#define SPEED 100
 #define INTERVAL 0.1666666667
 
 #include "monitoring.h"
@@ -14,7 +13,7 @@
  * @param stage number of steps after departure (stage 0 is the departure)
  * @return char* 'on the road' if the vehicle is on the road else station key
  */
-char *vehicle_position(Vehicle_t *vehicle, Trip_output_t *trip_list, int stage)
+char *vehicle_position(Vehicle_t *vehicle, List_t *trip_list, int stage)
 {
     int step = 0;
     double dist_to_next_station = 0;
@@ -22,19 +21,19 @@ char *vehicle_position(Vehicle_t *vehicle, Trip_output_t *trip_list, int stage)
     int charging_time = 0;
     while (traveled_stages < stage)
     {
-        if (step + 1 >= trip_list->trip->length)
+        if (step + 1 >= trip_list->length)
         {
             return "on the road";
         }
-        dist_to_next_station = distance(trip_list->trip->list[step].value->coordinates, trip_list->trip->list[step + 1].value->coordinates);
+        dist_to_next_station = distance(trip_list->list[step].value->coordinates, trip_list->list[step + 1].value->coordinates);
         step++;
-        traveled_stages += ceil((dist_to_next_station / SPEED) / INTERVAL);
-        if (step + 1 < trip_list->trip->length && traveled_stages <= stage)
+        traveled_stages += ceil((dist_to_next_station / VEHICLE_SPEED) / INTERVAL);
+        if (step + 1 < trip_list->length && traveled_stages <= stage)
         {
-            charging_time = ceil((distance(trip_list->trip->list[step].value->coordinates, trip_list->trip->list[step + 1].value->coordinates) / vehicle->fast_charge) / INTERVAL);
+            charging_time = ceil((distance(trip_list->list[step].value->coordinates, trip_list->list[step + 1].value->coordinates) / vehicle->fast_charge) / INTERVAL);
             if (traveled_stages + charging_time >= stage)
             {
-                return trip_list->trip->list[step].key;
+                return trip_list->list[step].key;
             }
             traveled_stages += charging_time;
         }
@@ -42,12 +41,12 @@ char *vehicle_position(Vehicle_t *vehicle, Trip_output_t *trip_list, int stage)
     return "on the road";
 }
 
-Trip_output_t *load_network(Table_t *table, char *file, int size, double min_power, double time_max)
+List_t **load_network(Table_t *table, char *file, int size, double min_power, double time_max)
 {
     FILE *fp = fopen(file, "r");
     assert(fp != NULL);
 
-    Trip_output_t *network = malloc(sizeof(Trip_output_t) * size);
+    List_t **network = malloc(sizeof(List_t *) * size);
 
     const unsigned max_line = 256;
     char line[max_line];
@@ -71,7 +70,7 @@ Trip_output_t *load_network(Table_t *table, char *file, int size, double min_pow
         {
             continue;
         }
-        Trip_output_t trip = compute_trip(table, departure_nominatim, arrival_nominatim, vehicle, min_power, time_max);
+        List_t *trip = compute_trip(table, departure_nominatim, arrival_nominatim, vehicle, min_power, time_max);
         nominatim_destroy(departure_nominatim);
         nominatim_destroy(arrival_nominatim);
         vehicle_destroy(vehicle);
@@ -83,7 +82,7 @@ Trip_output_t *load_network(Table_t *table, char *file, int size, double min_pow
     return network;
 }
 
-void network_destroy(Table_t *table, Trip_output_t *network, int size)
+void network_destroy(Table_t *table, List_t **network, int size)
 {
     // for (int i = 0; i < size; i++)
     // {
