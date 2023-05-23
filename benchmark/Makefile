@@ -22,3 +22,5 @@ benchmark.o: benchmark.c ../src/compute_trip.h ../src/nominatim.h
 
 clean: 
 	rm -f *.o ../src/*.o ${ALL_EXECUTABLES}
+
+.SILENT: clean
