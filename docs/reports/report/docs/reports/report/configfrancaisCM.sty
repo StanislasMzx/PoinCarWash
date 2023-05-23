@@ -1,0 +1,256 @@
+% Created in 2022
+%
+% @author: Stanislas MEZUREUX
+% Copyright (c) 2022 Stanislas MEZUREUX. All rights reserved.
+
+\ProvidesPackage{configfrancaisLight}[2022/10/20 template for Lectures]
+\RequirePackage{xkeyval}
+
+%%%%%%%%%%%%%%%%-- Options --%%%%%%%%%%%%%%%%
+\newcommand{\docType}{}
+\newcommand{\mainColorWord}{}
+\newcommand{\subjectAcronym}{SM}
+
+\DeclareOptionX{cm}{
+  \renewcommand{\mainColorWord}{607EAA}
+  \renewcommand{\docType}{Cours Magistral}
+}
+\DeclareOptionX{ra}{
+  \renewcommand{\mainColorWord}{749F82}
+  \renewcommand{\docType}{#1}  
+}
+\DeclareOptionX{subjectAcronym}{\renewcommand{\subjectAcronym}{#1}}
+\DeclareOptionX*{\PackageWarning{configfrancaisLight}{Unknown ‘\CurrentOption’}}
+
+\ProcessOptionsX\relax
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%-- Packages --%%%%%%%%%%%%%%%%
+\RequirePackage{geometry}
+\RequirePackage{lmodern}
+\RequirePackage{iwona}
+\RequirePackage{bbold}
+\RequirePackage{latexsym}
+\RequirePackage[T1]{fontenc}
+\RequirePackage[french]{babel}
+\RequirePackage{amsmath,amsfonts,amssymb,amsthm}
+\RequirePackage{stmaryrd}
+\RequirePackage[many]{tcolorbox}
+\RequirePackage{titlesec}
+\RequirePackage{fancyhdr}
+\RequirePackage[scale=1.25]{ccicons}
+\RequirePackage[colorlinks=true, allcolors=mainColor, pdfusetitle]{hyperref}
+\RequirePackage{cite}
+\RequirePackage{lastpage}
+\usepackage[outputdir=../../../]{minted}\RequirePackage{enumitem}
+\RequirePackage{enumitem}
+\RequirePackage{tikz}
+\RequirePackage{tikz-cd}
+\RequirePackage{pgfplots}
+\RequirePackage[figurename=Code]{caption}
+\RequirePackage{xcolor}
+\RequirePackage{cancel}
+\RequirePackage[nohints]{minitoc}
+\RequirePackage{shadow}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%-- Theoremes --%%%%%%%%%%%%%%%
+\tcbuselibrary{theorems}
+\tcbuselibrary{breakable}
+\newtcbtheorem[number within=chapter]{theorem}{Théorème}{colback=theoremBox!10,colframe=theoremBox!50, coltitle=methodBox!30!black, fonttitle=\bfseries, breakable}{th}
+\newtcbtheorem[number within=chapter]{definition}{Définition}{colback=definitionBox!10,colframe=definitionBox!50, coltitle=methodBox!30!black, fonttitle=\bfseries, breakable}{def}
+\newtcbtheorem[number within=chapter]{example}{Exemple}{colback=exampleBox!10,colframe=exampleBox!50, coltitle=methodBox!30!black, fonttitle=\bfseries, breakable}{ex}
+\newtcbtheorem[number within=chapter]{method}{Méthode}{colback=methodBox!10, colframe=methodBox!50, coltitle=methodBox!30!black, fonttitle=\bfseries, breakable}{met}
+\newtcbtheorem[number within=chapter]{property}{Propriété}{colback=propertyBox!10,colframe=propertyBox!50, coltitle=methodBox!30!black, fonttitle=\bfseries, breakable}{prop}
+\newtcbtheorem[number within=chapter]{remark}{Remarque}{breakable}{rq}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%-- Style --%%%%%%%%%%%%%%%%%%
+% title page
+\makeatletter
+\def\thickhrulefill{\leavevmode \leaders \hrule height .75ex \hfill \kern \z@}
+\renewcommand\maketitle{
+\thispagestyle{empty}
+\vspace*{175\p@}%
+  {\parindent \z@ \centering \reset@font
+        \thickhrulefill\hspace*{2px}
+        \large \textsf{\docType}
+        \hspace*{2px}\thickhrulefill
+        \par\nobreak
+        \vspace*{20\p@}%
+        \interlinepenalty\@M
+        \hrule
+        \vspace*{10\p@}%
+        \Huge \bfseries \subjectAcronym\text{ - }\@title\par\nobreak
+        \par
+        \vspace*{10\p@}%
+        \hrule
+        \vspace*{30\p@}
+        \Large \@author
+        \par
+        \vspace*{30\p@}
+        \normalsize \mdseries 1\up{ère} année
+        \par
+        \vspace*{30\p@}
+        \includegraphics[scale = 0.3]{"IMG/logo_tn.png"}
+        \par
+        \vspace*{20\p@}
+        \normalsize \@date
+    \vskip 10\p@}}
+\makeatother
+
+% chapter title
+\makeatletter
+\def\@makechapterhead#1{%
+  \vspace*{60\p@}%
+  { \parindent \z@ \raggedright \normalfont
+    \interlinepenalty\@M
+    \begin{tcolorbox}[colback=white, colframe=mainColor, breakable]
+      \sffamily\bfseries\Huge
+      \begin{center}
+        \textcolor{mainColor}{$\lhd$\ \@chapapp{}\ \thechapter\ $\rhd$}
+
+        #1
+      \end{center}
+    \end{tcolorbox}
+    \bigbreak
+    \vskip 70\p@
+  }}
+\makeatother
+
+% section title
+\renewcommand{\thesection}{\Roman{section}} 
+\titleformat{\section}[hang]{
+  \LARGE\bfseries}{\textcolor{mainColor}{\thesection\ $\rhd$}\ }{0pt}{\LARGE\bfseries
+}
+
+% subsection title
+\renewcommand\thesubsection{\thesection.\Alph{subsection}}
+\titleformat{\subsection}[hang]{
+  \Large\bfseries}{\textcolor{mainColor}{\thesection.\Alph{subsection}}}{10pt}{\Large\bfseries
+}
+
+% subsubsection title
+\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}} 
+\titleformat{\subsubsection}[hang]{
+  \normalsize\bfseries}{\textcolor{mainColor}{\thesubsection.\arabic{subsubsection}}}{10pt}{\normalsize\bfseries
+}
+
+\geometry{
+  top=15mm,
+  inner=15mm,
+  outer=15mm,
+  bottom=17.5mm,
+  headheight=3ex,
+  headsep=2ex,
+}
+\pgfplotsset{compat=newest}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{1}
+\setcounter{minitocdepth}{3}
+\setlist[itemize, 1]{label=$\color{mainColor}{\rhd}$}
+\setlist[itemize, 2]{label=$\color{mainColor}{\circ}$}
+\setlist[description]{font={\bfseries\sffamily\textcolor{mainColor}}}
+\setlist[enumerate]{label=\textcolor{mainColor}{\theenumi.}}
+\renewcommand{\emph}[2]{\colorbox{#1!50}{\textbf{#2}}\xspace}
+\numberwithin{equation}{section}
+\newenvironment{longlisting}{\captionsetup{type=figure}}{}
+\renewenvironment{proof}{{\bfseries \sffamily \itshape \noindent Démonstration $\rhd$}}{\hfill\qed}
+\renewcommand{\CancelColor}{\color{red}}
+\newcommand{\important}[1]{\textbf{\textcolor{propertyBox}{#1}}}
+\usetikzlibrary{decorations.pathmorphing,patterns}
+\tcolorboxenvironment{proof}{
+  blanker,
+  before skip=10pt,
+  after skip=10pt,
+  borderline west={0.4pt}{0.4pt}{black},
+  breakable,
+  left=12pt,
+  right=12pt,
+}
+
+% side label
+\newcommand{\num}{0}
+\newlength{\positionmarge}
+\newlength{\decalage}
+\setlength{\positionmarge}{140mm}
+
+\newcommand{\insertsidelabel}{%
+  \setlength{\decalage}{\positionmarge * (\thechapter - 1)}%
+  \addtolength{\positionmarge}{-\decalage / 16}%
+  \begin{tikzpicture}[overlay,remember picture]
+    \node[fill=mainColor ,text=white,
+    inner ysep=6pt, inner xsep=4pt,align=flush left,
+    rounded corners={2pt},text width=2cm,align=flush left]
+    at ([xshift=-2mm,yshift=\positionmarge]current page.east)
+    {\sffamily\bfseries\footnotesize \subjectAcronym};
+    % {\sffamily\bfseries\footnotesize SM};
+  \end{tikzpicture}%
+}%
+
+\makeatletter
+\pagestyle{fancy}
+\fancyhead[L]{{\bfseries \sffamily \leftmark}}
+\fancyhead[R]{\bfseries \sffamily \@author}
+\cfoot{\bfseries \sffamily \thepage\ sur \pageref{LastPage}}
+\lfoot{\bfseries \sffamily Télécom Nancy}
+\rfoot{\ccbyncsaeu\insertsidelabel}
+\fancypagestyle{plain}{%
+  \renewcommand{\headrulewidth}{0pt}
+  \fancyhead[L]{{\bfseries \sffamily \subjectAcronym}}
+  \fancyhead[R]{\bfseries \sffamily \@author}
+  \cfoot{\bfseries \sffamily \thepage\ sur \pageref{LastPage}}
+  \lfoot{\bfseries \sffamily Télécom Nancy}
+  \rfoot{\ccbyncsaeu}
+}
+\makeatother
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%*%%%%%-- Colors --%%%%%%%%%%%%%%%%%
+\definecolor{mainColor}{HTML}{\mainColorWord}
+\definecolor{definitionBox}{HTML}{68E1AA}
+\definecolor{theoremBox}{HTML}{FF7878}
+\definecolor{exampleBox}{HTML}{51B5F8}
+\definecolor{methodBox}{HTML}{B869EA}
+\definecolor{propertyBox}{HTML}{FF5500}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%-- Operateurs --%%%%%%%%%%%%%%%
+\newcommand{\Card}{\mathop{\mathrm{Card}}\nolimits}
+\newcommand{\Cov}{\mathop{\mathrm{Cov}}\nolimits}
+\newcommand{\Var}{\mathop{\mathrm{Var}}\nolimits}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%-- Commandes --%%%%%%%%%%%%%%%
+\newcommand{\un}{\mathds{1}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\J}{\mathbb{J}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\N}{\mathbb{N}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\EE}{\mathcal{E}}
+\newcommand{\PP}{\mathcal{P}}
+
+\newcommand{\e}{\mathop{\mathrm{e}}\nolimits}
+
+\newcommand{\ie}[1]{\left\llbracket#1\right\rrbracket}
+\newcommand{\egdef}{\stackrel{\text{déf}}{=}}
+\newcommand{\dt}{\mathrm{d}}
+\newcommand{\bracket}[1]{\langle #1\rangle}
+\newcommand{\indep}{\perp \!\!\! \perp}
+
+\newcommand{\App}[5]{
+ \begin{array}[t]{r c c l}
+ #1 \textnormal{:}& #2 & \longrightarrow & #3 \\
+       & #4 & \longmapsto & #5 
+ \end{array}
+ }
+
+ \everymath{\displaystyle\everymath{}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
