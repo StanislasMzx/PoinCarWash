@@ -12,9 +12,9 @@
  * @param vehicle Vehicle_t* Vehicle to use
  * @param min_power double Minimum autonomy throughout the trip
  * @param time_max double Maximum charging time
- * @return Trip_output_t Trip output
+ * @return List_t Trip output
  */
-Trip_output_t compute_trip(Table_t *table, Nominatim_t *startNomin, Nominatim_t *endNomin, Vehicle_t *vehicle, double min_power, double time_max)
+List_t *compute_trip(Table_t *table, Nominatim_t *startNomin, Nominatim_t *endNomin, Vehicle_t *vehicle, double min_power, double time_max)
 {
     Coordinates_t *startCoordinates = malloc(sizeof(Coordinates_t)), *endCoordinates = malloc(sizeof(Coordinates_t));
 
@@ -36,7 +36,5 @@ Trip_output_t compute_trip(Table_t *table, Nominatim_t *startNomin, Nominatim_t 
 
     List_t *trip = a_star_list(table, "start", "end", vehicle, min_power, time_max);
 
-    Trip_output_t output = {table, trip};
-
-    return output;
+    return trip;
 }
