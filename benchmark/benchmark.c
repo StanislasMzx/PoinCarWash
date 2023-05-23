@@ -118,14 +118,14 @@ void benchmark_call(double startLat, double startLon, double endLat, double endL
     Table_t *table = load_stations(STATION_TABLE_PATH);
 
     // Main call
-    Trip_output_t tripOutput = compute_trip(table, startNomin, endNomin, vehicle, 0.0, 10000.0);
+    List_t *tripOutput = compute_trip(table, startNomin, endNomin, vehicle, 0.0, 10000.0);
 
     // Free memory
     vehicle_destroy(vehicle);
     nominatim_destroy(startNomin);
     nominatim_destroy(endNomin);
     table_destroy(table);
-    list_destroy(tripOutput.trip);
+    list_destroy(tripOutput);
 }
 
 /**

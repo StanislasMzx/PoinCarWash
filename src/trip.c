@@ -103,8 +103,7 @@ int main(int argc, char *argv[])
     Table_t *table = load_stations(STATION_TABLE_PATH);
 
     // Compute trip
-    Trip_output_t output = compute_trip(table, startNomin, endNomin, vehicle, min_power, time_max);
-    List_t *trip = output.trip;
+    List_t *trip = compute_trip(table, startNomin, endNomin, vehicle, min_power, time_max);
 
     print_a_star(table, trip, vehicle, min_power, time_max);
 
