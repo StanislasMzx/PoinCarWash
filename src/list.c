@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <assert.h>
+#include <math.h>
 
 /**
  * @brief Create a List_t object
@@ -192,11 +193,11 @@ Station_t *station_copy(Station_t *one_station)
 
 /**
  * @brief Calculate the travel time between two stations in ticks
- * 
+ *
  * @param one_station first station
  * @param other_station second station
  * @return int travel time in ticks
-*/
+ */
 int travel_ticks(Station_t *one_station, Station_t *other_station)
 {
     double dist = distance(one_station->coordinates, other_station->coordinates);
