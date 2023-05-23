@@ -202,16 +202,19 @@ void timelineUserDestroyAll(Timeline_all_users_t **one_timeline)
 int userLocation(Timeline_user_t *one_timeline, int one_tick, Table_t *table){
     User_state_t *one_state = one_timeline->state;
     assert(one_state != NULL);
+    assert(one_tick >= one_state->tick);
 
-    if (one_timeline->next != NULL && one_timeline->next->state->idStation == one_state->idStation){
+    if (one_timeline->next != NULL && one_timeline->next->state->idStation == one_state->idStation)
+    {
         // on est parti d'une station
         Station_t *old_station = table_get(table, one_state->station);
         Station_t *new_station = one_timeline->trip->list[one_state->stepTrip].value;
         int travelTicks = travel_ticks(old_station, new_station);
         // TODO: check behavior
         int tick_arrived = one_state->tick + travelTicks;
-        assert(tick_arrived <= one_tick);
-        if (tick_arrived == one_tick){
+
+        if (tick_arrived == one_tick)
+        {
             return new_station->id;
         }
     }
