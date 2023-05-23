@@ -438,7 +438,7 @@ void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_use
                 station_state->numberVehicle ++;
                 double v = MIN((int) current_user->vehicle->fast_charge, station_timeline->listTimeline[current_user->state->idStation]->power);
                 Station_t *oldTickStation = table_get(table, station_timeline->listTimeline[current_user->next->state->idStation]->name);
-                Station_t *currentTickStation = table_get(table, station_timeline->listTimeline[current->state->idStation]->name);
+                Station_t *currentTickStation = table_get(table, station_timeline->listTimeline[current_user->state->idStation]->name);
                 station_state->waitingTime += (double) distance(oldTickStation->coordinates, currentTickStation->coordinates)/v;
             }
         }
