@@ -7,7 +7,6 @@
 #include <math.h>
 #include "compute_trip.h"
 
-
 /**
  * @brief Prepend a user state to a timeline
  *
@@ -32,12 +31,16 @@ void timelineUserPrepend(Timeline_user_t **one_timeline, int tick, char *station
     node->trip = one_trip;
     node->stationsNumber = one_stationsNumber;
     node->next = *one_timeline;
-    if (node->next == NULL){
+    if (node->next == NULL)
+    {
         node->state->stepTrip = 0;
     }
-    else if (idStation == node->next->state->idStation){
+    else if (idStation == node->next->state->idStation)
+    {
         node->state->stepTrip = node->next->state->stepTrip;
-    }else{
+    }
+    else
+    {
         node->state->stepTrip = node->next->state->stepTrip + 1;
     }
     *one_timeline = node;
@@ -130,7 +133,7 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
     one_timeline->lastTick = -1;
     one_timeline->userNumber = 0;
     one_timeline->userArrived = 0;
-    one_timeline->listTimeline = malloc(sizeof(Timeline_user_t));//malloc(sizeof(Timeline_user_t) * 1);
+    one_timeline->listTimeline = malloc(sizeof(Timeline_user_t)); // malloc(sizeof(Timeline_user_t) * 1);
     assert(one_timeline->listTimeline != NULL);
 
     const unsigned max_line = 256;
@@ -160,11 +163,11 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
         nominatim_destroy(departure_nominatim);
         nominatim_destroy(arrival_nominatim);
         one_timeline->userNumber++;
-        one_timeline->listTimeline = realloc(one_timeline->listTimeline, sizeof(Timeline_user_t)*one_timeline->userNumber);//sizeof(Timeline_user_t) * one_timeline->userNumber);
+        one_timeline->listTimeline = realloc(one_timeline->listTimeline, sizeof(Timeline_user_t) * one_timeline->userNumber); // sizeof(Timeline_user_t) * one_timeline->userNumber);
         one_timeline->listTimeline[one_timeline->userNumber - 1] = NULL;
-        timelineUserPrepend(&one_timeline->listTimeline[one_timeline->userNumber - 1], departureTick, "", -1, vehicle, trip, trip->length);  // TODO: length of the linked list NOT trip.trip->length
+        timelineUserPrepend(&one_timeline->listTimeline[one_timeline->userNumber - 1], departureTick, "", -1, vehicle, trip, trip->length); // TODO: length of the linked list NOT trip.trip->length
         one_timeline->lastTick = departureTick > one_timeline->lastTick ? departureTick : one_timeline->lastTick;
-        printf("\33[32m[~] Success:\33[0m User %d added.\n", one_timeline->userNumber);
+        // printf("\33[32m[~] Success:\33[0m User %d added.\n", one_timeline->userNumber);
     }
 
     fclose(fp);
@@ -201,7 +204,8 @@ void timelineUserDestroyAll(Timeline_all_users_t **one_timeline)
 
     return one_state->station;
 }*/
-int userLocation(Timeline_user_t *one_timeline, int one_tick, Table_t *table){
+int userLocation(Timeline_user_t *one_timeline, int one_tick, Table_t *table)
+{
     User_state_t *one_state = one_timeline->state;
     assert(one_state != NULL);
     assert(one_tick >= one_state->tick);

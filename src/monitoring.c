@@ -41,6 +41,15 @@ int main(int argc, char *argv[])
 
     // Start monitoring process
     printf("\33[2m[~] Starting monitoring...\33[0m\n");
+    // Load station table
+    Table_t *table = load_stations(STATION_TABLE_PATH);
+    printf("\33[2m[~] Table loaded (%d stations).\33[0m\n", table->nbStation);
+    // Initialize user timeline
+    Timeline_all_users_t *user_timeline = initializeTimelineUser(table, input_file);
+    printf("\33[2m[~] User timeline initialized (%d users).\33[0m\n", user_timeline->userNumber);
+    // Initialize station timeline
+    Timeline_all_stations_t *station_timeline = initializeTimelineAllStation(user_timeline, table);
+    printf("\33[2m[~] Station timeline initialized (%d stations).\33[0m\n", station_timeline->nbStations);
 
     return 0;
 }
