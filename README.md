@@ -129,9 +129,9 @@ The Makefile is designed to build with Clang and cURL so make sure to have it in
 USAGE: ./trip [options] start_location end_location vehicle_name
 
 OPTIONS:
-  -h		Show this help message
-  -a <min_autonomy>	Set the minimum autonomy of the vehicle (default: 0%)
-  -c <max_charging_time>	Set the maximum charging time (default: 360m)
+  -h                      Show this help message
+  -a <min_autonomy>       Set the minimum autonomy of the vehicle (default: 0%)
+  -c <max_charging_time>  Set the maximum charging time (default: 360min)
 ```
 
 **Arguments:**
@@ -145,11 +145,11 @@ OPTIONS:
 **Examples:**
 
 ```sh
-./trip "Auvergne" "TELECOM Nancy" "Tesla Model 3" 30 20
+./trip -a 30 -c 20 "Auvergne" "TELECOM Nancy" "Tesla Model 3"
 ```
 
 ```sh
-./trip "3 rue stanislas nancy" "toulouse" "zoe" 10
+./trip -a 15 "3 rue stanislas nancy" "toulouse" "zoe" 10
 ```
 
 ### Network monitoring
