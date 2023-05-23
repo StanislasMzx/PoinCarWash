@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     // Make user timeline
     // makeTimelineUser(user_timeline, station_timeline, table);
     // printf("\33[2m[~] User timeline made (last tick: %d).\33[0m\n", user_timeline->lastTick);
-    // // Make station timeline
+    // Make station timeline
     // makeTimelineStation(station_timeline, user_timeline, table);
     // printf("\33[2m[~] Station timeline made (last tick: %d).\33[0m\n", station_timeline->lastTick);
 

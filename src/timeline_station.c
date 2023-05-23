@@ -159,8 +159,8 @@ int initializeStationIds(Timeline_all_users_t *all_users_timeline, Table_t *one_
             if (station->id == -1)
             {
                 // Set station id
-                nbUsedStations += 1;
                 station->id = nbUsedStations;
+                nbUsedStations += 1;
             }
         }
     }
@@ -577,15 +577,15 @@ void destroyTimelineAllStations(Timeline_all_stations_t *one_all_stations_timeli
 void destroyTimelineStation(Timeline_station_t *one_timeline)
 {
     Timeline_station_t *current = one_timeline;
-    Timeline_station_t *next = NULL;
 
-    while (current != NULL)
+    while (current->next != NULL)
     {
-        next = current->next;
         free(current->stateValue);
         free(current);
-        current = next;
+        current = current->next;
     }
+    free(current->stateValue);
+    free(current);
 }
 
 void makeTimelineStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline, Table_t *table)
