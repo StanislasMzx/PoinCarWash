@@ -5,6 +5,7 @@
 #include "a_star.h"
 #include "timeline_user.h"
 
+#define NETWORK_PATH "../data/input/network1.csv"
 
 struct _Station_state_t
 {

@@ -203,7 +203,7 @@ int travel_ticks(Station_t *one_station, Station_t *other_station)
 {
     double dist = distance(one_station->coordinates, other_station->coordinates);
     double travelTime = dist / VEHICLE_SPEED * 60.0;
-    int travelTicks = (int)ceil(travelTime * 6.0);
+    int travelTicks = (int)ceil(travelTime / 10.0);
 
     return travelTicks;
 }
