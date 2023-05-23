@@ -181,6 +181,7 @@ Timeline_all_stations_t *initializeTimelineAllStation(Timeline_all_users_t *all_
     assert(one_all_stations_timeline != NULL);
 
     one_all_stations_timeline->nbStations = 0;
+    one_all_stations_timeline->lastTick = all_users_timeline->lastTick;
     int nbUsedStations = initializeStationIds(all_users_timeline, one_table);
     one_all_stations_timeline->nbStations = nbUsedStations;
     one_all_stations_timeline->listTimeline = calloc(nbUsedStations, sizeof(Timeline_station_t));
