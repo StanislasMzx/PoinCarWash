@@ -126,7 +126,12 @@ The Makefile is designed to build with Clang and cURL so make sure to have it in
 ### Compute a trip
 
 ```sh
-./trip <start_location> <end_location> <vehicle_name> [<min_autonomy=0>] [<max_charging_time=360>]
+USAGE: ./trip [options] start_location end_location vehicle_name
+
+OPTIONS:
+  -h		Show this help message
+  -a <min_autonomy>	Set the minimum autonomy of the vehicle (default: 0%)
+  -c <max_charging_time>	Set the maximum charging time (default: 360m)
 ```
 
 **Arguments:**
@@ -138,7 +143,7 @@ The Makefile is designed to build with Clang and cURL so make sure to have it in
 - `max_charging_time`: The maximum charging time in minutes allowed at each charging station (optional, default: 360)
 
 **Examples:**
-  
+
 ```sh
 ./trip "Auvergne" "TELECOM Nancy" "Tesla Model 3" 30 20
 ```
@@ -159,6 +164,7 @@ The Makefile is designed to build with Clang and cURL so make sure to have it in
   - [x] CLI input
   - [x] API address to coordinates conversion
   - [x] Flexible vehicle name input
+  - [x] Autonomy and charging time options
 - [ ] Network monitoring
 
 See the [open issues](https://gitlab.telecomnancy.univ-lorraine.fr/ppii2_2223/ppii2-grp_07/issues) for a full list of proposed features (and known issues).

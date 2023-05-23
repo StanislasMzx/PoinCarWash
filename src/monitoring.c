@@ -18,8 +18,8 @@ int main(int argc, char *argv[])
             printf("USAGE: %s [options] file\n", argv[0]);
             printf("\n");
             printf("OPTIONS:\n");
-            printf("  -h\t\tShow this help message\n");
-            printf("  -f <file>\tSet the output file name\n");
+            printf("  -h         Show this help message\n");
+            printf("  -f <file>  Set the output file name\n");
             return 0;
         case 'f':
             output_file = optarg;
