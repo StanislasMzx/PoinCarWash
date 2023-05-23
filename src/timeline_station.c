@@ -75,7 +75,6 @@
 //     }
 // }
 
-
 void nextTickUser(Timeline_all_users_t *user_timeline, Timeline_all_stations_t *station_timeline, Table_t *one_table)
 {
     assert(station_timeline->lastTick == user_timeline->lastTick);
@@ -128,72 +127,6 @@ void makeTimelineUser(Timeline_all_users_t *user_timeline, Timeline_all_stations
         }
     }
 }
-
-/*Timeline_all_stations_t *initializeTimelineStation(Timeline_all_users_t *user_timeline, Table_t *one_table){
-    Timeline_all_stations_t *station_timeline = malloc(sizeof(Timeline_all_stations_t));
-    station_timeline->listTimeline = calloc(one_table->nbStation, sizeof(Timeline_station_t));
-    station_timeline->stationNumber = one_table->nbStation;
-    Station_t *station;
-    Timeline_station_t *one_timeline;
-    for (int i=2; i<one_table->length; i++){
-        List_t *one_list = one_table->slots[i];
-        for (int j=0; j<one_list->length; j++){
-            station = one_list->list[j].value;
-            one_timeline = station_timeline->listTimeline[station->id];
-            one_timeline->name = one_list->list[j].key;
-            one_timeline->next = NULL;
-            one_timeline->statesNumber = 0;
-            one_timeline->stateValue = malloc(sizeof(Station_state_t));
-            one_timeline->stateValue->availablePlugs = station->plugs_number;
-            one_timeline->stateValue->numberVehicle = 0;
-            one_timeline->stateValue->tick = 0;
-            one_timeline->stateValue->waitingTime = 0;
-        }
-    }
-    return station_timeline;
-}
-
-
-
-
-void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline){
-    nextTickUser(user_timeline);
-    for (int i=0; i<station_timeline->stationNumber; i++){
-        Timeline_station_t *one_timeline = station_timeline->listTimeline[i];
-        Timeline_station_t* new = malloc(sizeof(Timeline_station_t));
-        new->name = one_timeline->name;
-        new->statesNumber = one_timeline->statesNumber + 1;
-        new->stateValue = malloc(sizeof(Station_state_t));
-        new->stateValue->availablePlugs = one_timeline->stateValue->availablePlugs;
-        new->stateValue->numberVehicle = one_timeline->stateValue->numberVehicle;
-        new->stateValue->tick = one_timeline->stateValue->tick + 1;
-        if (one_timeline->stateValue->waitingTime > 0){
-            new->stateValue->waitingTime = one_timeline->stateValue->waitingTime - 1;
-        }else{
-            new->stateValue->waitingTime = 0;
-        }
-        new->next = one_timeline;
-        station_timeline->listTimeline[i] = new; // on vient d'ajouter une case
-    for (int i=0; i<user_timeline->userNumber; i++){
-        Timeline_user_t *one_timeline = user_timeline->listTimeline[i];
-        if (one_timeline->state->station != -1){
-            Station_state_t *one_state = station_timeline->listTimeline[one_timeline->state->station]->stateValue;
-            if (one_timeline->next != NULL && one_timeline->state->station == one_timeline->next->state->station) // on veut savoir si la voiture part ou arrive dans une station
-            {
-                one_state->availablePlugs ++;
-                one_state->numberVehicle --;
-            }else{
-                one_state->availablePlugs --;
-                one_state->numberVehicle ++;
-                double v = MIN(one_timeline->vehicle->fast_charge, station_timeline->listTimeline[one_timeline->state->station]->power);
-                one_state->waitingTime += (double) distance()
-            }
-        }
-    }
-    }
-}
-
-*/
 
 
 /**
@@ -388,43 +321,6 @@ Timeline_station_t *createTimelineStation(char *one_name, Table_t *one_table)
 }*/
 
 /**
- * @brief Calculates the state of a all stations at the next tick
- *
- * @param station_timeline The all stations timeline
- */
-/*void nextTickStation(Timeline_all_stations_t *station_timeline)
-{
-    for (int index = 0; index < station_timeline->nbStations; index++)
-    {
-        if (station_timeline->listTimeline[index] != NULL)
-        {
-            stationTimelineNextTick(station_timeline->listTimeline[index]);
-        }
-    }
-}*/
-
-/**
- * @brief Creates the state of a station for the next tick
- *
- * @param one_timeline The station timeline
- */
-/*void stationTimelineNextTick(Timeline_station_t *one_timeline)
-{
-    Station_state_t *one_state = malloc(sizeof(Station_state_t));
-    assert(one_state != NULL);
-
-    one_state->tick = one_timeline->stateValue->tick + 1;
-
-    one_state->numberVehicle = one_timeline->stateValue->numberVehicle; // will be calculated during the calculation of the next tick for the users
-
-    one_state->availablePlugs = one_timeline->stateValue->availablePlugs; // will be calculated during the calculation of the next tick for the users
-
-    one_state->waitingTime = 0; // will be calculated during the calculation of the next tick for the users
-
-    stationTimelineAddState(one_timeline, one_state);
-}*/
-
-/**
  * @brief Add a state to a station timeline
  *
  * @param one_timeline The station timeline
@@ -448,6 +344,113 @@ Timeline_station_t *createTimelineStation(char *one_name, Table_t *one_table)
     current->next->next = NULL;
 }*/
 
+
+/**
+ * @brief Creates the state of a station for the next tick
+ *
+ * @param one_timeline The station timeline
+ */
+
+// void nextTickStation(Timeline_all_stations_t *station_timeline)
+// {
+//     for (int index = 0; index < station_timeline->nbStations; index++)
+//     {
+//         if (station_timeline->listTimeline[index] != NULL)
+//         {
+//             stationTimelineNextTick(station_timeline->listTimeline[index]);
+//         }
+//     }
+// }
+
+// void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline){
+//     nextTickUser(user_timeline);
+//     for (int i=0; i<station_timeline->stationNumber; i++){
+//         Timeline_station_t *one_timeline = station_timeline->listTimeline[i];
+//         Timeline_station_t* new = malloc(sizeof(Timeline_station_t));
+//         new->name = one_timeline->name;
+//         new->statesNumber = one_timeline->statesNumber + 1;
+//         new->stateValue = malloc(sizeof(Station_state_t));
+//         new->stateValue->availablePlugs = one_timeline->stateValue->availablePlugs;
+//         new->stateValue->numberVehicle = one_timeline->stateValue->numberVehicle;
+//         new->stateValue->tick = one_timeline->stateValue->tick + 1;
+//         if (one_timeline->stateValue->waitingTime > 0){
+//             new->stateValue->waitingTime = one_timeline->stateValue->waitingTime - 1;
+//         }else{
+//             new->stateValue->waitingTime = 0;
+//         }
+//         new->next = one_timeline;
+//         station_timeline->listTimeline[i] = new; // on vient d'ajouter une case
+//     for (int i=0; i<user_timeline->userNumber; i++){
+//         Timeline_user_t *one_timeline = user_timeline->listTimeline[i];
+//         if (one_timeline->state->station != -1){
+//             Station_state_t *one_state = station_timeline->listTimeline[one_timeline->state->station]->stateValue;
+//             if (one_timeline->next != NULL && one_timeline->state->station == one_timeline->next->state->station) // on veut savoir si la voiture part ou arrive dans une station
+//             {
+//                 one_state->availablePlugs ++;
+//                 one_state->numberVehicle --;
+//             }else{
+//                 one_state->availablePlugs --;
+//                 one_state->numberVehicle ++;
+//                 double v = MIN(one_timeline->vehicle->fast_charge, station_timeline->listTimeline[one_timeline->state->station]->power);
+//                 one_state->waitingTime += (double) distance()
+//             }
+//         }
+//     }
+//     }
+// }
+
+// void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline){
+//     nextTickUser(user_timeline);
+//     for (int i=0; i<station_timeline->stationNumber; i++){
+//         Timeline_station_t *one_timeline = station_timeline->listTimeline[i];
+//         Timeline_station_t* new = malloc(sizeof(Timeline_station_t));
+//         new->name = one_timeline->name;
+//         new->statesNumber = one_timeline->statesNumber + 1;
+//         new->stateValue = malloc(sizeof(Station_state_t));
+//         new->stateValue->availablePlugs = one_timeline->stateValue->availablePlugs;
+//         new->stateValue->numberVehicle = one_timeline->stateValue->numberVehicle;
+//         new->stateValue->tick = one_timeline->stateValue->tick + 1;
+//         if (one_timeline->stateValue->waitingTime > 0){
+//             new->stateValue->waitingTime = one_timeline->stateValue->waitingTime - 1;
+//         }else{
+//             new->stateValue->waitingTime = 0;
+//         }
+//         new->next = one_timeline;
+//         station_timeline->listTimeline[i] = new; // on vient d'ajouter une case
+//     for (int i=0; i<user_timeline->userNumber; i++){
+//         Timeline_user_t *one_timeline = user_timeline->listTimeline[i];
+//         if (one_timeline->state->station != -1){
+//             Station_state_t *one_state = station_timeline->listTimeline[one_timeline->state->station]->stateValue;
+//             if (one_timeline->next != NULL && one_timeline->state->station == one_timeline->next->state->station) // on veut savoir si la voiture part ou arrive dans une station
+//             {
+//                 one_state->availablePlugs ++;
+//                 one_state->numberVehicle --;
+//             }else{
+//                 one_state->availablePlugs --;
+//                 one_state->numberVehicle ++;
+//                 double v = MIN(one_timeline->vehicle->fast_charge, station_timeline->listTimeline[one_timeline->state->station]->power);
+//                 one_state->waitingTime += (double) distance()
+//             }
+//         }
+//     }
+//     }
+// }
+
+// void stationTimelineNextTick(Timeline_station_t *one_timeline)
+// {
+//     Station_state_t *one_state = malloc(sizeof(Station_state_t));
+//     assert(one_state != NULL);
+
+//     one_state->tick = one_timeline->stateValue->tick + 1;
+
+//     one_state->numberVehicle = one_timeline->stateValue->numberVehicle; // will be calculated during the calculation of the next tick for the users
+
+//     one_state->availablePlugs = one_timeline->stateValue->availablePlugs; // will be calculated during the calculation of the next tick for the users
+
+//     one_state->waitingTime = 0; // will be calculated during the calculation of the next tick for the users
+
+//     stationTimelineAddState(one_timeline, one_state);
+// }
 
 void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline, Table_t *table){
     nextTickUser(user_timeline, station_timeline, table);
@@ -487,7 +490,7 @@ void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_use
                 double v = MIN((int) current_user->vehicle->fast_charge, station_timeline->listTimeline[current_user->state->idStation]->power);
                 Station_t *oldTickStation = table_get(table, station_timeline->listTimeline[current_user->next->state->idStation]->name);
                 Station_t *currentTickStation = table_get(table, station_timeline->listTimeline[current_user->state->idStation]->name);
-                station_state->waitingTime += (double) distance(oldTickStation->coordinates, currentTickStation->coordinates)/v;
+                station_state->waitingTime += (double) distance(oldTickStation->coordinates, currentTickStation->coordinates) / v;
             }
         }
     }
