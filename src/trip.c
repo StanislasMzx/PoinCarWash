@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
     if (optind + 3 != argc)
     {
         fprintf(stderr, "\u2514\u2500\u2500 \33[1;91mError\33[0m\n");
-        fprintf(stderr, "    \u2514\u2500\u2500 Invalid number of argument.\n");
+        fprintf(stderr, "    \u251c\u2500\u2500 Invalid number of argument.\n");
         fprintf(stderr, "    \u2514\u2500\u2500 Run `%s -h` for help.\n", argv[0]);
         return (EXIT_FAILURE);
     }
