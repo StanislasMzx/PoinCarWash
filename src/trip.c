@@ -36,26 +36,33 @@ int main(int argc, char *argv[])
     // Bad arguments
     if (*(argv[1]) == '\0')
     {
-        fprintf(stderr, "\33[31m>> Error:\33[0m Empty departure location.\n");
+        fprintf(stderr, "\u2514\u2500\u2500 \33[1;91mError\33[0m\n");
+        fprintf(stderr, "    \u2514\u2500\u2500 Empty departure location.\n");
         return 1;
     }
     if (*(argv[2]) == '\0')
     {
-        fprintf(stderr, "\33[31m>> Error:\33[0m Empty arrival location.\n");
+        fprintf(stderr, "\u2514\u2500\u2500 \33[1;91mError\33[0m\n");
+        fprintf(stderr, "    \u2514\u2500\u2500 Empty arrival location.\n");
         return 1;
     }
     if (*(argv[3]) == '\0')
     {
-        fprintf(stderr, "\33[31m>> Error:\33[0m Empty vehicle name.\n");
+        fprintf(stderr, "\u2514\u2500\u2500 \33[1;91mError\33[0m\n");
+        fprintf(stderr, "    \u2514\u2500\u2500 Empty vehicle name.\n");
         return 1;
     }
     if (min_power < 0.0 || min_power > 100.0)
     {
-        fprintf(stderr, "\33[31m>> Error:\33[0m Invalid minimum autonomy: \"\33[31m%s\33[0m\".\n         You must enter a value between 0.0 and 100.0.\n", argv[4]);
+        fprintf(stderr, "\u2514\u2500\u2500 \33[1;91mError\33[0m\n");
+        fprintf(stderr, "    \u2514\u2500\u2500 Invalid minimum autonomy: \"\33[91m%s\33[0m\". You must enter a value between 0.0 and 100.0.\n", argv[4]);
+        // fprintf(stderr, "\33[31m>> Error:\33[0m Invalid minimum autonomy: \"\33[31m%s\33[0m\".\n         You must enter a value between 0.0 and 100.0.\n", argv[4]);
     }
     if (time_max < 0.0)
     {
-        fprintf(stderr, "\33[31m>> Error:\33[0m Invalid maximum charging time: \"\33[31m%s\33[0m\".\n         You must enter a positive value.", argv[5]);
+        fprintf(stderr, "\u2514\u2500\u2500 \33[1;91mError\33[0m\n");
+        fprintf(stderr, "    \u2514\u2500\u2500 Invalid maximum charging time: \"\33[91m%s\33[0m\". You must enter a positive value.\n", argv[5]);
+        // fprintf(stderr, "\33[31m>> Error:\33[0m Invalid maximum charging time: \"\33[31m%s\33[0m\".\n         You must enter a positive value.", argv[5]);
         return 1;
     }
 
@@ -68,7 +75,8 @@ int main(int argc, char *argv[])
     }
     if (*(startNomin->name) == '\0')
     {
-        fprintf(stderr, "\33[31m>> Error:\33[0m Invalid departure location: \"\33[31m%s\33[0m\".\n", argv[1]);
+        fprintf(stderr, "\u2514\u2500\u2500 \33[1;91mError\33[0m\n");
+        fprintf(stderr, "    \u2514\u2500\u2500 Invalid departure location: \"\33[91m%s\33[0m\".\n", argv[1]);
         // Free memory
         nominatim_destroy(startNomin);
         return 1;
@@ -85,7 +93,8 @@ int main(int argc, char *argv[])
     }
     if (*(endNomin->name) == '\0')
     {
-        fprintf(stderr, "\33[31m>> Error:\33[0m Invalid arrival location: \"\33[31m%s\33[0m\".\n", argv[2]);
+        fprintf(stderr, "\u2514\u2500\u2500 \33[1;91mError\33[0m\n");
+        fprintf(stderr, "    \u2514\u2500\u2500 Invalid arrival location: \"\33[91m%s\33[0m\".\n", argv[2]);
         // Free memory
         nominatim_destroy(startNomin);
         nominatim_destroy(endNomin);
@@ -96,7 +105,8 @@ int main(int argc, char *argv[])
     Vehicle_t *vehicle = vehicle_find_by_name(argv[3]);
     if (vehicle->name == NULL)
     {
-        fprintf(stderr, "\33[31m>> Error:\33[0m Vehicle not found: \"\33[31m%s\33[0m\".\n", argv[3]);
+        fprintf(stderr, "\u2514\u2500\u2500 \33[1;91mError\33[0m\n");
+        fprintf(stderr, "    \u2514\u2500\u2500 Vehicle not found: \"\33[91m%s\33[0m\".\n", argv[3]);
         exit(1);
     }
 
