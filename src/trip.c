@@ -56,13 +56,11 @@ int main(int argc, char *argv[])
     {
         fprintf(stderr, "\u2514\u2500\u2500 \33[1;91mError\33[0m\n");
         fprintf(stderr, "    \u2514\u2500\u2500 Invalid minimum autonomy: \"\33[91m%s\33[0m\". You must enter a value between 0.0 and 100.0.\n", argv[4]);
-        // fprintf(stderr, "\33[31m>> Error:\33[0m Invalid minimum autonomy: \"\33[31m%s\33[0m\".\n         You must enter a value between 0.0 and 100.0.\n", argv[4]);
     }
     if (time_max < 0.0)
     {
         fprintf(stderr, "\u2514\u2500\u2500 \33[1;91mError\33[0m\n");
         fprintf(stderr, "    \u2514\u2500\u2500 Invalid maximum charging time: \"\33[91m%s\33[0m\". You must enter a positive value.\n", argv[5]);
-        // fprintf(stderr, "\33[31m>> Error:\33[0m Invalid maximum charging time: \"\33[31m%s\33[0m\".\n         You must enter a positive value.", argv[5]);
         return 1;
     }
 
