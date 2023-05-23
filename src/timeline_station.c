@@ -580,9 +580,10 @@ void destroyTimelineStation(Timeline_station_t *one_timeline)
 
     while (current->next != NULL)
     {
+        Timeline_station_t *tmp = current->next;
         free(current->stateValue);
         free(current);
-        current = current->next;
+        current = tmp;
     }
     free(current->stateValue);
     free(current);

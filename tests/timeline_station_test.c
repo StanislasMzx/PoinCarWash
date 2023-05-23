@@ -6,18 +6,19 @@
 
 describe(test_initializeTimelineStation)
 {
-    // Table_t *table = load_stations("../data/raw/consolidation-etalab-schema-irve-statique-v-2.2.0-20230415.csv");
+    Table_t *table = load_stations(STATION_TABLE_PATH);
 
-    // Timeline_all_stations_t *one_all_timeline = initializeTimelineAllStation(table);
+    Timeline_all_users_t *one_all_user = initializeTimelineUser(table, NETWORK_PATH);
+    Timeline_all_stations_t *one_all_station = initializeTimelineAllStation(one_all_user, table);
 
-    // asserteq_int(one_all_timeline->nbStations, table->nbStation);
-    // for (int i=0; i<one_all_timeline->nbStations; i++){
-    //     asserteq_int(one_all_timeline->listTimeline[i]->stateValue->tick, 0);
-    //     assert(one_all_timeline->listTimeline[i]->next == NULL);
-    // }
+    for (int i=0; i<one_all_station->nbStations; i++){
+        asserteq_int(one_all_station->listTimeline[i]->stateValue->tick, 0);
+        assert(one_all_station->listTimeline[i]->next == NULL);
+        asserteq_int(one_all_user->listTimeline[i]->state->idStation, i);
+    }
 
-    // defer(table_destroy(table));
-    // defer(destroyTimelineAllStations(one_all_timeline));
+    defer(table_destroy(table));
+    defer(destroyTimelineAllStations(one_all_station));
 }
 
 snow_main();

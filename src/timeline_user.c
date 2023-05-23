@@ -206,18 +206,33 @@ void timelineUserDestroyAll(Timeline_all_users_t **one_timeline)
 }*/
 int userLocation(Timeline_user_t *one_timeline, int one_tick, Table_t *table)
 {
+    // need initializationStationALL
     User_state_t *one_state = one_timeline->state;
     assert(one_state != NULL);
     assert(one_tick >= one_state->tick);
 
-    if (one_timeline->next != NULL && one_timeline->next->state->idStation == one_state->idStation)
+    if (one_timeline->next == NULL || one_timeline->next->state->idStation == one_state->idStation)
     {
         // on est parti d'une station
-        Station_t *old_station = table_get(table, one_state->station);
         Station_t *new_station = one_timeline->trip->list[one_state->stepTrip].value;
+
+        //printf("\n%d\n", one_state->idStation);
+
+
+        Station_t *old_station;
+        if (one_timeline->next == NULL){
+            printf("\n%d\n", one_state->idStation);
+            list_print(table->slots[0]);
+            old_station = table->slots[0]->list[one_state->idStation].value;
+            printf("\n%s\n", old_station->name);
+        }
+        else{
+            old_station = table_get(table, one_state->station);
+        }
         int travelTicks = travel_ticks(old_station, new_station);
         // TODO: check behavior
         int tick_arrived = one_state->tick + travelTicks;
+        //printf("\n tick to check: %d, tick arrive; %d", one_tick, tick_arrived);
 
         if (tick_arrived == one_tick)
         {
