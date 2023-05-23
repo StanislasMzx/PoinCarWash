@@ -3,7 +3,7 @@
 % @author: Stanislas MEZUREUX
 % Copyright (c) 2022 Stanislas MEZUREUX. All rights reserved.
 
-\ProvidesPackage{configfrancaisLight}[2022/10/20 template for Lectures]
+\ProvidesPackage{configfrancaisCM}[2022/10/20 template for Lectures]
 \RequirePackage{xkeyval}
 
 %%%%%%%%%%%%%%%%-- Options --%%%%%%%%%%%%%%%%
@@ -17,10 +17,10 @@
 }
 \DeclareOptionX{ra}{
   \renewcommand{\mainColorWord}{749F82}
-  \renewcommand{\docType}{#1}  
+  \renewcommand{\docType}{#1}
 }
 \DeclareOptionX{subjectAcronym}{\renewcommand{\subjectAcronym}{#1}}
-\DeclareOptionX*{\PackageWarning{configfrancaisLight}{Unknown ‘\CurrentOption’}}
+\DeclareOptionX*{\PackageWarning{configfrancaisCM}{Unknown ‘\CurrentOption’}}
 
 \ProcessOptionsX\relax
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -42,7 +42,7 @@
 \RequirePackage[colorlinks=true, allcolors=mainColor, pdfusetitle]{hyperref}
 \RequirePackage{cite}
 \RequirePackage{lastpage}
-\usepackage[outputdir=../../../]{minted}\RequirePackage{enumitem}
+\usepackage{minted}\RequirePackage{enumitem}
 \RequirePackage{enumitem}
 \RequirePackage{tikz}
 \RequirePackage{tikz-cd}
@@ -70,32 +70,32 @@
 \makeatletter
 \def\thickhrulefill{\leavevmode \leaders \hrule height .75ex \hfill \kern \z@}
 \renewcommand\maketitle{
-\thispagestyle{empty}
-\vspace*{175\p@}%
+  \thispagestyle{empty}
+  \vspace*{175\p@}%
   {\parindent \z@ \centering \reset@font
-        \thickhrulefill\hspace*{2px}
-        \large \textsf{\docType}
-        \hspace*{2px}\thickhrulefill
-        \par\nobreak
-        \vspace*{20\p@}%
-        \interlinepenalty\@M
-        \hrule
-        \vspace*{10\p@}%
-        \Huge \bfseries \subjectAcronym\text{ - }\@title\par\nobreak
-        \par
-        \vspace*{10\p@}%
-        \hrule
-        \vspace*{30\p@}
-        \Large \@author
-        \par
-        \vspace*{30\p@}
-        \normalsize \mdseries 1\up{ère} année
-        \par
-        \vspace*{30\p@}
-        \includegraphics[scale = 0.3]{"IMG/logo_tn.png"}
-        \par
-        \vspace*{20\p@}
-        \normalsize \@date
+    \thickhrulefill\hspace*{2px}
+    \large \textsf{\docType}
+    \hspace*{2px}\thickhrulefill
+    \par\nobreak
+    \vspace*{20\p@}%
+    \interlinepenalty\@M
+    \hrule
+    \vspace*{10\p@}%
+    \Huge \bfseries \subjectAcronym\text{ - }\@title\par\nobreak
+    \par
+    \vspace*{10\p@}%
+    \hrule
+    \vspace*{30\p@}
+    \Large \@author
+    \par
+    \vspace*{30\p@}
+    \normalsize \mdseries 1\up{ère} année
+    \par
+    \vspace*{30\p@}
+    \includegraphics[scale = 0.3]{"IMG/logo_tn.png"}
+    \par
+    \vspace*{20\p@}
+    \normalsize \@date
     \vskip 10\p@}}
 \makeatother
 
@@ -119,7 +119,7 @@
 \makeatother
 
 % section title
-\renewcommand{\thesection}{\Roman{section}} 
+\renewcommand{\thesection}{\Roman{section}}
 \titleformat{\section}[hang]{
   \LARGE\bfseries}{\textcolor{mainColor}{\thesection\ $\rhd$}\ }{0pt}{\LARGE\bfseries
 }
@@ -131,7 +131,7 @@
 }
 
 % subsubsection title
-\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}} 
+\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
 \titleformat{\subsubsection}[hang]{
   \normalsize\bfseries}{\textcolor{mainColor}{\thesubsection.\arabic{subsubsection}}}{10pt}{\normalsize\bfseries
 }
@@ -180,8 +180,8 @@
   \addtolength{\positionmarge}{-\decalage / 16}%
   \begin{tikzpicture}[overlay,remember picture]
     \node[fill=mainColor ,text=white,
-    inner ysep=6pt, inner xsep=4pt,align=flush left,
-    rounded corners={2pt},text width=2cm,align=flush left]
+      inner ysep=6pt, inner xsep=4pt,align=flush left,
+      rounded corners={2pt},text width=2cm,align=flush left]
     at ([xshift=-2mm,yshift=\positionmarge]current page.east)
     {\sffamily\bfseries\footnotesize \subjectAcronym};
     % {\sffamily\bfseries\footnotesize SM};
@@ -246,11 +246,11 @@
 \newcommand{\indep}{\perp \!\!\! \perp}
 
 \newcommand{\App}[5]{
- \begin{array}[t]{r c c l}
- #1 \textnormal{:}& #2 & \longrightarrow & #3 \\
-       & #4 & \longmapsto & #5 
- \end{array}
- }
+  \begin{array}[t]{r c c l}
+    #1 \textnormal{:} & #2 & \longrightarrow & #3 \\
+                      & #4 & \longmapsto     & #5
+  \end{array}
+}
 
- \everymath{\displaystyle\everymath{}}
+\everymath{\displaystyle\everymath{}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

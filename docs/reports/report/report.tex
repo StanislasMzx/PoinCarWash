@@ -24,7 +24,7 @@
 Ce projet s'inscrit dans le cadre pédagogique de notre première année d'étude en école d'ingénieur au sein de l'établissement TELECOM Nancy. L'objectif y est de mettre en pratique les compétences scientifiques et techniques acquises tout au long de cette première année en se rapprochant d'une étude de cas concrète.
 \bigskip
 
-Il se divise en deux étapes distinctes. Il nous a été demandé dans un premier temps de construire en langage "C" un programme qui permet de planifier un parcours de charge pour un véhicule électrique et pour un trajet donné et d'enrichir cette application en y incorporant les ajouts de notre choix. Dans un second temps, il nous a fallu réaliser, toujours en langage "C", un module de simulation qui pour un ensemble d'usagers, calcule le taux de charge des bornes du territoire.
+Il se divise en deux étapes distinctes. Il nous a été demandé dans un premier temps de construire en langage «C» un programme qui permet de planifier un parcours de charge pour un véhicule électrique et pour un trajet donné et d'enrichir cette application en y incorporant les ajouts de notre choix. Dans un second temps, il nous a fallu réaliser, toujours en langage «C», un module de simulation qui pour un ensemble d'usagers, calcule le taux de charge des bornes du territoire.
 \bigskip
 
 Notons également que tout au long du projet nous avons dû suivre une gestion de projets rigoureuse, ce
@@ -167,7 +167,7 @@ On peut synthétiser cette analyse au travers de ce diagramme:
           \end{itemize}
     \item Techniques :
           \begin{itemize}
-              \item Langage de programmation : le langage utilisé doit être le langage "C".
+              \item Langage de programmation : le langage utilisé doit être le langage «C».
           \end{itemize}
 \end{itemize}
 \bigskip
@@ -199,7 +199,7 @@ On peut synthétiser cette analyse au travers de ce diagramme:
           \end{itemize}
     \item Contrainte technique :
           \begin{itemize}
-              \item Impact : le langage "C" est maîtrisé par l'équipe, la contrainte n'a donc que peu d'impact.
+              \item Impact : le langage «C» est maîtrisé par l'équipe, la contrainte n'a donc que peu d'impact.
               \item Gravité : Négligeable, cette contraintes peut être gérée en planifiant un temps de formation mais cela demande du temps.
           \end{itemize}
           \clearpage % --- Pour la mise en page -> à supprimer si le contenu précédent est modifié et que la mise en page change ---
@@ -270,7 +270,7 @@ Pour travailler efficacement il est important de connaître les forces sur lesqu
 
 \textbf{\underline{Nos faiblesses} :}
 \begin{itemize}
-    \item Nos connaissances en langage "C" sont encore très récentes, ainsi on aura de manière certaine besoin de plus temps pour développer ce type d'outils que des développeurs expérimentés.
+    \item Nos connaissances en langage «C» sont encore très récentes, ainsi on aura de manière certaine besoin de plus temps pour développer ce type d'outils que des développeurs expérimentés.
     \item On est tous très engagés dans le mileu associatif de TELECOM et les cours nous prennent beaucoup de temps, on a donc peu de temps à consacrer au projet.  Il faudra être discipliner sur le temps que l'on arrive à dégager.
 \end{itemize}
 \clearpage
@@ -282,7 +282,7 @@ On peut synthétiser cette analyse sous forme de tableau :
         \hline
         \textcolor{mainColor}{Forces}                             & \textcolor{mainColor}{Faiblesses}       \\
         \hline\hline
-        Forte expérience en équipe                                & Novices en langage "C"                  \\
+        Forte expérience en équipe                                & Novices en langage «C»                  \\
         \hline
         Bonne capacité de communication                           & Très pris par l'associatif et les cours \\
         \hline
@@ -315,7 +315,7 @@ On peut synthétiser cette analyse sous forme de tableau :
 \clearpage
 \section{Analyse}
 
-La première consiste à construire en langage "C" un programme qui permet de proposer à tout usager souhaitant se rendre d'un point A à un point B du territoire, un parcours de charge de son véhicule électrique.
+La première consiste à construire en langage «C» un programme qui permet de proposer à tout usager souhaitant se rendre d'un point A à un point B du territoire, un parcours de charge de son véhicule électrique.
 
 \subsection{Etat de l'art}
 \subsubsection{Le problème}
@@ -339,7 +339,7 @@ Ce problème ayant déjà été étudié, il existe des applications permettant 
 
 \begin{itemize}
     \item \textbf{\underline{Chargermap} :} Son fonctionnement est très simple. Il faut d’abord lancer l’application sur son smartphone Android ou Apple, puis renseigner ses points de départ et d’arrivée. Vous devez ensuite préciser le modèle de votre véhicule, les niveaux de batterie souhaités au départ comme à l’arrivée et enfin, la vitesse maximale que vous prévoyez au cours du trajet. À partir de ces informations, l’algorithme calcule en une poignée de secondes le chemin le plus adapté. L’itinéraire à suivre et les bornes où s’arrêter sont ainsi affichés sur une carte. Une feuille de route vous indique également la distance à parcourir entre chaque escale et la durée de chaque recharge. Vous verrez qu’il n’est pas systématiquement nécessaire de faire un plein complet, un appoint de quelques dizaines de minutes suffisant la plupart du temps.
-    \bigskip
+          \bigskip
     \item \textbf{\underline{A Better Routeplanner} :} Le fonctionnement de cet outil est globalement similaire celui de Chargermap. Lieu de départ et d’arrivée, niveaux de batterie, modèle de véhicule : on y renseigne les mêmes informations. A Better Routeplanner (ABRP) se démarque cependant en proposant un mode expert, qui ouvre accès à un panneau extrêmement complet de données à préciser : poids des bagages et passagers, météo, consommation moyenne personnalisée, type de chargeurs, etc. Contrairement à Chargemap, ABRP présente aussi l’avantage d’estimer les prix des recharges sur sa feuille de route. Les différences de temps de charge et de parcours entre Chargemap et A Better Routeplanner sont souvent le résultat d’estimations différentes de ses concepteurs. Le premier outil peut, par exemple, être plus ou moins optimiste sur la capacité d’un véhicule à recharger rapidement que le second.
 \end{itemize}
 
@@ -415,7 +415,7 @@ Le résultat de l'algorithme \textit{i.e.} la liste des stations à visiter, ser
 \subsubsection{Calcul de plus court chemin : \texttt{A-star}}
 % TODO : Corentin
 \subsubsection{Conversion d'adresse en coordonnées géographiques}
-Afin de faciliter l'utilisation de l'application, et d'être plus productifs lors des tests de nos programmes, nous avons implémenté l'utilisation d'une API de nominatims pour rechercher les coordonnées géographiques d'un endroit à partir d'une description variable de son adresse. Par exemple : "TELECOM Nancy", "193 avenue paul muller", "LORRAINE", "Place Stanislas", etc.\par\bigskip
+Afin de faciliter l'utilisation de l'application, et d'être plus productifs lors des tests de nos programmes, nous avons implémenté l'utilisation d'une API de nominatims pour rechercher les coordonnées géographiques d'un endroit à partir d'une description variable de son adresse. Par exemple : «TELECOM Nancy», «193 avenue paul muller», «LORRAINE», «Place Stanislas», etc.\par\bigskip
 Pour ce faire, nous avons utilisé la librairie \texttt{libcurl}\footnote{\url{https://curl.se/libcurl/}} du projet \textit{open source} cURL. Cette librairie permet de faire des requêtes HTTP et HTTPS, et donc de communiquer avec des API. Il nous a donc fallu créer un certain nombre de structures de données, car la requête à l'API génère un \textit{buffer} en temps direct, et gérer tous les éventuels cas d'erreurs : réponse nulle, connexion impossible, etc.\par\bigskip
 L'API utilisée est celle d'\textbf{OpenStreetMap}\footnote{\url{https://nominatim.org/release-docs/develop/api/Search/}}. Elle permet de faire des recherches d'adresses, de lieux, de villes, etc. à partir d'une description textuelle. Elle renvoie un fichier JSON contenant les informations demandées, dont les coordonnées géographiques.\par\bigskip
 Notre programme exécute donc une requête HTTPS à cette API et récupère la réponse sous forme de JSON, qu'une autre fonction parse pour en extraire les informations utiles.\par\bigskip
@@ -446,7 +446,7 @@ L'exécution sur le serveur de l'école \url{https://gitlab.telecomnancy.univ-lo
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}
-        \begin{axis}[xlabel=Disatnce(km), ylabel=Temps d'exécution(s), title=Temps d'exécution en fonction de la distance du trajet, ymajorgrids=true, grid style=dashed, height=10cm, width=15cm]
+        \begin{axis}[xlabel=Disatnce (en km), ylabel=Temps d'exécution (en s), title=Temps d'exécution en fonction de la distance du trajet, ymajorgrids=true, grid style=dashed, height=10cm, width=15cm]
             \addplot+ [x=maxDist, y=timePerRun, only marks, scatter, mark=halfcircle*]
             table [col sep=comma, x=maxDist, y=timePerRun] {../../../data/benchmark/benchmark_05-20_18-16-05.csv};
         \end{axis}
