@@ -119,7 +119,8 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
     FILE *fp = fopen(network_file, "r");
     if (fp == NULL)
     {
-        fprintf(stderr, "\33[31m>> Error:\33[0m Incorrect file path.\n");
+        fprintf(stderr, "\u2514\u2500\u2500 \33[1;91mError\33[0m\n");
+        fprintf(stderr, "    \u2514\u2500\u2500 Incorrect file path.\n");
         exit(EXIT_FAILURE);
     }
 
@@ -144,7 +145,8 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
         int departureTick;
         if (sscanf(line, "%[^,],%[^,],%[^,],%d\n", departure, arrival, vehicleName, &departureTick) != 4)
         {
-            fprintf(stderr, "\33[31m>> Error:\33[0m Incorrect line format : %s.\n", line);
+            fprintf(stderr, "\u2514\u2500\u2500 \33[1;91mError\33[0m\n");
+            fprintf(stderr, "    \u2514\u2500\u2500 Incorrect line format : %s.\n", line);
             continue;
         }
         Nominatim_t *departure_nominatim = nominatim_fetch(departure);

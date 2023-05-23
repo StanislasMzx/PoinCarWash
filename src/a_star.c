@@ -150,13 +150,15 @@ int a_star(Vehicle_t *one_vehicle, Table_t *table_station, double power_min, dou
 
 void print_a_star(Table_t *table_station, List_t *one_list, Vehicle_t *one_vehicle, double power_min, double time_in_station_max)
 {
-    printf("\33[34m>> Vehicle: \33[1m%s\33[0m\n", one_vehicle->name);
-    printf("            \33[34mMin. autonomy: \33[1m%.1f%%\33[0;34m\n", power_min);
-    printf("            \33[34mMax. time in station: \33[1m%d min\33[0m\n", (int)time_in_station_max);
+    printf("\u251c\u2500\u2500 \33[94mVehicle\33[0m\n");
+    printf("\u2502\u00a0\u00a0 \33[34m\u2514\u2500\u2500 \33[1;4;94m%s\33[0m\n", one_vehicle->name);
+    printf("\u2502\u00a0\u00a0     \33[34m\u251c\u2500\u2500 Min. autonomy: \33[1;94m%.1f%%\33[0m\n", power_min);
+    printf("\u2502\u00a0\u00a0     \33[34m\u2514\u2500\u2500 Max. time in station: \33[1;94m%d min\33[0m\n", (int)time_in_station_max);
 
     if (list_is_empty(one_list))
     {
-        fprintf(stderr, "\33[31m>> Error:\33[0m No trip found with the given parameters.\n          Please try again with another vehicle or different parameters.\n");
+        fprintf(stderr, "\u2514\u2500\u2500 \33[1;91mError\33[0m\n");
+        fprintf(stderr, "    \u2514\u2500\u2500 No trip found with the given parameters. Please try again with another vehicle or different parameters.\n");
         return;
     }
 
@@ -186,9 +188,10 @@ void print_a_star(Table_t *table_station, List_t *one_list, Vehicle_t *one_vehic
     // Reset currentStation
     currentStation = startStation;
 
-    printf("\33[0;32m>> Departure: \33[1m%s\33[0m\n", startStation->name);
-    printf("              \33[2;32mBattery: \33[1;5m%d%%\33[0m\n", batteryAfter);
-    printf("              \33[2mDistance left: \33[1m%.3f km\33[0m\n", distanceLeft);
+    printf("\u251c\u2500\u2500 \33[92mDeparture\33[0m\n");
+    printf("\u2502\u00a0\u00a0 \33[32m\u251c\u2500\u2500 \33[1;4;92m%s\33[0m\n", startStation->name);
+    printf("\u2502\u00a0\u00a0 \33[32m\u2502\u00a0\u00a0 \u2514\u2500\u2500 Battery: \33[1;92m%d%%\33[0m\n", batteryAfter);
+    printf("\u2502\u00a0\u00a0 \33[32m\u2514\u2500\u2500 Distance left: \33[1;92m%.1f km\33[0m\n", distanceLeft);
 
     // Steps
     for (int i = 1; i < steps - 1; i++)
@@ -200,9 +203,11 @@ void print_a_star(Table_t *table_station, List_t *one_list, Vehicle_t *one_vehic
         batteryBefore = (int)(100.0 * (1.0 - (double)distancePrev / one_vehicle->range));
         chargingTime = (int)ceil((double)(distancePrev) / (double)(one_vehicle->fast_charge) * 60.0);
 
-        printf("\33[0;33m>> Step %d: \33[1m%s\33[0m\n", i, currentStation->name);
-        printf("          \33[8m%d\33[0;2;33mBattery: \33[1;5m%d%% \u2192 %d%%\33[0;2;33m  [charge for \33[1;5m%d min\33[0;2;33m]\33[0m\n", i, batteryBefore, batteryAfter, chargingTime);
-        printf("          \33[8m%d\33[0;2mDistance left: \33[1m%.3f km\33[0m\n", i, distanceLeft);
+        printf("\u251c\u2500\u2500 \33[93mStep %d\33[0m\n", i);
+        printf("\u2502\u00a0\u00a0 \33[33m\u251c\u2500\u2500 \33[1;4;93m%s\33[0m\n", currentStation->name);
+        printf("\u2502\u00a0\u00a0 \33[33m\u2502\u00a0\u00a0 \u251c\u2500\u2500 Charge for: \33[1;93m%d min\33[0m\n", chargingTime);
+        printf("\u2502\u00a0\u00a0 \33[33m\u2502\u00a0\u00a0 \u2514\u2500\u2500 Battery: \33[1;93m%d%% \33[5m\u00bb\u00bb\u00bb\33[0;1;93m %d%%\33[0m\n", batteryBefore, batteryAfter);
+        printf("\u2502\u00a0\u00a0 \33[33m\u2514\u2500\u2500 Distance left: \33[1;93m%.1f km\33[0m\n", distanceLeft);
     }
 
     // End
@@ -211,11 +216,13 @@ void print_a_star(Table_t *table_station, List_t *one_list, Vehicle_t *one_vehic
     distancePrev = distance(prevStation->coordinates, currentStation->coordinates);
     batteryBefore = (int)(100.0 * (1.0 - (double)distancePrev / one_vehicle->range));
 
-    printf("\33[0;35m>> Arrival: \33[1m%s\33[0m\n", currentStation->name);
-    printf("            \33[2;35mBattery: \33[1;5m%d%%\33[0m\n", batteryBefore);
+    printf("\u251c\u2500\u2500 \33[95mArrival\33[0m\n");
+    printf("\u2502\u00a0\u00a0 \33[35m\u2514\u2500\u2500 \33[1;4;95m%s\33[0m\n", currentStation->name);
+    printf("\u2502\u00a0\u00a0     \33[35m\u2514\u2500\u2500 Battery: \33[1;95m%d%%\33[0m\n", batteryBefore);
 
     // Print Google Maps URL
-    printf("\33[0;36m>> View trip:\33[0m\nhttps://www.google.com/maps/dir/?api=1&origin=%f,%f&destination=%f,%f&waypoints=",
+    printf("\u2514\u2500\u2500 \33[96mView trip\33[0m\n");
+    printf("    \33[36m\u2514\u2500\u2500 \33[0;1mhttps://www.google.com/maps/dir/?api=1&origin=%f,%f&destination=%f,%f&waypoints=",
            startStation->coordinates->latitude, startStation->coordinates->longitude,
            endStation->coordinates->latitude, endStation->coordinates->longitude);
     for (int i = 1; i < steps - 1; i++)

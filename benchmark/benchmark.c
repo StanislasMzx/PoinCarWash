@@ -222,7 +222,8 @@ int main(int argc, char **argv)
             ask_params = false;
             break;
         case '?':
-            fprintf(stderr, "\33[31m>> Error:\33[0m Unknown option: %c\n", optopt);
+            fprintf(stderr, "\u2514\u2500\u2500 \33[1;91mError\33[0m\n");
+            fprintf(stderr, "    \u2514\u2500\u2500 Unknown option: %c\n", optopt);
             return 1;
             break;
         }

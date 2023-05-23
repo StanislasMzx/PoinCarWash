@@ -62,7 +62,8 @@ size_t api_write_data(void *contents, size_t size, size_t nmemb, void *userp)
  
     char *ptr = realloc(mem->data, mem->size + realsize + 1);
     if (!ptr) {
-        fprintf(stderr, "\33[31m>> Error:\33[0m Failed to allocate memory.\n");
+        fprintf(stderr, "\u2514\u2500\u2500 \33[1;91mError\33[0m\n");
+        fprintf(stderr, "    \u2514\u2500\u2500 Failed to allocate memory.\n");
         return 0;
     }
     
@@ -88,7 +89,8 @@ char *api_fetch(char *query)
     response.size = 0;
     response.data = malloc(1);
     if (response.data == NULL) {
-        fprintf(stderr, "\33[31m>> Error:\33[0m Failed to allocate memory.\n");
+        fprintf(stderr, "\u2514\u2500\u2500 \33[1;91mError\33[0m\n");
+        fprintf(stderr, "    \u251c\u2500\u2500 Failed to allocate memory.\n");
         return NULL;
     }
     
@@ -96,7 +98,8 @@ char *api_fetch(char *query)
     curl_global_init(CURL_GLOBAL_ALL);
     curl = curl_easy_init();
     if (curl == NULL) {
-        fprintf(stderr, "\33[31m>> Error:\33[0m Failed to initialize cURL.\n");
+        fprintf(stderr, "\u2514\u2500\u2500 \33[1;91mError\33[0m\n");
+        fprintf(stderr, "    \u251c\u2500\u2500 Failed to initialize cURL.\n");
         // Free memory
         free(response.data);
         curl_global_cleanup();
@@ -128,11 +131,13 @@ char *api_fetch(char *query)
     char *data = malloc(response.size + 1);
 
     if (res != CURLE_OK) {
-        fprintf(stderr, "\33[31m>> Error:\33[0m API fetch failed: \33[4;91m%s\33[0m\n", curl_easy_strerror(res));
+        fprintf(stderr, "\u2514\u2500\u2500 \33[1;91mError\33[0m\n");
+        fprintf(stderr, "    \u251c\u2500\u2500 API fetch failed: \33[4;91m%s\33[0m\n", curl_easy_strerror(res));
         free(data);
         data = NULL;
     } else if (data == NULL) {
-        fprintf(stderr, "\33[31m>> Error:\33[0m Failed to allocate memory.\n");
+        fprintf(stderr, "\u2514\u2500\u2500 \33[1;91mError\33[0m\n");
+        fprintf(stderr, "    \u251c\u2500\u2500 Failed to allocate memory.\n");
     } else {
         strcpy(data, response.data);
     }
@@ -211,7 +216,7 @@ Nominatim_t *nominatim_fetch(char *query)
     // Fetch data from the API
     char *response = api_fetch(query);
     if (response == NULL) {
-        fprintf(stderr, "          Please check your internet connection and that \33[36m%s\33[0m is reachable.\n", API_HOST);
+        fprintf(stderr, "    \u2514\u2500\u2500 Please check your internet connection and that \33[96m%s\33[0m is reachable.\n", API_HOST);
         return NULL;
     }
 
