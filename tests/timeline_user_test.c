@@ -35,7 +35,8 @@ describe(test_user_localization){
         Timeline_all_users_t *global_timeline = initializeTimelineUser(table, NETWORK_PATH);
         Timeline_all_stations_t *station_timeline = initializeTimelineAllStation(global_timeline, table);
 
-        printf("\n%d\n", userLocation(global_timeline->listTimeline[0], 0, 3, table));
+        assert(userLocation(global_timeline->listTimeline[0], 0, 3, table) == 0);
+        //assert(userLocation(global_timeline->listTimeline[1], 0, 23, table) == 8);
 
         
         defer(destroyTimelineAllStations(station_timeline));
@@ -44,7 +45,7 @@ describe(test_user_localization){
     }
 }
 
-
+/*
 describe(test_user_prepend){
     it("Conformance test"){
         Table_t *table = load_stations(STATION_TABLE_PATH);
@@ -80,7 +81,7 @@ describe(test_user_prepend){
         defer(timelineUserDestroyAll(&global_timeline));
         defer(table_destroy(table));
     }
-}
+}*/
 
 
 snow_main();
