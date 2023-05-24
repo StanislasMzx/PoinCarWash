@@ -641,6 +641,7 @@ Nous nous sommes ensuite réparti les responsabilités de chacun pour chacune de
 
 \clearpage
 
+\section{Conception et développement}
 \subsection{Paramètres d'entrée et de sortie}
 En plus des deux fichiers \texttt{CSV} contenant les données sur les stations de recharge et les véhicules électriques contenus dans le répertoire \texttt{/data/raw/}, l'exécutable prendra en paramètres directement sur la ligne de commandes l'arguments suivant :\par\bigskip
 \begin{description}
@@ -672,7 +673,7 @@ Pour cet exemple d'ensemble de trajets :\par\bigskip
 Le fichier \texttt{.csv} à donner en entrée devra avoir ce format :\par\bigskip
 \begin{longlisting}
     \caption{Exemple de fichier d'entrée}
-    \begin{minted}[linenos]{csv}
+    \begin{minted}[linenos]{text}
 departure,arrival,vehicle,departureTick
 Cannes,Paris,Peugeot e-208,2
 Nancy,Toulouse,Tesla Model 3,0
@@ -719,8 +720,10 @@ Pour cette partie aussi, nous avons utilisé la bibliothèque \texttt{Snow} pour
 \subsection{Tests de simulations}
 Nous avons aussi effectué des tests de simulations et vérifié que le remplissage des stations, ainsi que les files d'attentes des utilisateurs étaient cohérents. Nous avons également vérifié que les trajets étaient bien effectués dans le temps imparti.\par\bigskip
 \begin{center}
-    \caption{Exemple de simulation}
-    \includegraphics[width = 1.0\textwidth]{IMG/simulation.png}
+    \caption{Exemples de simulation}
+    \includegraphics[width = 1.0\textwidth]{IMG/simulation1.png}
+    \includegraphics[width = 1.0\textwidth]{IMG/simulation2.png}
+    \includegraphics[width = 1.0\textwidth]{IMG/simulation3.png}
 \end{center}
 \chapter{Conclusion}
 \minitoc
