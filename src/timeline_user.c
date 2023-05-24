@@ -18,7 +18,7 @@
  * @param one_trip Trip of the state
  * @param one_stationsNumber Number of stations of the state
  */
-void timelineUserPrepend(Timeline_user_t **one_timeline, int tick, char *station, int idStation, Vehicle_t *one_vehicle, List_t *one_trip, int one_stationsNumber)
+void timelineUserPrepend(Timeline_user_t **one_timeline, int tick, char *station, int idStation, Vehicle_t *one_vehicle, List_t *one_trip, int one_stationsNumber, int stepTrip)
 {
     Timeline_user_t *node = malloc(sizeof(Timeline_user_t));
     assert(node != NULL);
@@ -31,18 +31,7 @@ void timelineUserPrepend(Timeline_user_t **one_timeline, int tick, char *station
     node->trip = one_trip;
     node->stationsNumber = one_stationsNumber;
     node->next = *one_timeline;
-    if (node->next == NULL)
-    {
-        node->state->stepTrip = 0;
-    }
-    else if (idStation == node->next->state->idStation)
-    {
-        node->state->stepTrip = node->next->state->stepTrip;
-    }
-    else
-    {
-        node->state->stepTrip = node->next->state->stepTrip + 1;
-    }
+    node->state->stepTrip = stepTrip;
     *one_timeline = node;
 }
 
@@ -57,11 +46,11 @@ void timelineUserPrepend(Timeline_user_t **one_timeline, int tick, char *station
  * @param one_trip Trip of the state
  * @param one_stationsNumber Number of stations of the state
  */
-void timelineUserAppend(Timeline_user_t **one_timeline, int tick, char *station, int idStation, Vehicle_t *one_vehicle, List_t *one_trip, int one_stationsNumber)
+void timelineUserAppend(Timeline_user_t **one_timeline, int tick, char *station, int idStation, Vehicle_t *one_vehicle, List_t *one_trip, int one_stationsNumber, int stepTrip)
 {
     if (*one_timeline == NULL)
     {
-        timelineUserPrepend(one_timeline, tick, station, idStation, one_vehicle, one_trip, one_stationsNumber);
+        timelineUserPrepend(one_timeline, tick, station, idStation, one_vehicle, one_trip, one_stationsNumber, stepTrip);
         return;
     }
     Timeline_user_t *tmp = *one_timeline;
@@ -69,7 +58,7 @@ void timelineUserAppend(Timeline_user_t **one_timeline, int tick, char *station,
     {
         tmp = tmp->next;
     }
-    timelineUserPrepend(&tmp->next, tick, station, idStation, one_vehicle, one_trip, one_stationsNumber);
+    timelineUserPrepend(&tmp->next, tick, station, idStation, one_vehicle, one_trip, one_stationsNumber, stepTrip);
 }
 
 /**
@@ -143,7 +132,7 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
         one_timeline->userNumber++;
         one_timeline->listTimeline = realloc(one_timeline->listTimeline, sizeof(Timeline_user_t) * one_timeline->userNumber); // sizeof(Timeline_user_t) * one_timeline->userNumber);
         one_timeline->listTimeline[one_timeline->userNumber - 1] = NULL;
-        timelineUserPrepend(&one_timeline->listTimeline[one_timeline->userNumber - 1], departureTick, "", -1, vehicle, trip, trip->length); // TODO: length of the linked list NOT trip.trip->length
+        timelineUserPrepend(&one_timeline->listTimeline[one_timeline->userNumber - 1], departureTick, "", -1, vehicle, trip, trip->length, 0); // TODO: length of the linked list NOT trip.trip->length
         one_timeline->lastTick = -1; //departureTick > one_timeline->lastTick ? departureTick : one_timeline->lastTick;
         // printf("\33[32m[~] Success:\33[0m User %d added.\n", one_timeline->userNumber);
     }
@@ -219,9 +208,14 @@ int userLocation(Timeline_user_t *one_timeline, int nbCallToAStar, int one_tick,
     if (one_timeline->next == NULL || one_timeline->next->state->idStation == one_state->idStation)
     {
         // on est parti d'une station
-        Station_t *new_station = table_get(table, one_timeline->trip->list[one_state->stepTrip+1].key);
-        //printf("\n%s\nTRIP: ", one_timeline->trip->list[one_state->stepTrip+1].key);
-        //list_print(one_timeline->trip);
+        Station_t *new_station;
+        if ((one_state->stepTrip+1) == one_timeline->trip->length-1){
+            new_station = table->slots[1]->list[nbCallToAStar].value;
+        }else{
+            new_station = table_get(table, one_timeline->trip->list[one_state->stepTrip+1].key);
+        }
+        printf("\n%d\n  -----> TRIP: ", one_state->stepTrip);
+        list_print(one_timeline->trip);
         assert(new_station != NULL);
         //printf("\n%d\n", one_state->idStation);
 
