@@ -1,0 +1,227 @@
+% Created in 2022
+%
+% @author: Stanislas MEZUREUX
+% Copyright (c) 2022 Stanislas MEZUREUX. All rights reserved.
+
+\ProvidesPackage{configfrancaisLight}[2022/10/06 template for TD-TP-REC]
+\RequirePackage{xkeyval}
+
+%%%%%%%%%%%%%%%%-- Options --%%%%%%%%%%%%%%%%
+\newcommand{\docType}{}
+\newcommand{\mainColorWord}{}
+\newcommand{\num}{0}
+\newcommand{\subjectAcronym}{SM}
+
+\DeclareOptionX{td}{
+  \renewcommand{\mainColorWord}{AAC4FF}
+  \renewcommand{\docType}{TD}
+}
+\DeclareOptionX{tp}{
+  \renewcommand{\mainColorWord}{FA7070}
+  \renewcommand{\docType}{TP}
+}
+\DeclareOptionX{rec}{
+  \renewcommand{\mainColorWord}{607EAA}
+  \renewcommand{\docType}{REC}
+}
+\DeclareOptionX{free}{
+  \renewcommand{\mainColorWord}{749F82}
+  \renewcommand{\docType}{#1}
+}
+\DeclareOptionX{num}{\renewcommand{\num}{#1}}
+\DeclareOptionX{subjectAcronym}{\renewcommand{\subjectAcronym}{#1}}
+\DeclareOptionX*{\PackageWarning{configfrancaisLight}{Unknown ‘\CurrentOption’}}
+
+\ProcessOptionsX\relax
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%-- Packages --%%%%%%%%%%%%%%%
+\RequirePackage{geometry}
+\RequirePackage{lmodern}
+\RequirePackage{iwona}
+\RequirePackage{latexsym}
+\RequirePackage[T1]{fontenc}
+\RequirePackage[french]{babel}
+\RequirePackage{amsmath,amsfonts,amssymb,amsthm}
+\RequirePackage{stmaryrd}
+\RequirePackage[many]{tcolorbox}
+\RequirePackage{fancyhdr}
+\RequirePackage[explicit]{titlesec}
+\RequirePackage[colorlinks=true, allcolors=blue, pdfusetitle]{hyperref}
+\RequirePackage{cite}
+\RequirePackage{lastpage}
+\RequirePackage{minted}
+\RequirePackage{enumitem}
+\RequirePackage{tikz}
+\RequirePackage{tikz-cd}
+\RequirePackage{pgfplots}
+\RequirePackage[figurename=Code]{caption}
+\RequirePackage{xcolor}
+\RequirePackage{cancel}
+\RequirePackage{soulutf8}
+\RequirePackage{exercise}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%-- Template variables --%%%%%%%%%%%
+\definecolor{mainColor}{HTML}{\mainColorWord}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%-- Theoremes --%%%%%%%%%%%%%%%
+\tcbuselibrary{theorems}
+\tcbuselibrary{breakable}
+\newtcbtheorem{theorem}{Théorème}{colback=theoremBox!10,colframe=theoremBox!50, coltitle=methodBox!30!black, fonttitle=\bfseries, breakable}{th}
+\newtcbtheorem{definition}{Définition}{colback=definitionBox!10,colframe=definitionBox!50, coltitle=methodBox!30!black, fonttitle=\bfseries, breakable}{def}
+\newtcbtheorem{example}{Exemple}{colback=exampleBox!10,colframe=exampleBox!50, coltitle=methodBox!30!black, fonttitle=\bfseries, breakable}{ex}
+\newtcbtheorem{method}{Méthode}{colback=methodBox!10, colframe=methodBox!50, coltitle=methodBox!30!black, fonttitle=\bfseries, breakable}{met}
+\newtcbtheorem{property}{Propriété}{colback=propertyBox!10,colframe=propertyBox!50, coltitle=methodBox!30!black, fonttitle=\bfseries, breakable}{prop}
+\newtcbtheorem{remark}{Remarque}{breakable}{rq}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%-- Style --%%%%%%%%%%%%%%%%%%
+% title page
+\makeatletter
+\def\thickhrulefill{\leavevmode \leaders \hrule height .75ex \hfill \kern \z@}
+\renewcommand\maketitle{
+  \begin{tcolorbox}[hbox, center, colback=white, colframe=mainColor]
+    \textsf{\textbf{\large\textcolor{mainColor}{\docType\num\ | \subjectAcronym\ $\rhd$} \@title}}
+  \end{tcolorbox}}
+\makeatother
+
+% sections and subsections
+\newbox\TitleUnderlineTestBox
+\newcommand*\TitleUnderline[1]
+  {%
+    \bgroup
+    \setbox\TitleUnderlineTestBox\hbox{\colorbox{mainColor}\strut}%
+    \setul{\dimexpr\dp\TitleUnderlineTestBox-.3ex\relax}{.3ex}%
+    \ul{#1}%
+    \egroup
+  }
+\newcommand*\SectionNumberBox[1]
+  {%
+    \colorbox{mainColor}
+      {%
+        \makebox[2.5em][c]
+          {%
+            \color{white}%
+            \strut
+            \csname the#1\endcsname
+          }%
+      }%
+    \TitleUnderline{\ \ \ }%
+  }
+\titleformat{\section}
+  {\Large\bfseries\sffamily\color{mainColor}}
+  {\SectionNumberBox{section}}
+  {0pt}
+  {\TitleUnderline{#1}}
+\titleformat{\subsection}
+  {\large\bfseries\sffamily\color{mainColor}}
+  {\SectionNumberBox{subsection}}
+  {0pt}
+  {\TitleUnderline{#1}}
+
+\geometry{
+  top=15mm,
+  inner=15mm,
+  outer=15mm,
+  bottom=17.5mm,
+  headheight=3ex,
+  headsep=2ex,
+}
+\pgfplotsset{compat=newest}
+\usemintedstyle{trac}
+\makeatletter
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\makeatother
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\renewcommand{\thesection}{\Roman{section}} 
+\renewcommand{\thesubsubsection}{\thesubsection.\alph{subsubsection}} 
+\renewcommand{\emph}[2]{\colorbox{#1!50}{\textbf{#2}}\xspace}
+\setlist[itemize, 1]{label=$\color{mainColor}{\rhd}$}
+\setlist[itemize, 2]{label=$\color{mainColor}{\circ}$}
+\setlist[description]{font={\bfseries\sffamily\textcolor{mainColor}}}
+\setlist[enumerate, 1]{label=\textcolor{mainColor}{\theenumi)}}
+\setlist[enumerate, 2]{label=\textcolor{mainColor}{(\alph*)}}
+\numberwithin{equation}{section}
+\renewcommand{\ExerciseName}{Exercice}
+\renewcommand{\QuestionNB}{{\color{mainColor}\arabic{Question}.\ }}
+\renewcommand{\subQuestionNB}{{\color{mainColor}\alph{subQuestion})\ }}
+\newenvironment{longlisting}{\captionsetup{type=figure}}{}
+\renewenvironment{proof}{{\bfseries \sffamily \itshape \noindent Démonstration $\rhd$}}{\hfill\qed}
+\renewcommand{\CancelColor}{\color{red}}
+\usetikzlibrary{decorations.pathmorphing,patterns}
+\tcolorboxenvironment{proof}{
+  blanker,
+  before skip=\topsep,
+  after skip=\topsep,
+  borderline west={0.4pt}{0.4pt}{black},
+  breakable,
+  left=12pt,
+  right=12pt,
+}
+
+\pagestyle{fancyplain}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{1pt}
+\makeatletter
+\fancyhead[L]{\bfseries \sffamily \@author}
+\makeatother
+\cfoot{\bfseries \sffamily \thepage/\pageref{LastPage}}
+\lfoot{\bfseries \sffamily Télécom Nancy}
+
+% side label
+\newlength{\positionmarge}
+\newlength{\decalage}
+\setlength{\positionmarge}{140mm}
+\rfoot{\bfseries \sffamily \subjectAcronym\ 2022|23%
+    \begin{tikzpicture}[overlay,remember picture]
+      \setlength{\decalage}{\positionmarge * \real{\num}}
+      \addtolength{\positionmarge}{-\decalage / 16}
+      \node[fill=mainColor ,text=white,
+      inner ysep=6pt, inner xsep=4pt,align=flush left,
+      rounded corners={2pt},text width=2cm,align=flush left]
+      at ([xshift=-2mm,yshift=\positionmarge]current page.east)
+      {\sffamily\bfseries\footnotesize \docType\num};
+    \end{tikzpicture}%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%*%%%%%-- Colors --%%%%%%%%%%%%%%%%%
+\definecolor{definitionBox}{HTML}{68E1AA}
+\definecolor{theoremBox}{HTML}{FF7878}
+\definecolor{exampleBox}{HTML}{51B5F8}
+\definecolor{methodBox}{HTML}{B869EA}
+\definecolor{propertyBox}{HTML}{FF5500}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%-- Operateurs --%%%%%%%%%%%%%%%
+\newcommand{\Card}{\mathop{\mathrm{Card}}\nolimits}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%-- Commandes --%%%%%%%%%%%%%%%
+\newcommand{\un}{\mathds{1}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\J}{\mathbb{J}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newcommand{\e}{\mathop{\mathrm{e}}\nolimits}
+
+\newcommand{\ie}[1]{\left\llbracket#1\right\rrbracket}
+\newcommand{\egdef}{\stackrel{\text{déf}}{=}}
+\newcommand{\dt}{\mathrm{d}}
+\newcommand{\App}[5]{
+ \begin{array}[t]{r c c l}
+ #1 \textnormal{:}& #2 & \longrightarrow & #3 \\
+       & #4 & \longmapsto & #5 
+ \end{array}
+ }
+
+ \newcommand{\important}[1]{\textbf{\textsf{#1}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
