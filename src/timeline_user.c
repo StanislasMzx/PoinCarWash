@@ -151,7 +151,6 @@ void timelineUserDestroy(Timeline_user_t **one_timeline)
     while (tmp->next != NULL)
     {
         Timeline_user_t *next = tmp->next;
-        printf("freeing %s\n", tmp->state->station);
         // free(tmp->state->station);
         free(tmp->state);
         free(tmp);
