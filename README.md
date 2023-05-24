@@ -175,9 +175,9 @@ OPTIONS:
   - [x] API address to coordinates conversion
   - [x] Flexible vehicle name input
   - [x] Autonomy and charging time options
-- [ ] Network monitoring
+- [x] Network monitoring
   - [x] CSV network input
-  - [ ] CSV output
+  - [x] CSV output
 
 See the [open issues](https://gitlab.telecomnancy.univ-lorraine.fr/ppii2_2223/ppii2-grp_07/issues) for a full list of proposed features (and known issues).
 
