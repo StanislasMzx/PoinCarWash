@@ -641,8 +641,81 @@ Nous nous sommes ensuite réparti les responsabilités de chacun pour chacune de
 
 \clearpage
 
-\section{Conception et développement}
-\section{Tests et performances}
+\subsection{Paramètres d'entrée et de sortie}
+En plus des deux fichiers \texttt{CSV} contenant les données sur les stations de recharge et les véhicules électriques contenus dans le répertoire \texttt{/data/raw/}, l'exécutable prendra en paramètres directement sur la ligne de commandes l'arguments suivant :\par\bigskip
+\begin{description}
+    \item[Entrée] :
+        \begin{itemize}
+            \item Nom du fichier \texttt{.csv} d'entrée (peut être précédé d'un chemin), contenant la liste des utilisateurs et leurs trajets respectifs
+            \item Nom du fichier \texttt{.csv} de sortie (peut être précédé d'un chemin)
+        \end{itemize}
+    \item[Sortie] :
+        \begin{itemize}
+            \item Nom du fichier \texttt{.csv} de sortie
+        \end{itemize}
+\end{description}
+\subsubsection{Format des données en entrée}
+Pour cet exemple d'ensemble de trajets :\par\bigskip
+\begin{table}[htbp]
+    \centering\begin{tabular}{|c|c|c|c|c|}
+        \hline
+        Départ & Arrivée & Véhicule & Tick de départ \\
+        \hline\hline
+        Cannes & Paris & Peugeot e-208 & 2 \\
+        \hline
+        Nancy & Toulouse & Tesla Model 3 & 0 \\
+        \hline
+        Paris & Nice & Zoe & 1 \\
+        \hline
+        \end{tabular}
+\end{table}
+Le fichier \texttt{.csv} à donner en entrée devra avoir ce format :\par\bigskip
+\begin{longlisting}
+    \caption{Exemple de fichier d'entrée}
+    \begin{minted}[linenos]{csv}
+departure,arrival,vehicle,departureTick
+Cannes,Paris,Peugeot e-208,2
+Nancy,Toulouse,Tesla Model 3,0
+Paris,Nice,Zoe,1
+    \end{minted}
+\end{longlisting}
+
+\subsection{Structures de données}
+Pour cette seconde partie, nous avons bien entendu réutilisé les structures de listes de stations, de véhicules et la table de hachage de la partie 1.\par\bigskip
+\subsubsection{Ticks}
+Comme proposé dans le sujet, nous avons découpé le temps en \textbf{ticks}. Chaque tick correspond à un instant dans le temps et est séparé du précédent par 10 minutes. Le déplacement des utilisateurs dans le réseau de stations correspond donc à un système à événements discrets.\par\bigskip
+\subsubsection{Timelines}
+Nous avons aussi décidé d'utiliser des strcutures que nous avons dénommé \textbf{\texttt{Timeline_station_t}} et \textbf{\texttt{Timeline_user_t}}. Ces structures sont des listes chaînées dont chaque élément correspond à l'état d'une station ou d'un utilisateur à un instant (tick) donné. L'utilisation de pointeurs vers les stations et les véhicules a rendu très simple la gestion de ces structures.\par\bigskip
+Pour pouvoir suivre l'état global du réseau de stations, nous avons aussi créé des structures \textbf{\texttt{Timeline_all_stations_t}} et \textbf{\texttt{Timeline_all_users_t}}. Ces structures sont des tableaux de pointeurs vers les \textbf{\texttt{Timeline_station_t}} et \textbf{\texttt{Timeline_user_t}} respectivement. Chaque élément de ces tableaux correspond à une timeline pour une station ou un utilisateur donné.\par\bigskip
+\subsection{Algorithmes}
+\subsubsection{Initialisation}
+Tout d'abord, nous calculons tous les trajets des utilisateurs. Pour cela, nous utilisons les mêmes algorithmes que ceux de la partie 1.\par\bigskip
+Il s'agit ensuite de créer les timelines. Pour cela, nous initialisons la timeline des utilisateurs avec les états initiaux de chaque utilisateur.\par\bigskip
+Nous faisons ensuite un inventaire des stations au moins parcourues une fois par un utilisateur, afin d'économiser de la mémoire lors de l'exécution du programme. Nous initialisons ensuite la timeline des stations avec les états initiaux de chaque station utile.\par\bigskip
+\subsubsection{Calcul des états}
+Pour chaque tick, nous calculons de manière procédurale le nouvel état (si différent du précédent) de chaque station et de chaque utilisateur. Nous ajoutons ensuite ces états à la timeline correspondante.\par\bigskip
+\subsubsection{Lecture des timelines}
+Une fois les timelines construites, nous pouvons les lire pour en faire une analyse. Les taux de remplissage des stations sont calculés à partir des états des stations à chaque tick. Il sont ensuite exportés dans un fichier \texttt{.csv}.\par\bigskip
+\subsection{Visualisation}
+Le fichier \texttt{.csv} contenant les taux de remplissage des stations peut être facilement importé dans un tableur pour être visualisé sous forme de graphiques.\par\bigskip
+Voici un exemple de fichier en sortie :\par\bigskip
+\begin{table}[htbp]
+    \centering\begin{tabular}{|c|c|c|c|c|}
+        \hline
+        tick & 0 & 1 & 2 \\
+        \hline\hline
+        ID_Station_1 & 0.000 & 0.500 & 0.250 \\
+        \hline
+        ID_Station_2 & 0.000 & 0.000 & 0.333 \\
+        \hline
+        ID_Station_3 & 0.166 & 1.125 & 0.625 \\
+        \hline
+        \end{tabular}
+\end{table}
+
+\section{Tests}
+\subsection{Tests unitaires}
+\subsection{Tests de simulations}
 
 \chapter{Conclusion}
 \minitoc
