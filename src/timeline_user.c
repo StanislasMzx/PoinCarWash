@@ -77,7 +77,6 @@ User_state_t *timelineUserGet(Timeline_user_t *one_timeline, int tick)
     return one_timeline->state->tick == tick ? one_timeline->state : NULL;
 }
 
-
 /**
  * @brief Initialize a user timeline
  *
@@ -133,14 +132,13 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
         one_timeline->listTimeline = realloc(one_timeline->listTimeline, sizeof(Timeline_user_t) * one_timeline->userNumber); // sizeof(Timeline_user_t) * one_timeline->userNumber);
         one_timeline->listTimeline[one_timeline->userNumber - 1] = NULL;
         timelineUserPrepend(&one_timeline->listTimeline[one_timeline->userNumber - 1], departureTick, "", -1, vehicle, trip, trip->length, 0); // TODO: length of the linked list NOT trip.trip->length
-        one_timeline->lastTick = -1; //departureTick > one_timeline->lastTick ? departureTick : one_timeline->lastTick;
+        one_timeline->lastTick = -1;                                                                                                           // departureTick > one_timeline->lastTick ? departureTick : one_timeline->lastTick;
         // printf("\33[32m[~] Success:\33[0m User %d added.\n", one_timeline->userNumber);
     }
 
     fclose(fp);
     return one_timeline;
 }
-
 
 /**
  * @brief Destroy a user timeline
@@ -153,8 +151,8 @@ void timelineUserDestroy(Timeline_user_t **one_timeline)
     while (tmp->next != NULL)
     {
         Timeline_user_t *next = tmp->next;
-        //vehicle_destroy(tmp->vehicle);
-        free(tmp->state->station);
+        printf("freeing %s\n", tmp->state->station);
+        // free(tmp->state->station);
         free(tmp->state);
         free(tmp);
         tmp = next;
@@ -165,7 +163,6 @@ void timelineUserDestroy(Timeline_user_t **one_timeline)
     free(tmp);
     *one_timeline = NULL;
 }
-
 
 void timelineUserDestroyAll(Timeline_all_users_t **one_timeline)
 {
@@ -209,40 +206,44 @@ int userLocation(Timeline_user_t *one_timeline, int nbCallToAStar, int one_tick,
     {
         // on est parti d'une station
         Station_t *new_station;
-        if ((one_state->stepTrip+1) == one_timeline->trip->length-1){
+        if ((one_state->stepTrip + 1) == one_timeline->trip->length - 1)
+        {
             new_station = table->slots[1]->list[nbCallToAStar].value;
-        }else{
-            
-            //printf("\nstep: %d\n  -----> TRIP: ", one_state->stepTrip+1);
-            //list_print(one_timeline->trip);
-            new_station = table_get(table, one_timeline->trip->list[one_state->stepTrip+1].key);
         }
-        //printf("\n%d\n  -----> TRIP: ", one_state->stepTrip);
-        //list_print(one_timeline->trip);
-        assert(new_station != NULL);
-        //printf("\n%d\n", one_state->idStation);
+        else
+        {
 
+            // printf("\nstep: %d\n  -----> TRIP: ", one_state->stepTrip+1);
+            // list_print(one_timeline->trip);
+            new_station = table_get(table, one_timeline->trip->list[one_state->stepTrip + 1].key);
+        }
+        // printf("\n%d\n  -----> TRIP: ", one_state->stepTrip);
+        // list_print(one_timeline->trip);
+        assert(new_station != NULL);
+        // printf("\n%d\n", one_state->idStation);
 
         Station_t *old_station;
-        if (one_timeline->next == NULL){
-            //list_print(table->slots[0]);
+        if (one_timeline->next == NULL)
+        {
+            // list_print(table->slots[0]);
             old_station = table->slots[0]->list[nbCallToAStar].value;
 
-            //station_print(old_station);
-            //station_print(new_station);
-
+            // station_print(old_station);
+            // station_print(new_station);
         }
-        else if(one_state->stepTrip+1 == one_timeline->trip->length){
+        else if (one_state->stepTrip + 1 == one_timeline->trip->length)
+        {
             old_station = table->slots[1]->list[nbCallToAStar].value;
         }
-        else{
+        else
+        {
             old_station = table_get(table, one_state->station);
         }
         int travelTicks = travel_ticks(old_station, new_station);
-        //printf("\n\n\n\n\n\n\n\n\n\n\n\ntravel: %d, \non tick: %d\nchecking tick: %d\n\n\n\n\n\n\n\n\n", travelTicks, one_state->tick, one_tick);
-        // TODO: check behavior
+        // printf("\n\n\n\n\n\n\n\n\n\n\n\ntravel: %d, \non tick: %d\nchecking tick: %d\n\n\n\n\n\n\n\n\n", travelTicks, one_state->tick, one_tick);
+        //  TODO: check behavior
         int tick_arrived = one_state->tick + travelTicks;
-        //printf("\n tick to check: %d, tick arrive; %d", one_tick, tick_arrived);
+        // printf("\n tick to check: %d, tick arrive; %d", one_tick, tick_arrived);
 
         if (abs(tick_arrived - one_tick) < 1e-10)
         {

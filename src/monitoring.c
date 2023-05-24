@@ -12,23 +12,16 @@
  */
 void monitoring_file_init(char *fileName, int lastTick)
 {
-    // Check if the output file exists and is writable
-    if (access(fileName, W_OK) == -1)
+
+    // Create the output file
+    FILE *fp = fopen(fileName, "w");
+    fprintf(fp, "tick,");
+    for (int i = 0; i < lastTick; i++)
     {
-        // Create the output file
-        FILE *fp = fopen(fileName, "w");
-        fprintf(fp, "tick,");
-        for (int i = 0; i < lastTick; i++)
-        {
-            fprintf(fp, "%d,", i);
-        }
-        fprintf(fp, "%d\n", lastTick);
-        fclose(fp);
+        fprintf(fp, "%d,", i);
     }
-    else
-    {
-        printf("\33[2m\u2502\u00a0\u00a0 \u251c\u2500\u2500 Output file already exists, appending to it...\33[0m\n");
-    }
+    fprintf(fp, "%d\n", lastTick);
+    fclose(fp);
 }
 
 /**
