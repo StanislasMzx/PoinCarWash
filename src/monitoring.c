@@ -2,7 +2,7 @@
 #define MONITORING_OUT_FILE "../data/monitoring/monitoring.csv"
 
 #include "timeline_station.h"
-#include <getopt.h>
+#include <unistd.h>
 #include <stdio.h>
 
 /**
