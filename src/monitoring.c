@@ -32,6 +32,36 @@ void monitoring_file_init(char *fileName, int lastTick)
 }
 
 /**
+ * @brief Write the timeline to the output file
+ *
+ * @param fileName char* name of the output file
+ * @param timeline Timeline_all_stations_t* timeline to write
+ */
+void monitoring_file_write(char *fileName, Timeline_all_stations_t *timeline)
+{
+    // Open the output file
+    FILE *fp = fopen(fileName, "a");
+
+    Timeline_station_t *current_station;
+    // For each station
+    for (int i = 0; i < timeline->nbStations; i++)
+    {
+        current_station = timeline->listTimeline[i];
+        fprintf(fp, "\"%s\"", current_station->name);
+        // For each tick
+        while (current_station != NULL)
+        {
+            fprintf(fp, ",%f", (double)current_station->stateValue->numberVehicle / (double)current_station->stateValue->availablePlugs);
+            current_station = current_station->next;
+        }
+        fprintf(fp, "\n");
+    }
+
+    // Close the output file
+    fclose(fp);
+}
+
+/**
  * @brief Main function
  *
  * @param argc int number of arguments
@@ -86,22 +116,29 @@ int main(int argc, char *argv[])
     Timeline_all_stations_t *station_timeline = initializeTimelineAllStation(user_timeline, table);
     printf("\33[2m\u2502\u00a0\u00a0 \u2514\u2500\u2500 Station timeline initialized (%d stations).\33[0m\n", station_timeline->nbStations);
     // Make station timeline
-    makeTimelineStation(station_timeline, user_timeline, table);
-    printf("\33[2m\u2502\u00a0\u00a0 \u2514\u2500\u2500  Station timeline made (last tick: %d).\33[0m\n", station_timeline->lastTick);
+    // makeTimelineStation(station_timeline, user_timeline, table);
+    // printf("\33[2m\u2502\u00a0\u00a0 \u2514\u2500\u2500  Station timeline made (last tick: %d).\33[0m\n", station_timeline->lastTick);
 
     // Edit output file
     printf("\33[2m\u251c\u2500\u2500 Edit output file \33[0m\n");
+    // Check if the output file exists and is writable
     monitoring_file_init(output_file, station_timeline->lastTick);
-    printf("\33[2m\u2502\u00a0\u00a0 \u2514\u2500\u2500 Output file opened (%s).\33[0m\n", output_file);
+    printf("\33[2m\u2502\u00a0\u00a0 \u251c\u2500\u2500 Output file opened (%s).\33[0m\n", output_file);
+    // Write the timeline to the output file
+    monitoring_file_write(output_file, station_timeline);
+    printf("\33[2m\u2502\u00a0\u00a0 \u2514\u2500\u2500 Output file written.\33[0m\n");
 
     // Free memory
-    printf("\33[2m\u2514\u2500\u2500 Memory free \33[0m\n");
+    printf("\33[2m\u251c\u2500\u2500 Memory free \33[0m\n");
     timelineUserDestroyAll(&user_timeline);
-    printf("\33[2m    \u251c\u2500\u2500 User timeline destroyed.\33[0m\n");
+    printf("\33[2m\u2502\u00a0\u00a0 \u251c\u2500\u2500 User timeline destroyed.\33[0m\n");
     destroyTimelineAllStations(station_timeline);
-    printf("\33[2m    \u251c\u2500\u2500 Station timeline destroyed.\33[0m\n");
+    printf("\33[2m\u2502\u00a0\u00a0 \u251c\u2500\u2500 Station timeline destroyed.\33[0m\n");
     table_destroy(table);
-    printf("\33[2m    \u2514\u2500\u2500 Table destroyed.\33[0m\n");
+    printf("\33[2m\u2502\u00a0\u00a0 \u2514\u2500\u2500 Table destroyed.\33[0m\n");
+
+    // End monitoring process
+    printf("\33[2m\u2514\u2500\u2500 \33[32mMonitoring successfully ended.\33[0m\n");
 
     return 0;
 }
