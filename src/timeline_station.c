@@ -80,39 +80,47 @@ void nextTickUser(Timeline_all_users_t *user_timeline, Timeline_all_stations_t *
     for (int i = 0; i < user_timeline->userNumber; i++)
     {
         User_state_t *user_state = user_timeline->listTimeline[i]->state;
-        if (user_timeline->lastTick <= user_state->tick)
-        {
-            continue;
-        }
-        Timeline_user_t *old_timeline_user = user_timeline->listTimeline[i]->next;
-        assert((old_timeline_user == NULL || user_state->idStation == old_timeline_user->state->idStation)); // not waiting at a station
-        int loc = userLocation(user_timeline->listTimeline[i], i, user_timeline->lastTick, one_table);
-        if (loc > -1)
-        {
-            Timeline_station_t *one_station_timeline = station_timeline->listTimeline[loc];
-            char *new_station = station_timeline->listTimeline[loc]->name;
-            int step = user_state->stepTrip + 1;
-            timelineUserPrepend(&user_timeline->listTimeline[i], user_timeline->lastTick, new_station, loc, user_timeline->listTimeline[i]->vehicle, user_timeline->listTimeline[i]->trip, user_timeline->listTimeline[i]->stationsNumber + 1, step);
-            timelineUserPrepend(&user_timeline->listTimeline[i], user_timeline->lastTick+one_station_timeline->stateValue->waitingTime, new_station, loc, user_timeline->listTimeline[i]->vehicle, user_timeline->listTimeline[i]->trip, user_timeline->listTimeline[i]->stationsNumber + 1, step);
-            //printf("\nlen: %d == step: %d\n", user_timeline->listTimeline[i]->trip->length, user_timeline->listTimeline[i]->state->stepTrip);
 
-        }
-        else if(loc == -1){
-            char *new_station;
-            int step;
-            if (user_state->stepTrip == 0){
-                new_station = one_table->slots[0]->list[i].key;
-                step = 1;
+        //printf("\nstep: %d, len: %d\n", user_state->stepTrip, user_timeline->listTimeline[i]->trip->length);
+        
+        if (user_state->stepTrip != user_timeline->listTimeline[i]->trip->length-1){
+            if (user_timeline->lastTick <= user_state->tick)
+            {
+                continue;
             }
-            else{
-                assert(user_timeline->listTimeline[i]->trip->length == user_timeline->listTimeline[i]->state->stepTrip+2);
-                step = user_timeline->listTimeline[i]->state->stepTrip+1;
-                new_station = one_table->slots[1]->list[i].key;
-                user_timeline->userArrived++;
+            Timeline_user_t *old_timeline_user = user_timeline->listTimeline[i]->next;
+            assert((old_timeline_user == NULL || user_state->idStation == old_timeline_user->state->idStation)); // not waiting at a station
+            int loc = userLocation(user_timeline->listTimeline[i], i, user_timeline->lastTick, one_table);
+
+            //printf("\n\nloc: %d\n\n\n\n\n\n\n", loc);
+            if (loc > -1)
+            {
+                Timeline_station_t *one_station_timeline = station_timeline->listTimeline[loc];
+                char *new_station = station_timeline->listTimeline[loc]->name;
+                int step = user_state->stepTrip + 1;
+                timelineUserPrepend(&user_timeline->listTimeline[i], user_timeline->lastTick, new_station, loc, user_timeline->listTimeline[i]->vehicle, user_timeline->listTimeline[i]->trip, user_timeline->listTimeline[i]->stationsNumber + 1, step);
+                timelineUserPrepend(&user_timeline->listTimeline[i], user_timeline->lastTick+one_station_timeline->stateValue->waitingTime, new_station, loc, user_timeline->listTimeline[i]->vehicle, user_timeline->listTimeline[i]->trip, user_timeline->listTimeline[i]->stationsNumber + 1, step);
+                //printf("\nlen: %d == step: %d\n", user_timeline->listTimeline[i]->trip->length, user_timeline->listTimeline[i]->state->stepTrip);
+
             }
-            timelineUserPrepend(&user_timeline->listTimeline[i], user_timeline->lastTick, new_station, loc, user_timeline->listTimeline[i]->vehicle, user_timeline->listTimeline[i]->trip, user_timeline->listTimeline[i]->stationsNumber + 1, step);
+            else if(loc == -1){
+                //printf("\n\n\nHERE\n\n\n\n");
+                char *new_station;
+                int step;
+                if (user_state->stepTrip == 0){
+                    new_station = one_table->slots[0]->list[i].key;
+                    step = 1;
+                }
+                else{
+                    assert(user_timeline->listTimeline[i]->trip->length == user_timeline->listTimeline[i]->state->stepTrip+2);
+                    step = user_timeline->listTimeline[i]->state->stepTrip+1;
+                    new_station = one_table->slots[1]->list[i].key;
+                    user_timeline->userArrived++;
+                }
+                timelineUserPrepend(&user_timeline->listTimeline[i], user_timeline->lastTick, new_station, loc, user_timeline->listTimeline[i]->vehicle, user_timeline->listTimeline[i]->trip, user_timeline->listTimeline[i]->stationsNumber + 1, step);
 
 
+            }
         }
     }
 }
@@ -477,7 +485,7 @@ void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_use
 {
     nextTickUser(user_timeline, station_timeline, table);
     station_timeline->lastTick++;
-    printf("\n%d\n", station_timeline->lastTick);
+    //printf("\nLASTTICK: %d\n", station_timeline->lastTick);
     for (int i = 0; i < station_timeline->nbStations; i++)
     {
         Timeline_station_t *one_timeline = station_timeline->listTimeline[i];
@@ -503,7 +511,7 @@ void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_use
     {
         Timeline_user_t *one_user_timeline = user_timeline->listTimeline[i];
         if (one_user_timeline->state->stepTrip != 0 && one_user_timeline->state->stepTrip != one_user_timeline->trip->length-1){
-            printf("\nstep: %d, id: %d\n", one_user_timeline->state->stepTrip, one_user_timeline->state->idStation);
+            //printf("\nstep: %d, id: %d, endedTrip: %d\n", one_user_timeline->state->stepTrip, one_user_timeline->state->idStation, user_timeline->userArrived);
             Timeline_station_t *one_station_timeline = station_timeline->listTimeline[one_user_timeline->state->idStation];
             if (one_user_timeline->state->tick == station_timeline->lastTick)
             {

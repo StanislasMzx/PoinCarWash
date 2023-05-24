@@ -213,8 +213,8 @@ int userLocation(Timeline_user_t *one_timeline, int nbCallToAStar, int one_tick,
             new_station = table->slots[1]->list[nbCallToAStar].value;
         }else{
             
-            printf("\n%d\n  -----> TRIP: ", one_state->stepTrip+1);
-            list_print(one_timeline->trip);
+            //printf("\nstep: %d\n  -----> TRIP: ", one_state->stepTrip+1);
+            //list_print(one_timeline->trip);
             new_station = table_get(table, one_timeline->trip->list[one_state->stepTrip+1].key);
         }
         //printf("\n%d\n  -----> TRIP: ", one_state->stepTrip);

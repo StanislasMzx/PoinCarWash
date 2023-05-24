@@ -81,7 +81,7 @@ void element_print(Element_t *one_element)
     assert(one_element != NULL);
     assert(one_element->value != NULL);
     assert(one_element->value->coordinates != NULL);
-    printf("%s: {name: %s, coordinates: (%f, %f), plugs_number: %d, power: %d, free: %s, last station: %s}\n", one_element->key, one_element->value->name, one_element->value->coordinates->longitude, one_element->value->coordinates->latitude, one_element->value->plugs_number, one_element->value->power, one_element->value->free ? "true" : "false", one_element->value->last_station);
+    printf("%s: id: %d{name: %s, coordinates: (%f, %f), plugs_number: %d, power: %d, free: %s, last station: %s}\n", one_element->key, one_element->value->id, one_element->value->name, one_element->value->coordinates->longitude, one_element->value->coordinates->latitude, one_element->value->plugs_number, one_element->value->power, one_element->value->free ? "true" : "false", one_element->value->last_station);
 }
 
 /**
