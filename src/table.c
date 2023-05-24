@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <assert.h>
 
 /**
  * @brief Hash function
@@ -13,6 +14,8 @@ int hash(char *some_value)
 {
     int res = 0;
     int i = 0;
+
+    assert(some_value != NULL);
 
     for (i = 0; some_value[i] != '\0'; i++)
     {

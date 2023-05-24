@@ -95,7 +95,6 @@ void nextTickUser(Timeline_all_users_t *user_timeline, Timeline_all_stations_t *
             timelineUserPrepend(&user_timeline->listTimeline[i], user_timeline->lastTick, new_station, loc, user_timeline->listTimeline[i]->vehicle, user_timeline->listTimeline[i]->trip, user_timeline->listTimeline[i]->stationsNumber + 1, step);
             timelineUserPrepend(&user_timeline->listTimeline[i], user_timeline->lastTick+one_station_timeline->stateValue->waitingTime, new_station, loc, user_timeline->listTimeline[i]->vehicle, user_timeline->listTimeline[i]->trip, user_timeline->listTimeline[i]->stationsNumber + 1, step);
             //printf("\nlen: %d == step: %d\n", user_timeline->listTimeline[i]->trip->length, user_timeline->listTimeline[i]->state->stepTrip);
-            user_timeline->listTimeline[i]->state->stepTrip ++;
 
         }
         else if(loc == -1){
