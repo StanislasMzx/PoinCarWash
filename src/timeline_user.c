@@ -128,6 +128,10 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
         List_t *trip = compute_trip(station_table, departure_nominatim, arrival_nominatim, vehicle, 0.0, 360.0);
         nominatim_destroy(departure_nominatim);
         nominatim_destroy(arrival_nominatim);
+        if (trip->length <= 2)
+        {
+            continue;
+        }
         one_timeline->userNumber++;
         one_timeline->listTimeline = realloc(one_timeline->listTimeline, sizeof(Timeline_user_t) * one_timeline->userNumber); // sizeof(Timeline_user_t) * one_timeline->userNumber);
         one_timeline->listTimeline[one_timeline->userNumber - 1] = NULL;
@@ -135,7 +139,6 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
         one_timeline->lastTick = -1;                                                                                                           // departureTick > one_timeline->lastTick ? departureTick : one_timeline->lastTick;
         // printf("\33[32m[~] Success:\33[0m User %d added.\n", one_timeline->userNumber);
     }
-
     fclose(fp);
     return one_timeline;
 }
@@ -211,11 +214,12 @@ int userLocation(Timeline_user_t *one_timeline, int nbCallToAStar, int one_tick,
         }
         else
         {
-            if (one_tick < 60){
-                printf("\nstep: %d\n  -----> TRIP: ", one_state->stepTrip+1);
-                list_print(one_timeline->trip);
+            if (one_tick < 60)
+            {
+                // printf("\nstep: %d\n  -----> TRIP: ", one_state->stepTrip + 1);
+                // list_print(one_timeline->trip);
             }
-            
+
             new_station = table_get(table, one_timeline->trip->list[one_state->stepTrip + 1].key);
         }
         // printf("\n%d\n  -----> TRIP: ", one_state->stepTrip);
@@ -245,9 +249,10 @@ int userLocation(Timeline_user_t *one_timeline, int nbCallToAStar, int one_tick,
         //  TODO: check behavior
         int tick_arrived = one_state->tick + travelTicks;
 
-        if (one_tick < 60){
-                printf("\narrived tick: %d\n ", tick_arrived);
-        }
+        // if (one_tick < 60)
+        // {
+        //     printf("\narrived tick: %d\n ", tick_arrived);
+        // }
 
         // printf("\n tick to check: %d, tick arrive; %d", one_tick, tick_arrived);
 
