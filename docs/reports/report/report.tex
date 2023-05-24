@@ -716,8 +716,12 @@ Voici un exemple de fichier en sortie :\par\bigskip
 \section{Tests}
 \subsection{Tests unitaires}
 Pour cette partie aussi, nous avons utilisé la bibliothèque \texttt{Snow} pour les tests unitaires. Nous avons testé les fonctions de manière isolée. Nous avons également utilisé le serveur d'intégration continue de \texttt{GitLab} pour vérifier à chaque \textit{commit} que le code poussé sur le serveur ne contenait pas d'erreurs.\par\bigskip
-% \subsection{Tests de simulations}
-
+\subsection{Tests de simulations}
+Nous avons aussi effectué des tests de simulations et vérifié que le remplissage des stations, ainsi que les files d'attentes des utilisateurs étaient cohérents. Nous avons également vérifié que les trajets étaient bien effectués dans le temps imparti.\par\bigskip
+\begin{center}
+    \caption{Exemple de simulation}
+    \includegraphics[width = 1.0\textwidth]{IMG/simulation.png}
+\end{center}
 \chapter{Conclusion}
 \minitoc
 \chaptermark{Conclusion}
@@ -750,7 +754,7 @@ Nous pouvons donc affirmer que le projet a été mené à bien et a atteint tous
         \bigskip
     \item Etape 2
         \begin{itemize}
-            \item L'application ne prend pas en compte l'heure de départ des usagers, ils partent tous en même temps, il pourrait intéressant de regarder des données avec des départs différés.
+            \item Ne prend pas en compte la vitesse de recharge des stations car les unités dans la base de données ne sont pas toujours les mêmes.
         \end{itemize}
 \end{itemize}
 
