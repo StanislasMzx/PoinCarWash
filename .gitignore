@@ -5,7 +5,7 @@
 
 tests/*test
 src/trip
-src/monitoring 
+src/monitoring
 
 ### C ###
 # Prerequisites
