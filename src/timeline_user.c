@@ -130,6 +130,8 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
         nominatim_destroy(arrival_nominatim);
         if (trip->length <= 2)
         {
+            vehicle_destroy(vehicle);
+            list_destroy(trip);
             continue;
         }
         one_timeline->userNumber++;
