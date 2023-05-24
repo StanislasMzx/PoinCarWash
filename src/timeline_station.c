@@ -159,6 +159,7 @@ int initializeStationIds(Timeline_all_users_t *all_users_timeline, Table_t *one_
             if (station->id == -1)
             {
                 // Set station id
+                trip->list[i].value->id = nbUsedStations;
                 station->id = nbUsedStations;
                 nbUsedStations += 1;
             }
@@ -583,6 +584,7 @@ void destroyTimelineStation(Timeline_station_t *one_timeline)
     {
         Timeline_station_t *tmp = current->next;
         free(current->stateValue);
+        //free(current->name);
         free(current);
         current = tmp;
     }
