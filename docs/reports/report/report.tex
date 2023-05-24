@@ -398,6 +398,62 @@ Ce problème ayant déjà été étudié, il existe des applications permettant 
 \end{itemize}
 
 \subsection{Planification}
+
+\subsubsection{Work Breakdown Structure}
+
+La première étape de la planification est de diviser le travail en sous lots. Le travail a été divisé en 5 parties :
+
+\begin{itemize}
+    \item Architecture
+    \item Algorithmie
+    \item Base de données
+    \item GUI
+    \item Test et debug
+\end{itemize}
+\bigskip
+
+La seconde étape a été de répartir le travail dans le temps (notons que les éléments de la partie debug sont fait en parallèle de toutes les autres étapes) :
+\bigskip
+
+\includegraphics[scale = 0.35]{./IMG/Gantt.png}
+\clearpage
+
+\subsubsection{RACI}
+
+Enfin il a fallu répartir les responsabilités de chacun pour chacune des tâches :
+
+\begin{table}[htbp]
+    \centering\begin{tabular}{|c|c|c|c|c|}
+        \hline
+        Tâche & Stanislas & Corentin & Antonin & Yann \\
+        \hline\hline
+        Récupération et formatage des données & R & I & I & I \\
+        \hline
+        Création des structures de données & R & I & I & A \\
+        \hline
+        Gestion des accès aux données & R & I & I & A \\
+        \hline
+        Création des fichiers d'entête & I & C & R & I \\
+        \hline
+        Définitions des fonctions (signatures) & CI & A & R & CI \\
+        \hline
+        Comparaison / choix d'algo plus court chemin & I & R & I & I \\
+        \hline
+        Implantation calcul d'itinéraire & I & R & I & I \\
+        \hline
+        Affichage des sorties en CLI & A & A & R & A \\
+        \hline
+        Lien avec gmaps & I & I & R & I \\
+        \hline
+        Benchmark & A & I & R & I \\
+        \hline
+        Gestion des outpouts & R & I & A & A \\
+        \hline
+        Tests unitaires & R & A & A & A \\
+        \hline
+        \end{tabular}
+\end{table}
+
 \clearpage
 
 \section{Conception}
@@ -471,7 +527,6 @@ Afin de faciliter l'utilisation de l'application, et d'être plus productifs lor
 Pour ce faire, nous avons utilisé la librairie \texttt{libcurl}\footnote{\url{https://curl.se/libcurl/}} du projet \textit{open source} cURL. Cette librairie permet de faire des requêtes HTTP et HTTPS, et donc de communiquer avec des API. Il nous a donc fallu créer un certain nombre de structures de données, car la requête à l'API génère un \textit{buffer} en temps direct, et gérer tous les éventuels cas d'erreurs : réponse nulle, connexion impossible, etc.\par\bigskip
 L'API utilisée est celle d'\textbf{OpenStreetMap}\footnote{\url{https://nominatim.org/release-docs/develop/api/Search/}}. Elle permet de faire des recherches d'adresses, de lieux, de villes, etc. à partir d'une description textuelle. Elle renvoie un fichier JSON contenant les informations demandées, dont les coordonnées géographiques.\par\bigskip
 Notre programme exécute donc une requête HTTPS à cette API et récupère la réponse sous forme de JSON, qu'une autre fonction parse pour en extraire les informations utiles.\par\bigskip
-\texttt{libcurl}\footnote{\url{}}
 \subsection{Visualisation}
 L'utilisation de bibliothèques graphiques telles que \texttt{GTK}\footnote{\url{https://www.gtk.org/}} ou d'un framework web tel que \texttt{Flask}\footnote{\url{https://flask.palletsprojects.com/en/1.1.x/}} aurait été une solution envisageable pour la visualisation des résultats. Cependant, nous avons choisi d'utiliser \texttt{Google Maps}\footnote{\url{https://www.google.com/maps}} pour plusieurs raisons :
 \begin{itemize}
