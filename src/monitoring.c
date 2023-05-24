@@ -5,7 +5,6 @@
 #include <unistd.h>
 #include <stdio.h>
 
-
 /**
  * @brief Check for monitoring output file
  *
@@ -38,7 +37,7 @@ void monitoring_file_init(char *fileName, int lastTick)
  * @param fileName char* name of the output file
  * @param timeline Timeline_all_stations_t* timeline to write
  */
-void monitoring_file_write(char *fileName, Timeline_all_stations_t *timeline)
+void monitoring_file_write(char *fileName, Timeline_all_stations_t *timeline, Table_t *table)
 {
     // Open the output file
     FILE *fp = fopen(fileName, "a");
@@ -52,7 +51,8 @@ void monitoring_file_write(char *fileName, Timeline_all_stations_t *timeline)
         // For each tick
         while (current_station != NULL)
         {
-            fprintf(fp, ",%f", (double)current_station->stateValue->numberVehicle / (double)current_station->stateValue->availablePlugs);
+            fprintf(fp, ",%d/%d", current_station->stateValue->numberVehicle, table_get(table, current_station->name)->plugs_number);
+            // fprintf(fp, ",%f", (double)current_station->stateValue->numberVehicle / (double)table_get(table, current_station->name)->plugs_number);
             current_station = current_station->next;
         }
         fprintf(fp, "\n");
@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
     monitoring_file_init(output_file, station_timeline->lastTick);
     printf("\33[2m\u2502\u00a0\u00a0 \u251c\u2500\u2500 Output file opened (%s).\33[0m\n", output_file);
     // Write the timeline to the output file
-    monitoring_file_write(output_file, station_timeline);
+    monitoring_file_write(output_file, station_timeline, table);
     printf("\33[2m\u2502\u00a0\u00a0 \u2514\u2500\u2500 Output file written.\33[0m\n");
 
     // Free memory
