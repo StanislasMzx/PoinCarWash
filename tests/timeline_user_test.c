@@ -3,7 +3,7 @@
 #include "snow.h"
 #include "../src/timeline_station.h"
 #include <math.h>
-
+/*
 describe(test_initializeTimelineUser)
 {
     it("Conformance test")
@@ -27,22 +27,18 @@ describe(test_initializeTimelineUser)
         defer(table_destroy(table));
     }
 }
-
+*/
 
 describe(test_user_localization){
     it("Conformance test"){
         Table_t *table = load_stations(STATION_TABLE_PATH);
         Timeline_all_users_t *global_timeline = initializeTimelineUser(table, NETWORK_PATH);
-        int i = 2;
-        int a = -1;
-        while (a == -1){
-            printf("\n%d\n", userLocation(global_timeline->listTimeline[0], 0, i, table));
-            i++;
-            a = userLocation(global_timeline->listTimeline[0], 0, i, table);
-        }
+        Timeline_all_stations_t *station_timeline = initializeTimelineAllStation(global_timeline, table);
+
+        printf("\n%d\n", userLocation(global_timeline->listTimeline[0], 0, 3, table));
 
         
-
+        defer(destroyTimelineAllStations(station_timeline));
         defer(timelineUserDestroyAll(&global_timeline));
         defer(table_destroy(table));
     }

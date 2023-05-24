@@ -218,8 +218,10 @@ int userLocation(Timeline_user_t *one_timeline, int nbCallToAStar, int one_tick,
     if (one_timeline->next == NULL || one_timeline->next->state->idStation == one_state->idStation)
     {
         // on est parti d'une station
-        Station_t *new_station = one_timeline->trip->list[one_state->stepTrip].value;
-
+        Station_t *new_station = table_get(table, one_timeline->trip->list[one_state->stepTrip+1].key);
+        printf("\n%s\nTRIP: ", one_timeline->trip->list[one_state->stepTrip+1].key);
+        list_print(one_timeline->trip);
+        assert(new_station != NULL);
         //printf("\n%d\n", one_state->idStation);
 
 
