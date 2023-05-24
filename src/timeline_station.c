@@ -86,7 +86,7 @@ void nextTickUser(Timeline_all_users_t *user_timeline, Timeline_all_stations_t *
         }
         Timeline_user_t *old_timeline_user = user_timeline->listTimeline[i]->next;
         assert((old_timeline_user == NULL || user_state->idStation != old_timeline_user->state->idStation)); // not waiting at a station
-        int loc = userLocation(user_timeline->listTimeline[i], user_timeline->lastTick, one_table);
+        int loc = userLocation(user_timeline->listTimeline[i], i, user_timeline->lastTick, one_table);
         if (loc != -1)
         {
             char *new_station = station_timeline->listTimeline[loc]->name;

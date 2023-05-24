@@ -38,7 +38,7 @@ describe(test_user_localization){
         while (a == -1){
             printf("\n%d\n", userLocation(global_timeline->listTimeline[0], i, table));
             i++;
-            a = userLocation(global_timeline->listTimeline[0], i, table);
+            a = userLocation(global_timeline->listTimeline[0], 0, i, table);
         }
 
         
