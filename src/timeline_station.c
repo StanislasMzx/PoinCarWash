@@ -500,6 +500,7 @@ void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_use
     {
         Timeline_user_t *one_user_timeline = user_timeline->listTimeline[i];
         if (one_user_timeline->state->stepTrip != 0 && one_user_timeline->state->stepTrip != one_user_timeline->trip->length-1){
+            printf("\nstep: %d, id: %d\n", one_user_timeline->state->stepTrip, one_user_timeline->state->idStation);
             Timeline_station_t *one_station_timeline = station_timeline->listTimeline[one_user_timeline->state->idStation];
             if (one_user_timeline->state->tick == station_timeline->lastTick)
             {
