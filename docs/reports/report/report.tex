@@ -399,7 +399,7 @@ Ce problème ayant déjà été étudié, il existe des applications permettant 
 
 \subsection{Planification}
 
-\subsubsection{Work Breakdown Structure}
+\subsubsection{Work Breakdown Structure et Gantt}
 
 La première étape de la planification est de diviser le travail en sous lots. Le travail a été divisé en 5 parties :
 
@@ -410,6 +410,9 @@ La première étape de la planification est de diviser le travail en sous lots. 
     \item GUI
     \item Test et debug
 \end{itemize}
+\bigskip
+
+Ces sous-lots sont eux-mêmes divisé (voir le diagramme de Gantt et la matrice RACI ci-dessous)
 \bigskip
 
 La seconde étape a été de répartir le travail dans le temps (notons que les éléments de la partie debug sont fait en parallèle de toutes les autres étapes) :
@@ -586,6 +589,56 @@ Il est assez difficile pour une application réelle de savoir si une file d'atte
 \end{itemize}
 
 \subsection{Planification}
+
+\subsubsection{Work Breakdown Structure}
+
+La planifiacation s'est fait de la même manière que pour la première partie. La division en sous-lot est identique :
+
+\begin{itemize}
+    \item Architecture
+    \item Algorithmie
+    \item Base de données
+    \item GUI
+    \item Test et debug
+\end{itemize}
+\bigskip
+
+Ces sous-lots sont eux-mêmes divisé (voir la matrice RACI ci-dessous)
+\bigskip
+
+\clearpage
+\subsubsection{RACI}
+
+Nous nous sommes ensuite réparti les responsabilités de chacun pour chacune des tâches :
+\begin{table}[htbp]
+    \centering\begin{tabular}{|c|c|c|c|c|}
+        \hline
+        Tâche & Stanislas & Corentin & Antonin & Yann \\
+        \hline\hline
+        Récupération et formatage des données & R & I & I & I \\
+        \hline
+        Création des structures de données & R & I & I & A \\
+        \hline
+        Gestion des accès aux données & R & I & I & A \\
+        \hline
+        Création des fichiers d'entête & I & C & R & I \\
+        \hline
+        Définitions des fonctions (signatures) & CI & A & R & CI \\
+        \hline
+        Traitement des donnés & CI & R & A & I \\
+        \hline
+        Affichage des sorties en CLI & A & A & R & A \\
+        \hline
+        Gestion des outpouts & R & I & A & A \\
+        \hline
+        Affichage des données & R & I & I & A \\
+        \hline
+        Tests unitaires & R & A & A & A \\
+        \hline
+        \end{tabular}
+\end{table}
+
+
 \clearpage
 
 \section{Conception et développement}
