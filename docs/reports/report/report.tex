@@ -303,14 +303,63 @@ On peut synthétiser cette analyse sous forme de tableau :
 
 \clearpage
 \section{Suivi et évaluation du projet}
+
 \subsection{Méthodes de suivi}
+Afin de mieux suivre l'avancement du projet et de ne pas se perdre suite aux ajouts des autres membres, nous avons, en plus de faire des réunions régulières pour se tenir informé de l'avancement global, choisi des normes dans l'écriture des commentaires et dans le nom des \textit{commit}.
+\bigskip
+
+\underline{Pour le nom des \textit{commit}} :
+
+\begin{description}
+    \item [feat] – a new feature is introduced with the changes
+    \item [fix] – a bug fix has occurred
+    \item [chore] – changes that do not relate to a fix or feature and don't modify src or test files (for example updating dependencies)
+    \item [refactor] – refactored code that neither fixes a bug nor adds a feature
+    \item [docs] – updates to documentation such as a the README or other markdown files
+    \item [style] – changes that do not affect the meaning of the code, likely related to code formatting such as white-space, missing semi-colons, and so on.
+    \item [test] – including new or correcting previous tests
+    \item [perf] – performance improvements
+    \item [ci] – continuous integration related
+    \item [build] – changes that affect the build system or external dependencies
+    \item [revert] – reverts a previous commit
+\end{description}
+\bigskip
+
+\underline{Pour les commentaires} :
+\bigskip
+
+Nous avons utilisé les normes établit par le standard Doxygen :
+
+\begin{longlisting}
+    \caption{Convention Doxygen}
+    \begin{minted}[linenos]{C}
+/**
+ * @brief Brief description of the function.
+ *
+ * Detailed description of the function.
+ *
+ * @param param1 Description of parameter 1.
+ * @param param2 Description of parameter 2.
+ * @return Description of the return value.
+ */
+    \end{minted}
+\end{longlisting}
+
+
 \subsection{Évaluation des résultats}
-\subsection{Gestion des modifications}
+
+Chaque fonction implanter dans le programme fait l'objet de tests unitaires afin que l'on s'assure de la validité des résultats renvoyés.
+\bigskip
+
+L'application finale devra remplir les objectifs définit dans la charte de projet (\autoref{chap:AnnexeA}) pour que l'on puisse la valider.
+
 \subsection{Évaluation de la performance}
+Le facteur clé de performance retenu pour l'évaluation de performance de chacune de nos applications est le temps d'exécution. Il a fait l'objet d'une étude pour chacune des partis du projet.
+
 \clearpage
 
 \section{Charte de projet}
-La conclusion de cette première phase d'analyse du projet a été l'édition de la charte de projet, disponible en annexe.
+La conclusion de cette première phase d'analyse du projet a été l'édition de la charte de projet, disponible dans l'\autoref{chap:AnnexeA}.
 \bigskip
 
 Ce document nous a servi de référence tout au long du projet. Il nous a notamment été utile pour dans le suivi de la complétion des objectifs, et pour la gestion du temps.
@@ -476,7 +525,8 @@ Remarquons que l'impact de la distance ne se ressent quasiment pas sur le temps 
 \section{Clôture}
 
 \appendix
-\chapter{Compte-rendu de réunion 5}
+\chapter{Charte de projet}
+    \label{chap:AnnexeA}
     \includepdf[pages=-]{../../other/project_charter/project_charter.pdf}
 
 \end{document}
