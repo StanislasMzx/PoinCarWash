@@ -143,6 +143,7 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
     return one_timeline;
 }
 
+
 /**
  * @brief Destroy a user timeline
  *
