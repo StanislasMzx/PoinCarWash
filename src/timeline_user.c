@@ -88,28 +88,6 @@ User_state_t *timelineUserGet(Timeline_user_t *one_timeline, int tick)
     return one_timeline->state->tick == tick ? one_timeline->state : NULL;
 }
 
-/**
- * @brief Destroy a user timeline
- *
- * @param one_timeline Timeline to destroy
- */
-void timelineUserDestroy(Timeline_user_t **one_timeline)
-{
-    Timeline_user_t *tmp = *one_timeline;
-    while (tmp->next != NULL)
-    {
-        Timeline_user_t *next = tmp->next;
-        vehicle_destroy(tmp->vehicle);
-        free(tmp->state);
-        free(tmp);
-        tmp = next;
-    }
-    list_destroy(tmp->trip);
-    vehicle_destroy(tmp->vehicle);
-    free(tmp->state);
-    free(tmp);
-    *one_timeline = NULL;
-}
 
 /**
  * @brief Initialize a user timeline
@@ -174,6 +152,32 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
     return one_timeline;
 }
 
+
+/**
+ * @brief Destroy a user timeline
+ *
+ * @param one_timeline Timeline to destroy
+ */
+void timelineUserDestroy(Timeline_user_t **one_timeline)
+{
+    Timeline_user_t *tmp = *one_timeline;
+    while (tmp->next != NULL)
+    {
+        Timeline_user_t *next = tmp->next;
+        //vehicle_destroy(tmp->vehicle);
+        free(tmp->state->station);
+        free(tmp->state);
+        free(tmp);
+        tmp = next;
+    }
+    list_destroy(tmp->trip);
+    vehicle_destroy(tmp->vehicle);
+    free(tmp->state);
+    free(tmp);
+    *one_timeline = NULL;
+}
+
+
 void timelineUserDestroyAll(Timeline_all_users_t **one_timeline)
 {
     for (int i = 0; i < (*one_timeline)->userNumber; i++)
@@ -204,7 +208,7 @@ void timelineUserDestroyAll(Timeline_all_users_t **one_timeline)
 
     return one_state->station;
 }*/
-int userLocation(Timeline_user_t *one_timeline, int one_tick, Table_t *table)
+int userLocation(Timeline_user_t *one_timeline, int nbCallToAStar, int one_tick, Table_t *table)
 {
     // need initializationStationALL
     User_state_t *one_state = one_timeline->state;
@@ -221,20 +225,26 @@ int userLocation(Timeline_user_t *one_timeline, int one_tick, Table_t *table)
 
         Station_t *old_station;
         if (one_timeline->next == NULL){
-            printf("\n%d\n", one_state->idStation);
             list_print(table->slots[0]);
-            old_station = table->slots[0]->list[one_state->idStation].value;
-            printf("\n%s\n", old_station->name);
+            old_station = table->slots[0]->list[nbCallToAStar].value;
+
+            station_print(old_station);
+            station_print(new_station);
+
+        }
+        else if(one_state->stepTrip+1 == one_timeline->trip->length){
+            old_station = table->slots[1]->list[nbCallToAStar].value;
         }
         else{
             old_station = table_get(table, one_state->station);
         }
         int travelTicks = travel_ticks(old_station, new_station);
+        printf("\n\n\n\n\n\n\n\n\n\n\n\ntravel: %d, \non tick: %d\nchecking tick: %d\n\n\n\n\n\n\n\n\n", travelTicks, one_state->tick, one_tick);
         // TODO: check behavior
         int tick_arrived = one_state->tick + travelTicks;
         //printf("\n tick to check: %d, tick arrive; %d", one_tick, tick_arrived);
 
-        if (tick_arrived == one_tick)
+        if (abs(tick_arrived - one_tick) < 1e-10)
         {
             return new_station->id;
         }
