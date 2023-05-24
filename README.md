@@ -134,14 +134,6 @@ OPTIONS:
   -c <max_charging_time>  Set the maximum charging time (default: 360min)
 ```
 
-**Arguments:**
-
-- `start_location`: The starting location of the trip
-- `end_location`: The ending location of the trip
-- `vehicle_name`: The name of the vehicle to use for the trip
-- `min_autonomy`: The minimum autonomy percentage allowed during the trip (optional, default: 0)
-- `max_charging_time`: The maximum charging time in minutes allowed at each charging station (optional, default: 360)
-
 **Examples:**
 
 ```sh
@@ -153,6 +145,24 @@ OPTIONS:
 ```
 
 ### Network monitoring
+
+```sh
+USAGE: ./monitoring [options] file
+
+OPTIONS:
+  -h         Show this help message
+  -f <file>  Set the output file name
+```
+
+**Examples:**
+
+```sh
+./monitoring ../data/input/network1.csv"
+```
+
+```sh
+./monitoring -f ../data/monitoring/output.csv ../data/input/network1.csv
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -166,6 +176,8 @@ OPTIONS:
   - [x] Flexible vehicle name input
   - [x] Autonomy and charging time options
 - [ ] Network monitoring
+  - [x] CSV network input
+  - [ ] CSV output
 
 See the [open issues](https://gitlab.telecomnancy.univ-lorraine.fr/ppii2_2223/ppii2-grp_07/issues) for a full list of proposed features (and known issues).
 
