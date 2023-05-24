@@ -141,7 +141,7 @@ OPTIONS:
 ```
 
 ```sh
-./trip -a 15 "3 rue stanislas nancy" "toulouse" "zoe" 10
+./trip -a 15 "3 rue stanislas nancy" "toulouse" "zoe"
 ```
 
 ### Network monitoring
