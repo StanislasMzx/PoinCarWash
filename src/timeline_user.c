@@ -123,6 +123,7 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
         Vehicle_t *vehicle = vehicle_find_by_name(vehicleName);
         if (vehicle->name == NULL)
         {
+            free(vehicle);
             continue;
         }
         List_t *trip = compute_trip(station_table, departure_nominatim, arrival_nominatim, vehicle, 0.0, 360.0);
