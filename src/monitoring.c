@@ -74,8 +74,9 @@ int main(int argc, char *argv[])
 
     // Start monitoring process
     printf("\33[2m\u251c\u2500\u2500 Starting monitoring...\33[0m\n");
-    // Load station table
+
     printf("\33[2m\u251c\u2500\u2500 Initialization \33[0m\n");
+    // Load station table
     Table_t *table = load_stations(STATION_TABLE_PATH);
     printf("\33[2m\u2502\u00a0\u00a0 \u251c\u2500\u2500 Table loaded (%d stations).\33[0m\n", table->nbStation);
     // Initialize user timeline
@@ -85,12 +86,14 @@ int main(int argc, char *argv[])
     Timeline_all_stations_t *station_timeline = initializeTimelineAllStation(user_timeline, table);
     printf("\33[2m\u2502\u00a0\u00a0 \u2514\u2500\u2500 Station timeline initialized (%d stations).\33[0m\n", station_timeline->nbStations);
     // Make station timeline
-    // makeTimelineStation(station_timeline, user_timeline, table);
-    // printf("\33[2m\u2502\u00a0\u00a0 \u2514\u2500\u2500  Station timeline made (last tick: %d).\33[0m\n", station_timeline->lastTick);
+    makeTimelineStation(station_timeline, user_timeline, table);
+    printf("\33[2m\u2502\u00a0\u00a0 \u2514\u2500\u2500  Station timeline made (last tick: %d).\33[0m\n", station_timeline->lastTick);
+
     // Edit output file
     printf("\33[2m\u251c\u2500\u2500 Edit output file \33[0m\n");
     monitoring_file_init(output_file, station_timeline->lastTick);
     printf("\33[2m\u2502\u00a0\u00a0 \u2514\u2500\u2500 Output file opened (%s).\33[0m\n", output_file);
+
     // Free memory
     printf("\33[2m\u2514\u2500\u2500 Memory free \33[0m\n");
     timelineUserDestroyAll(&user_timeline);
