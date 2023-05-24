@@ -141,7 +141,7 @@ OPTIONS:
 ```
 
 ```sh
-./trip -a 15 "3 rue stanislas nancy" "toulouse" "zoe" 10
+./trip -a 15 "3 rue stanislas nancy" "toulouse" "zoe"
 ```
 
 ### Network monitoring
@@ -175,9 +175,9 @@ OPTIONS:
   - [x] API address to coordinates conversion
   - [x] Flexible vehicle name input
   - [x] Autonomy and charging time options
-- [ ] Network monitoring
+- [x] Network monitoring
   - [x] CSV network input
-  - [ ] CSV output
+  - [x] CSV output
 
 See the [open issues](https://gitlab.telecomnancy.univ-lorraine.fr/ppii2_2223/ppii2-grp_07/issues) for a full list of proposed features (and known issues).
 
@@ -227,6 +227,7 @@ Project Link: [https://gitlab.telecomnancy.univ-lorraine.fr/ppii2_2223/ppii2-grp
 
 - [Etalab](https://www.data.gouv.fr/fr/datasets/fichier-consolide-des-bornes-de-recharge-pour-vehicules-electriques/)
 - [EVD](https://ev-database.org/cheatsheet/range-electric-car)
+- [Snow](https://github.com/mortie/snow)
 - [OpenStreetMap](https://www.openstreetmap.org/)
 - [Google Maps](https://www.google.com/maps)
 - [cURL](https://curl.se/)
