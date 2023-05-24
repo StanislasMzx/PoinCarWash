@@ -121,6 +121,8 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
         Nominatim_t *departure_nominatim = nominatim_fetch(departure);
         Nominatim_t *arrival_nominatim = nominatim_fetch(arrival);
         Vehicle_t *vehicle = vehicle_find_by_name(vehicleName);
+
+
         if (vehicle->name == NULL)
         {
             continue;
@@ -128,6 +130,7 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
         List_t *trip = compute_trip(station_table, departure_nominatim, arrival_nominatim, vehicle, 0.0, 360.0);
         nominatim_destroy(departure_nominatim);
         nominatim_destroy(arrival_nominatim);
+        
         if (trip->length <= 2)
         {
             continue;
