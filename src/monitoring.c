@@ -40,7 +40,7 @@ void monitoring_file_write(char *fileName, Timeline_all_stations_t *timeline, Ta
     for (int i = 0; i < timeline->nbStations; i++)
     {
         current_station = timeline->listTimeline[i];
-        fprintf(fp, "\"%s\"", current_station->name);
+        fprintf(fp, "\"%s\"", table_get(table, current_station->name)->name);
         // For each tick
         while (current_station != NULL)
         {
