@@ -244,8 +244,8 @@ Timeline_all_stations_t *initializeTimelineAllStation(Timeline_all_users_t *all_
                     one_timeline->statesNumber = 1;
                     one_timeline->stateValue = malloc(sizeof(Station_state_t));
                     assert(one_timeline->stateValue != NULL);
-                    one_timeline->stateValue->availablePlugs = station->plugs_number;
-                    one_timeline->stateValue->numberVehicle = 0;
+                    one_timeline->stateValue->availablePlugs = station->plugs_number - 1;
+                    one_timeline->stateValue->numberVehicle = 1;
                     one_timeline->stateValue->tick = one_all_stations_timeline->lastTick;
                     one_timeline->stateValue->waitingTime = 0;
                     one_all_stations_timeline->listTimeline[station->id] = one_timeline;
