@@ -51,10 +51,6 @@ int main(int argc, char *argv[])
     // Initialize station timeline
     Timeline_all_stations_t *station_timeline = initializeTimelineAllStation(user_timeline, table);
     printf("\33[2m\u2502\u00a0\u00a0 \u2514\u2500\u2500 Station timeline initialized (%d stations).\33[0m\n", station_timeline->nbStations);
-    // Make user timeline
-    printf("\33[2m\u251c\u2500\u2500 Make timelines \33[0m\n");
-    makeTimelineUser(user_timeline, station_timeline, table);
-    printf("\33[2m\u2502\u00a0\u00a0 \u251c\u2500\u2500 User timeline made (last tick: %d).\33[0m\n", user_timeline->lastTick);
     // Make station timeline
     makeTimelineStation(station_timeline, user_timeline, table);
     printf("\33[2m\u2502\u00a0\u00a0 \u2514\u2500\u2500  Station timeline made (last tick: %d).\33[0m\n", station_timeline->lastTick);
