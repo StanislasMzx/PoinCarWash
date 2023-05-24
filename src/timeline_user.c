@@ -218,7 +218,7 @@ int userLocation(Timeline_user_t *one_timeline, int nbCallToAStar, int one_tick,
     if (one_timeline->next == NULL || one_timeline->next->state->idStation == one_state->idStation)
     {
         // on est parti d'une station
-        Station_t *new_station = one_timeline->trip->list[one_state->stepTrip].value->id;
+        Station_t *new_station = one_timeline->trip->list[one_state->stepTrip].value;
 
         //printf("\n%d\n", one_state->idStation);
 
