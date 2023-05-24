@@ -29,14 +29,12 @@ List_t *compute_trip(Table_t *table, Nominatim_t *startNomin, Nominatim_t *endNo
     Station_t *start = station_create(-1, startNomin->name, startCoordinates, 0, 0, 0);
     Station_t *end = station_create(-1, endNomin->name, endCoordinates, 0, 0, 0);
     
-    reinitializeTable(table);
-
+ 
     list_append(table->slots[0], startKey, start);
 
     list_append(table->slots[1], endKey, end);
 
     List_t *trip = a_star_list(table, "start", "end", vehicle, min_power, time_max);
-
 
     return trip;
 }
