@@ -1,0 +1,186 @@
+\documentclass[12pt]{report}
+
+\usepackage[free=CP, num=1, subjectAcronym=PPII2]{"./configfrancaisLight"}
+
+\title{Charte de Projet}
+\author{Dionisio, Frey, Billard, Mezureux}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+%\tableofcontents
+
+\begin{table}[htbp]
+    \centering
+    \caption{Auteurs}
+    \begin{tabular}{|l|l|}
+        \hline
+        \textbf{Nom / mail} & \textbf{Qualité / rôle} \\
+        \hline\hline
+        Stanislas MEZUREUX / \href{mailto:stanislas.mezureux@telecomnancy.eu}{stanislas.mezureux@telecomnancy.eu} &  Chef de projet \\
+        \hline
+        Yann DIONISIO / \href{mailto:yann.dionisio@telecomnancy.eu}{yann.dionisio@telecomnancy.eu} & Membre de l'équipe projet \\
+        \hline
+    \end{tabular}
+\end{table}
+\begin{table}[htbp]
+    \centering
+    \caption{Historique des modifications et révisions de ce document}
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{\no{} de version} & \textbf{Date} & \textbf{Description et circonstances de la modification} \\
+        \hline\hline
+        V1 & 23/05/2023 & Première version à la suite de la deuxième réunion \\
+        \hline
+    \end{tabular}
+\end{table}
+\begin{table}[htbp]
+    \centering
+    \caption{Validation / autorisations}
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        \textbf{\no{} de version} & \textbf{Nom / qualité} & \textbf{Date / signature} & \textbf{Commentaires er réserves éventuelles} \\
+        \hline\hline
+        V1 & Commanditaires & & \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\section{Résumé}
+
+\begin{itemize}
+    \item Il nous est dans un premier temps demandé de créer une application de calcul d’itinéraire optimisé pour véhicule électrique.
+    \bigskip
+
+    \item Dans un second temps, il nous faudra concevoir une application de monitoring du réseau de stations de recharge.
+    \bigskip
+
+    \item Ces deux applications seront principalement conçu en langage "C".
+\end{itemize}
+
+\section{Cadrage}
+    \subsection{Finalités et importance du projet}
+        Ce projet s’inscrit dans le cadre du programme d’étude de première année de Telecom
+        Nancy. Il répond à l’objectif proposé pour le Projet Interdisciplinaire d’Informatique
+        Intégrative 2 (PPII2).
+
+        \bigskip
+        L'augmentation de l'utilisation des voitures électriques induite par la prise de conscience écologique apporte également son lot de contraintes parmi lesquelles l'autonomie encore limitée des batteries et la répartition inégale des stations de recharges sur le territoire.
+
+        \bigskip
+        Pour répondre à ces problématiques qui peuvent ralentir la transition écologique, il nous est proposé de concevoir des outils utiles à l'utilisateur (système d'optimisation d'itinéraire) mais aussi les entreprises afin de mieux planifier l'expansion du réseau de bornes de recharge.
+
+    \subsection{Objectifs et résultats opérationnels}
+        \textbf{\underline{Liste des livrables} :}
+        \begin{itemize}
+            \item \textbf{Application de planification d'itinéraire fonctionnelle} : code source
+            \item \textbf{Application de monitoring des stations de recharge fonctionnelle} : code source 
+            \item \textbf{Rapport de projet} : document de présentation de développement du projet
+            \item \textbf{Documents relatifs à la gestion de projet}
+        \end{itemize}
+
+        \bigskip
+        \textbf{\underline{Critères de succès et indicateurs mesurables} :}
+        \begin{itemize}
+            \item  Étape 1 :
+                \begin{itemize}
+                    \item Critères de succès :
+                        \begin{itemize}
+                            \item L'application renvoie le trajet le plus court (qui respecte les capacités de la voiture).
+                            \item Le trajet est affichable dans une application tierce.
+                            \item Il est possible d'indiquer des paramètres supplémentaires (seuil de batterie minimal, temps de recharge maximal, ...)
+                        \end{itemize}
+                    \item Indicateurs clés de performance :
+                        \begin{itemize}
+                            \item Temps d'exécution.
+                        \end{itemize}
+                \end{itemize}
+            \item  Étape 2 :
+                \begin{itemize}
+                    \item Critères de succés :
+                        \begin{itemize}
+                            \item L'application renvoie l'évolution de la charge des stations en fonction d'un nombre de trajets d'utilisateurs donnés.
+                            \item Les données sont affichables
+                        \end{itemize}
+                    \item Indicateurs clés de performances :
+                        \begin{itemize}
+                            \item Temps d'exécution.
+                        \end{itemize}
+                \end{itemize}
+        \end{itemize}
+
+\section{Déroulement du projet}
+    \subsection{Organisation / ressources, budget}
+        Ce travail s'effectue par groupe de quatre, toutes les ressources produites transitent via le serveur GitLab de l'école et les ressources dont nous disposons sont les locaux de l'école, le soutient du corps enseignant ainsi que les bases de données relatives aux stations de recharge et aux véhicules électriques.
+
+        \bigskip
+        \begin{table}[htbp]
+            \centering
+            \caption{Parties prenantes}
+            \begin{tabular}{|l|l|}
+                \hline
+                \textbf{Membres de l'équipe} & \textbf{Autres parties prenantes} \\
+                \hline\hline
+                Stanislas MEZUREUX : chef de projet & Olivier FESTOR : commanditaire \\ 
+                Corentin BILLARD &  Gérald OSTER \\
+                Antonin FREY &  Autres groupes \\
+                Yann DIONISIO &  Utilisateurs finaux\\
+                \hline
+            \end{tabular}
+        \end{table}
+        
+        
+        \begin{description}
+            \item[Moyens à mobiliser] ordinateurs (personnels et de l'école), C, Latex, \dots
+        \end{description}
+    
+    \bigskip
+    \subsection{Jalons : échéancier / événements importants}
+        \begin{table}[htbp]
+            \centering
+            \caption{Échéancier}
+            \begin{tabular}{|l|l|l|}
+                \hline
+                \textbf{Jalon} & \textbf{Description} & \textbf{Date} \\
+                \hline\hline
+                Étape 1 : Définition et cadrage & Latex : Etat de l'art et charte de projet & 24/03/2023 \\
+                \hline
+                Étape 2 : Montage partie 1 & WBS, Gantt et RACI & 29/03/2023 \\
+                \hline
+                Étape 3 : Développement partie 1 & Code source & 19/04/2023 \\
+                \hline
+                Étape 4 : Évaluation et test partie 1 & Tests et Benchmark & 24/04/2023 \\
+                \hline
+                Étape 5 : Montage partie 2 & WBS, Gantt et RACI & 30/04/2023 \\
+                \hline
+                Étape 6 : Développement partie 2 & Code source & 14/05/2023 \\
+                \hline
+                Étape 7 : Évaluation partie 2 & Tests et Benchmark & 17/05/2023 \\
+                \hline
+                Étape 8 : Rapport de projet & Latex : Rapport & 24/05/2023 \\
+                \hline
+                Étape 9 : Soutenance & Soutenance & 31/05/2023 \\
+                \hline                
+            \end{tabular}
+        \end{table}
+    \subsection{Risques et opportunités}
+        \begin{table}[htbp]
+            \centering
+            \caption{Éléments favorables et défavorables}
+            \begin{tabular}{|l|l|}
+                \hline
+                \textbf{Favorable} & \textbf{Défavorable} \\
+                \hline\hline
+                L'équipe a déjà travaillée ensemble & Peu d'expérience en C \\
+                Pas de coûts & Difficile d'évaluer le temps que va prendre chaque jalon \\
+                \hline
+            \end{tabular}
+        \end{table}
+
+        \bigskip
+        Scénarios défavorables :
+        \begin{enumerate}
+            \item Le projet est trop ambitieux, nous ne parvenons pas rendre le livrable principal à temps
+        \end{enumerate}
+\end{document}
