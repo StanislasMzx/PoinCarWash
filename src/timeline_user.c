@@ -7,17 +7,6 @@
 #include <math.h>
 #include "compute_trip.h"
 
-/**
- * @brief Prepend a user state to a timeline
- *
- * @param one_timeline Timeline to prepend to
- * @param tick Tick of the state
- * @param station Station of the state
- * @param idStation Id of the station
- * @param one_vehicle Vehicle of the state
- * @param one_trip Trip of the state
- * @param one_stationsNumber Number of stations of the state
- */
 void timelineUserPrepend(Timeline_user_t **one_timeline, int tick, char *station, int idStation, Vehicle_t *one_vehicle, List_t *one_trip, int one_stationsNumber, int stepTrip)
 {
     Timeline_user_t *node = malloc(sizeof(Timeline_user_t));
@@ -35,17 +24,6 @@ void timelineUserPrepend(Timeline_user_t **one_timeline, int tick, char *station
     *one_timeline = node;
 }
 
-/**
- * @brief Append a user state to a timeline
- *
- * @param one_timeline Timeline to append to
- * @param tick Tick of the state
- * @param station Station of the state
- * @param idStation Id of the station
- * @param one_vehicle Vehicle of the state
- * @param one_trip Trip of the state
- * @param one_stationsNumber Number of stations of the state
- */
 void timelineUserAppend(Timeline_user_t **one_timeline, int tick, char *station, int idStation, Vehicle_t *one_vehicle, List_t *one_trip, int one_stationsNumber, int stepTrip)
 {
     if (*one_timeline == NULL)
@@ -61,13 +39,6 @@ void timelineUserAppend(Timeline_user_t **one_timeline, int tick, char *station,
     timelineUserPrepend(&tmp->next, tick, station, idStation, one_vehicle, one_trip, one_stationsNumber, stepTrip);
 }
 
-/**
- * @brief Get the user state at a given tick
- *
- * @param one_timeline Timeline to get the state from
- * @param tick Tick of the state
- * @return User_state_t* The user state
- */
 User_state_t *timelineUserGet(Timeline_user_t *one_timeline, int tick)
 {
     while (one_timeline->next != NULL && one_timeline->state->tick < tick)
@@ -77,12 +48,6 @@ User_state_t *timelineUserGet(Timeline_user_t *one_timeline, int tick)
     return one_timeline->state->tick == tick ? one_timeline->state : NULL;
 }
 
-/**
- * @brief Initialize a user timeline
- *
- * @param userNumber Number of users
- * @return Timeline_user_t* The user timeline
- */
 Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *network_file)
 {
     FILE *fp = fopen(network_file, "r");
@@ -146,11 +111,6 @@ Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *netwo
     return one_timeline;
 }
 
-/**
- * @brief Destroy a user timeline
- *
- * @param one_timeline Timeline to destroy
- */
 void timelineUserDestroy(Timeline_user_t **one_timeline)
 {
     Timeline_user_t *tmp = *one_timeline;
@@ -180,25 +140,6 @@ void timelineUserDestroyAll(Timeline_all_users_t **one_timeline)
     *one_timeline = NULL;
 }
 
-/**
- * @brief Locate the last station of a user at a given tick
- *
- * @param one_timeline The user timeline
- * @param one_tick The tick
- * @return char* The station id string
- */
-/*char *userLocation(Timeline_user_t *one_timeline, int one_tick)
-{
-    User_state_t *one_state = one_timeline->state;
-    assert(one_state != NULL);
-
-    if (one_tick < one_state->tick)
-    {
-        return NULL; // TODO: check behavior
-    }
-
-    return one_state->station;
-}*/
 int userLocation(Timeline_user_t *one_timeline, int nbCallToAStar, int one_tick, Table_t *table)
 {
     // return -2 if nowhere

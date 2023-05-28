@@ -7,16 +7,6 @@ double heuristic(Station_t *one_station, Station_t *end)
     return distance(one_station->coordinates, end->coordinates);
 }
 
-/**
- * @brief Add the reachable station neighbors in a heap
- *
- * @param one_table hash table of stations
- * @param one_station station to get the neighbors from
- * @param range range in km
- * @param one_heap the heap
- * @param end end of A*
- * @return None
- */
 int a_star_next_stations(Table_t *one_table, Station_t *one_station, char *one_station_key, double range, Heap_t **one_heap, double one_weight, Station_t *end)
 {
     double dist_to_end = heuristic(one_station, end);

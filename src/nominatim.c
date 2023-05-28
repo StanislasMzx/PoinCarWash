@@ -14,14 +14,6 @@
 #define API_USER_AGENT "School project (antonin.frey@telecomnancy.eu)"
 
 
-/**
- * @brief Create a new Nominatim_t object
- *
- * @param name Name of the nominatim
- * @param lat Latitude of the nominatim
- * @param lon Longitude of the nominatim
- * @return Nominatim_t* Nominatim object
- */
 Nominatim_t *nominatim_create(char *name, double lat, double lon)
 {
     Nominatim_t *nomin = malloc(sizeof(Nominatim_t));
@@ -34,11 +26,6 @@ Nominatim_t *nominatim_create(char *name, double lat, double lon)
     return nomin;
 }
 
-/**
- * @brief Destroy a Nominatim_t object
- *
- * @param nomin Nominatim object
- */
 void nominatim_destroy(Nominatim_t *nomin)
 {
     free(nomin->name);
@@ -46,15 +33,6 @@ void nominatim_destroy(Nominatim_t *nomin)
     free(nomin);
 }
 
-/**
- * @brief Write callback function for cURL
- *
- * @param contents Void pointer to the data
- * @param size Size of each element
- * @param nmemb Number of elements
- * @param userp Void pointer to the user data
- * @return size_t Size of the data
- */
 size_t api_write_data(void *contents, size_t size, size_t nmemb, void *userp)
 {
     size_t realsize = size * nmemb;
@@ -75,11 +53,6 @@ size_t api_write_data(void *contents, size_t size, size_t nmemb, void *userp)
     return realsize;
 }
 
-/**
- * @brief Fetch data from the API
- *
- * @return char* API response, empty if query error and NULL if API error
- */
 char *api_fetch(char *query)
 {
     // Initialize cURL
@@ -151,12 +124,6 @@ char *api_fetch(char *query)
     return data;
 }
 
-/**
- * @brief Parse the API response
- *
- * @param response API response
- * @return Nominatim_t* Nominatim object, NULL if error
- */
 Nominatim_t *nominatim_parse(char *response)
 {
     // Initialize values
@@ -205,12 +172,6 @@ Nominatim_t *nominatim_parse(char *response)
     return nomin;
 }
 
-/**
- * @brief Get the nominatim of a location
- *
- * @param query Location name
- * @return Nominatim_t* Nominatim object, empty name if query error and NULL if API error
- */
 Nominatim_t *nominatim_fetch(char *query)
 {
     // Fetch data from the API

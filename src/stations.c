@@ -8,12 +8,6 @@
 #include <string.h>
 
 
-/**
- * @brief Create a hash table of stations
- *
- * @param filename
- * @return Table_t* hash table of stations
- */
 Table_t *load_stations(char *filename)
 {
     FILE *fp = fopen(filename, "r");
@@ -107,14 +101,6 @@ Table_t *load_stations(char *filename)
     return table;
 }
 
-
-/*
-**
- * @brief Reinitialize a table (lastStation = NULL et weight = -1)
- *
- * @param one_table hash table of stations
- * @return void
- */
 void reinitializeTable(Table_t *one_table){
     for (int i=2; i<one_table->length; i++){
         List_t *one_list = one_table->slots[i];
@@ -125,9 +111,7 @@ void reinitializeTable(Table_t *one_table){
     }
 }
 
-
-/*
-**
+/**
  * @brief Get the reachable station neighbors
  *
  * @param one_table hash table of stations
@@ -154,4 +138,3 @@ List_t *reachable_station_neighbors(Table_t *one_table, char *one_station_key, u
     }
     return neighbors;
 }
-

@@ -72,20 +72,70 @@ struct _Timeline_all_users_t
  */
 typedef struct _Timeline_all_users_t Timeline_all_users_t;
 
-
-
+/**
+ * @brief Prepend a user state to a timeline
+ *
+ * @param one_timeline Timeline to prepend to
+ * @param tick Tick of the state
+ * @param station Station of the state
+ * @param idStation Id of the station
+ * @param one_vehicle Vehicle of the state
+ * @param one_trip Trip of the state
+ * @param one_stationsNumber Number of stations of the state
+ */
 void timelineUserPrepend(Timeline_user_t **one_timeline, int tick, char *station, int idStation, Vehicle_t *one_vehicle, List_t *one_trip, int one_stationsNumber, int stepTrip);
 
+/**
+ * @brief Append a user state to a timeline
+ *
+ * @param one_timeline Timeline to append to
+ * @param tick Tick of the state
+ * @param station Station of the state
+ * @param idStation Id of the station
+ * @param one_vehicle Vehicle of the state
+ * @param one_trip Trip of the state
+ * @param one_stationsNumber Number of stations of the state
+ */
 void timelineUserAppend(Timeline_user_t **one_timeline, int tick, char *station, int idStation, Vehicle_t *one_vehicle, List_t *one_trip, int one_stationsNumber, int stepTrip);
 
+/**
+ * @brief Get the user state at a given tick
+ *
+ * @param one_timeline Timeline to get the state from
+ * @param tick Tick of the state
+ * @return User_state_t* The user state
+ */
 User_state_t *timelineUserGet(Timeline_user_t *one_timeline, int tick);
 
-void timelineUserDestroy(Timeline_user_t **one_timeline);
-
+/**
+ * @brief Initialize a user timeline
+ *
+ * @param userNumber Number of users
+ * @return Timeline_user_t* The user timeline
+ */
 Timeline_all_users_t *initializeTimelineUser(Table_t *station_table, char *network_file);
 
+/**
+ * @brief Destroy a user timeline
+ *
+ * @param one_timeline Timeline to destroy
+ */
+void timelineUserDestroy(Timeline_user_t **one_timeline);
+
+/**
+ * @brief Destroy all user timelines
+ *
+ * @param one_timeline Timeline to destroy
+ */
 void timelineUserDestroyAll(Timeline_all_users_t **one_timeline);
 
+/**
+ * @brief Locate the last station of a user at a given tick
+ *
+ * @param one_timeline The user timeline
+ * @param one_tick The tick
+ * @return char* The station id string
+ */
 int userLocation(Timeline_user_t *one_timeline, int nbCallToAStar, int one_tick, Table_t *table);
 
 

@@ -36,12 +36,36 @@ enum _Point_type_t
  */
 typedef enum _Point_type_t Point_type_t;
 
+/**
+ * @brief Computes the haversine of an angle
+ *
+ * @param theta Angle in radians
+ * @return double Haversine of the angle
+ */
 double haversine(double theta);
 
+/**
+ * @brief Computes the distance between two coordinates in kilometers
+ *
+ * @param c1 First coordinate
+ * @param c2 Second coordinate
+ * @return double Distance between the two coordinates in kilometers with a precision of 3 decimals
+ */
 double distance(Coordinates_t *c1, Coordinates_t *c2);
 
+/**
+ * @brief Input coordinates from stdin
+ *
+ * @param type Type of the point
+ * @return Coordinates_t Coordinates of the point
+ */
 Coordinates_t coordinates_input(Point_type_t type);
 
+/**
+ * @brief Print some coordinates
+ *
+ * @param c1 Coordinates to print
+ */
 void coordinates_print(Coordinates_t *c1);
 
 #endif /* COORDINATES_H */

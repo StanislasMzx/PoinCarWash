@@ -8,11 +8,6 @@
 #include <assert.h>
 #include <math.h>
 
-/**
- * @brief Create a List_t object
- *
- * @return List_t*
- */
 List_t *list_create()
 {
     List_t *one_list = malloc(sizeof(List_t));
@@ -22,11 +17,6 @@ List_t *list_create()
     return one_list;
 }
 
-/**
- * @brief Destroy the List_t object
- *
- * @param one_list list to destroy
- */
 void list_destroy(List_t *one_list)
 {
     for (int j = 0; j < one_list->length; j++)
@@ -41,24 +31,11 @@ void list_destroy(List_t *one_list)
     free(one_list);
 }
 
-/**
- * @brief Check if the list is empty
- *
- * @param one_list list to check
- * @return bool true if the list is empty, false otherwise
- */
 bool list_is_empty(List_t *one_list)
 {
     return one_list->length == 0;
 }
 
-/**
- * @brief Append an element to the list
- *
- * @param one_list list to append to
- * @param one_key key of the element
- * @param one_station value of the element
- */
 void list_append(List_t *one_list, char *one_key, Station_t *one_station)
 {
     if (one_list->length == one_list->capacity)
@@ -71,11 +48,6 @@ void list_append(List_t *one_list, char *one_key, Station_t *one_station)
     one_list->length++;
 }
 
-/**
- * @brief Print an element
- *
- * @param one_element element to print
- */
 void element_print(Element_t *one_element)
 {
     assert(one_element != NULL);
@@ -84,11 +56,6 @@ void element_print(Element_t *one_element)
     printf("%s: id: %d{name: %s, coordinates: (%f, %f), plugs_number: %d, power: %d, free: %s, last station: %s}\n", one_element->key, one_element->value->id, one_element->value->name, one_element->value->coordinates->longitude, one_element->value->coordinates->latitude, one_element->value->plugs_number, one_element->value->power, one_element->value->free ? "true" : "false", one_element->value->last_station);
 }
 
-/**
- * @brief Print an station
- *
- * @param one_station station to print
- */
 void station_print(Station_t *one_station)
 {
     if (one_station == NULL)
@@ -99,11 +66,6 @@ void station_print(Station_t *one_station)
     printf("\n\nid:%d{name: %s, coordinates: (%f, %f), plugs_number: %d, power: %d, free: %s, last station: %s}\n", one_station->id, one_station->name, one_station->coordinates->longitude, one_station->coordinates->latitude, one_station->plugs_number, one_station->power, one_station->free ? "true" : "false", one_station->last_station);
 }
 
-/**
- * @brief Print a list
- *
- * @param one_list list to print
- */
 void list_print(List_t *one_list)
 {
     printf("Len : %d, ", one_list->length);
@@ -113,13 +75,6 @@ void list_print(List_t *one_list)
     }
 }
 
-/**
- * @brief Check if the list contains an element
- *
- * @param one_list list to check
- * @param one_key key of the element
- * @return bool true if the list contains the element, false otherwise
- */
 bool list_contains(List_t *one_list, char *one_key)
 {
     for (int i = 0; i < one_list->length; i++)
@@ -132,13 +87,6 @@ bool list_contains(List_t *one_list, char *one_key)
     return false;
 }
 
-/**
- * @brief Find an element in the list
- *
- * @param one_list list to search in
- * @param one_key key of the element
- * @return Station_t* value of the element if found, NULL otherwise
- */
 Station_t *list_find(List_t *one_list, char *one_key)
 {
     for (int i = 0; i < one_list->length; i++)
@@ -192,13 +140,6 @@ Station_t *station_copy(Station_t *one_station)
     return copy;
 }
 
-/**
- * @brief Calculate the travel time between two stations in ticks
- *
- * @param one_station first station
- * @param other_station second station
- * @return int travel time in ticks
- */
 int travel_ticks(Station_t *one_station, Station_t *other_station)
 {
     double dist = distance(one_station->coordinates, other_station->coordinates);

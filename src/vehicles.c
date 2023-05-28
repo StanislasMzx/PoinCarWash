@@ -5,23 +5,12 @@
 #include <stdlib.h>
 #include <assert.h>
 
-/**
- * @brief Destroy a vehicle struct
- * 
- * @param vehicle Vehicle_t* Vehicle to destroy
- */
 void vehicle_destroy(Vehicle_t *vehicle)
 {
     free(vehicle->name);
     free(vehicle);
 }
 
-/**
- * @brief Find a vehicle by name in the vehicle table
- *
- * @param name Name of the vehicle
- * @return Vehicle_t* Vehicle with NULL values if not found
- */
 Vehicle_t *vehicle_find_by_name(char *name)
 {
     FILE *fp = fopen(VEHICLE_TABLE_PATH, "r");
@@ -65,11 +54,6 @@ Vehicle_t *vehicle_find_by_name(char *name)
     return vehicle;
 }
 
-/**
- * @brief Input a vehicle from stdin
- *
- * @return Vehicle with NULL values if not found
- */
 Vehicle_t *vehicle_input()
 {
     const unsigned MAX_LENGTH = 128;

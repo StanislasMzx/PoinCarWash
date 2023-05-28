@@ -4,12 +4,6 @@
 #include <stdio.h>
 #include <assert.h>
 
-/**
- * @brief Hash function
- *
- * @param some_value value to hash
- * @return int hash value
- */
 int hash(char *some_value)
 {
     int res = 0;
@@ -24,12 +18,6 @@ int hash(char *some_value)
     return res+2; // 0 is the start and 1 is the end
 }
 
-/**
- * @brief Create a new hash table
- *
- * @param size of the hash table
- * @return Table_t* new hash table
- */
 Table_t *table_create(int size)
 {
     Table_t *table = malloc(sizeof(Table_t));
@@ -43,11 +31,6 @@ Table_t *table_create(int size)
     return table;
 }
 
-/**
- * @brief Destroy a hash table
- *
- * @param one_table to destroy
- */
 void table_destroy(Table_t *one_table)
 {
     for (int i = 0; i < one_table->length; i++)
@@ -58,25 +41,11 @@ void table_destroy(Table_t *one_table)
     free(one_table);
 }
 
-/**
- * @brief Get the index of a key in the hash table
- *
- * @param one_table to search
- * @param one_key to search
- * @return int index of the key
- */
 int table_indexof(Table_t *one_table, char *one_key)
 {
     return (hash(one_key) % one_table->length + one_table->length) % one_table->length;
 }
 
-/**
- * @brief Add a key and a value to the hash table
- *
- * @param one_table to add to
- * @param one_key to add
- * @param one_station to add
- */
 void table_add(Table_t *one_table, char *one_key, Station_t *one_station)
 {
     int index = table_indexof(one_table, one_key);
@@ -94,13 +63,6 @@ void table_add(Table_t *one_table, char *one_key, Station_t *one_station)
     list_append(list, one_key, one_station);
 }
 
-/**
- * @brief Check if a key is in the hash table
- *
- * @param one_table to search
- * @param one_key to search
- * @return bool true if the key is in the hash table, false otherwise
- */
 bool table_contains(Table_t *one_table, char *one_key)
 {
     int index = table_indexof(one_table, one_key);
@@ -108,13 +70,6 @@ bool table_contains(Table_t *one_table, char *one_key)
     return list_contains(list, one_key);
 }
 
-/**
- * @brief Get the value of a key in the hash table
- *
- * @param one_table to search
- * @param one_key to search
- * @return Station_t* value of the key
- */
 Station_t *table_get(Table_t *one_table, char *one_key)
 {
     int index = table_indexof(one_table, one_key);
