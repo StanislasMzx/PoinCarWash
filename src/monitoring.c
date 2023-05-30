@@ -44,8 +44,8 @@ void monitoring_file_write(char *fileName, Timeline_all_stations_t *timeline, Ta
         // For each tick
         while (current_station != NULL)
         {
-            // fprintf(fp, ",%d/%d", current_station->stateValue->numberVehicle, table_get(table, current_station->name)->plugs_number);
-            fprintf(fp, ",%f", (double)current_station->stateValue->numberVehicle / (double)table_get(table, current_station->name)->plugs_number);
+            fprintf(fp, ",%d/%d", current_station->stateValue->numberVehicle, table_get(table, current_station->name)->plugs_number);
+            // fprintf(fp, ",%f", (double)current_station->stateValue->numberVehicle / (double)table_get(table, current_station->name)->plugs_number);
             current_station = current_station->next;
         }
         fprintf(fp, "\n");

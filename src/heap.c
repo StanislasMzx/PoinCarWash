@@ -77,8 +77,7 @@ State_t *heap_pop(Heap_t **one_heap_ptr, unsigned int height)
 {
     /* Remove the root of one_heap and return his value, return NULL if one_heap is empty */
     Heap_t *one_heap = *one_heap_ptr;
-    // heap_print(one_heap);
-    // printf("\nFIN\n\n");
+    
     if (!heap_is_empty(one_heap))
     {
         State_t *tmp = one_heap->value;

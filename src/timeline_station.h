@@ -11,8 +11,8 @@ struct _Station_state_t
 {
     int tick;
     int numberVehicle;
-    int availablePlugs;
-    int waitingTime;
+    int *waitingTime;
+    int number_plugs;
 };
 /**
  * @typedef Station_state_t
@@ -22,7 +22,6 @@ struct _Station_state_t
  * Tick of the state update
  * @var Station_state::numberVehicle
  * Number of vehicle at the station
- * @var Station_state::availablePlugs
  * Number of available plugs of the station
  */
 typedef struct _Station_state_t Station_state_t;

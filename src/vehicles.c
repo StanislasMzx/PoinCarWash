@@ -58,7 +58,15 @@ Vehicle_t *vehicle_find_by_name(char *name)
             vehicle->fast_charge = fast_charge;
             break;
         }
+
     }
+    
+    if (strcasestr(vehicle_name, name) == NULL){
+        // vehicle not found
+        vehicle_destroy(vehicle);
+        return NULL;
+    }
+    
 
     fclose(fp);
 
