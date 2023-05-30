@@ -12,6 +12,10 @@ List_t *compute_trip(Table_t *table, Nominatim_t *startNomin, Nominatim_t *endNo
     endCoordinates->latitude = endNomin->coord->latitude;
     endCoordinates->longitude = endNomin->coord->longitude;
 
+    // reinitialize the table
+    reinitializeTable(table);
+
+
     char *startKey = malloc(6), *endKey = malloc(4);
     strcpy(startKey, "start");
     strcpy(endKey, "end");

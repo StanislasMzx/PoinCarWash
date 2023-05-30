@@ -105,6 +105,7 @@ void reinitializeTable(Table_t *one_table){
     for (int i=2; i<one_table->length; i++){
         List_t *one_list = one_table->slots[i];
         for (int j=0; j<one_list->length; j++){
+            free(one_list->list[j].value->last_station);
             one_list->list[j].value->last_station = NULL;
             one_list->list[j].value->weight = -1;
         }

@@ -7,6 +7,27 @@
 #include <math.h>
 #include "compute_trip.h"
 
+
+
+int _find_plug(int *waitingTime, int number_plugs)
+{
+    int min = 0;
+    for (int i=0; i<number_plugs; i++)
+    {
+        if (waitingTime[min] > waitingTime[i])
+        {
+            min = i;
+        }
+    }
+    return min;
+}
+
+
+/**
+ * @brief Update the user timeline with the next tick
+ *
+ * @param one_timeline The user timeline
+ */
 void _user_print(Timeline_user_t *user)
 {
     Timeline_user_t *current = user;
@@ -20,14 +41,17 @@ void _user_print(Timeline_user_t *user)
 
 void nextTickUser(Timeline_all_users_t *user_timeline, Timeline_all_stations_t *station_timeline, Table_t *one_table)
 {
-    assert(station_timeline->lastTick == user_timeline->lastTick);
     user_timeline->lastTick++;
+    assert(station_timeline->lastTick == user_timeline->lastTick);
+    
     for (int i = 0; i < user_timeline->userNumber; i++)
     {
+
+
         User_state_t *user_state = user_timeline->listTimeline[i]->state;
         Timeline_user_t *one_user_timeline = user_timeline->listTimeline[i];
 
-        // printf("\nstep: %d, len: %d\n", user_state->stepTrip, user_timeline->listTimeline[i]->trip->length);
+
 
         if (user_state->stepTrip != user_timeline->listTimeline[i]->trip->length - 1)
         {
@@ -39,11 +63,6 @@ void nextTickUser(Timeline_all_users_t *user_timeline, Timeline_all_stations_t *
             assert((old_timeline_user == NULL || user_state->idStation == old_timeline_user->state->idStation)); // not waiting at a station
             int loc = userLocation(user_timeline->listTimeline[i], i, user_timeline->lastTick, one_table);
 
-            // if (user_timeline->lastTick < 60)
-            // {
-            //     // _user_print(user_timeline->listTimeline[i]);
-            //     printf("\n\nloc: %d\n\n\n\n\n\n\n", loc);
-            // }
 
             if (loc > -1)
             {
@@ -66,38 +85,26 @@ void nextTickUser(Timeline_all_users_t *user_timeline, Timeline_all_stations_t *
                 int step = user_state->stepTrip + 1;
                 timelineUserPrepend(&user_timeline->listTimeline[i], user_timeline->lastTick, new_station, loc, user_timeline->listTimeline[i]->vehicle, user_timeline->listTimeline[i]->trip, user_timeline->listTimeline[i]->stationsNumber + 1, step);
                 int travelTick = travel_ticks(before, after);
-                /*if (one_station_timeline->stateValue->availablePlugs > 0){
-                    one_station_timeline->stateValue->waitingTime += travelTick;
-                }
-
-                one_station_timeline->stateValue->numberVehicle ++;
-                one*/
 
                 // une voiture arrive dans une station
+
+                int plugs = one_station_timeline->stateValue->number_plugs;
+                int *waiting = one_station_timeline->stateValue->waitingTime;
+                int index = _find_plug(waiting, plugs);
+
 
                 double v = one_user_timeline->vehicle->fast_charge;
                 one_station_timeline->stateValue->numberVehicle++;
                 int wait = (int)ceil(travelTick * VEHICLE_SPEED / v);
-                // if (user_timeline->lastTick < 60)
-                // {
-                //     printf("\n\ntravel tick: %d, speed charge: %f, vehicle speed: %d\n\n\n\n\n\n\n", travelTick, v, VEHICLE_SPEED);
-                // }
-                if (one_station_timeline->stateValue->availablePlugs > 0)
-                {
-                    one_station_timeline->stateValue->availablePlugs--;
-                }
-                else
-                {
+                
+                waiting[index] += wait;
 
-                    one_station_timeline->stateValue->waitingTime += wait;
-                }
 
-                timelineUserPrepend(&user_timeline->listTimeline[i], user_timeline->lastTick + wait, new_station, loc, user_timeline->listTimeline[i]->vehicle, user_timeline->listTimeline[i]->trip, user_timeline->listTimeline[i]->stationsNumber + 1, step);
-                // printf("\nlen: %d == step: %d\n", user_timeline->listTimeline[i]->trip->length, user_timeline->listTimeline[i]->state->stepTrip);
+                timelineUserPrepend(&user_timeline->listTimeline[i], user_timeline->lastTick + waiting[index], new_station, loc, user_timeline->listTimeline[i]->vehicle, user_timeline->listTimeline[i]->trip, user_timeline->listTimeline[i]->stationsNumber + 1, step);
+
             }
             else if (loc == -1)
             {
-                // printf("\n\n\nHERE\n\n\n\n");
                 char *new_station;
                 int step;
                 if (user_state->stepTrip == 0)
@@ -218,10 +225,14 @@ Timeline_all_stations_t *initializeTimelineAllStation(Timeline_all_users_t *all_
                     one_timeline->statesNumber = 1;
                     one_timeline->stateValue = malloc(sizeof(Station_state_t));
                     assert(one_timeline->stateValue != NULL);
-                    one_timeline->stateValue->availablePlugs = station->plugs_number;
                     one_timeline->stateValue->numberVehicle = 0;
                     one_timeline->stateValue->tick = one_all_stations_timeline->lastTick;
-                    one_timeline->stateValue->waitingTime = 0;
+                    one_timeline->stateValue->number_plugs = station->plugs_number;
+                    one_timeline->stateValue->waitingTime = calloc(station->plugs_number, sizeof(int));
+                    for (int i=0; i<station->plugs_number; i++)
+                    {
+                        one_timeline->stateValue->waitingTime[i] = 0;
+                    }
                     one_all_stations_timeline->listTimeline[station->id] = one_timeline;
                 }
             }
@@ -233,12 +244,8 @@ Timeline_all_stations_t *initializeTimelineAllStation(Timeline_all_users_t *all_
 
 void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_users_t *user_timeline, Table_t *table)
 {
-    nextTickUser(user_timeline, station_timeline, table);
     station_timeline->lastTick++;
-    // if (user_timeline->lastTick < 60)
-    // {
-    //     printf("\nLASTTICK: %d\n", station_timeline->lastTick);
-    // }
+
     for (int i = 0; i < station_timeline->nbStations; i++)
     {
         Timeline_station_t *one_timeline = station_timeline->listTimeline[i];
@@ -246,29 +253,38 @@ void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_use
         new->name = one_timeline->name;
         new->statesNumber = one_timeline->statesNumber + 1;
         new->stateValue = malloc(sizeof(Station_state_t));
-        new->stateValue->availablePlugs = one_timeline->stateValue->availablePlugs;
         new->stateValue->numberVehicle = one_timeline->stateValue->numberVehicle;
         new->stateValue->tick = one_timeline->stateValue->tick + 1;
-        if (one_timeline->stateValue->waitingTime > 0)
+        new->stateValue->number_plugs = one_timeline->stateValue->number_plugs;
+        new->stateValue->waitingTime = calloc(one_timeline->stateValue->number_plugs, sizeof(int));
+
+
+        for (int i=0; i<new->stateValue->number_plugs; i++)
         {
-            new->stateValue->waitingTime = one_timeline->stateValue->waitingTime - 1;
+            if (one_timeline->stateValue->waitingTime[i] > 0)
+            {
+                new->stateValue->waitingTime[i] = one_timeline->stateValue->waitingTime[i] - 1;
+            }
+            else
+            {
+                new->stateValue->waitingTime[i] = 0;
+            }
         }
-        else
-        {
-            new->stateValue->waitingTime = 0;
-        }
+        
+        
         new->next = one_timeline;
         station_timeline->listTimeline[i] = new; // on vient d'ajouter une case
     }
+
+    
+    nextTickUser(user_timeline, station_timeline, table);
+
+
     for (int i = 0; i < user_timeline->userNumber; i++)
     {
         Timeline_user_t *one_user_timeline = user_timeline->listTimeline[i];
         if (one_user_timeline->state->stepTrip != 0 && one_user_timeline->state->stepTrip != one_user_timeline->trip->length - 1)
         {
-            // if (user_timeline->lastTick < 60)
-            // {
-            //     printf("\nstep: %d, id: %d, endedTrip: %d\n", one_user_timeline->state->stepTrip, one_user_timeline->state->idStation, user_timeline->userArrived);
-            // }
 
             //
             Timeline_station_t *one_station_timeline = station_timeline->listTimeline[one_user_timeline->state->idStation];
@@ -276,7 +292,7 @@ void nextTickStation(Timeline_all_stations_t *station_timeline, Timeline_all_use
             {
                 //_user_print(one_user_timeline);
                 // une voiture part d'une station
-                one_station_timeline->stateValue->availablePlugs++;
+
                 one_station_timeline->stateValue->numberVehicle--;
             }
         }
@@ -296,11 +312,15 @@ void readTimelineStation(Timeline_all_stations_t *one_timeline, Station_t *one_s
 {
     Timeline_station_t *current = one_timeline->listTimeline[one_station->id];
 
-    printf("Station %s :\n", one_station->name);
+    printf("\nStation %s :\n", one_station->name);
 
     while (current != NULL)
     {
-        printf("Tick : %d; Vehicles : %d; Available plugs : %d; Waiting Time : %d\n", current->stateValue->tick, current->stateValue->numberVehicle, current->stateValue->availablePlugs, current->stateValue->waitingTime);
+        printf("Tick : %d; Vehicles : %d; number of plugs : %d; Waiting Time :\n", current->stateValue->tick, current->stateValue->numberVehicle, current->stateValue->number_plugs);
+        for (int i=0; i<current->stateValue->number_plugs; i++)
+        {
+            printf("plug %d: %d\n", i, current->stateValue->waitingTime[i]);
+        }
         current = current->next;
     }
 }
@@ -318,7 +338,7 @@ void readTimelineStationByTick(Timeline_all_stations_t *one_timeline, int one_ti
 
         if (current != NULL)
         {
-            printf("Station %s : Vehicle : %d; Available Plugs : %d; Waiting Time : %d\n", current->name, current->stateValue->numberVehicle, current->stateValue->availablePlugs, current->stateValue->waitingTime);
+            printf("Station %s : Vehicle : %d; Available Plugs : %d; Waiting Time : %d\n", current->name, current->stateValue->numberVehicle, current->stateValue->number_plugs, current->stateValue->waitingTime[0]);
         }
     }
 }
@@ -344,11 +364,13 @@ void destroyTimelineStation(Timeline_station_t *one_timeline)
     while (current->next != NULL)
     {
         Timeline_station_t *tmp = current->next;
+        free(current->stateValue->waitingTime);
         free(current->stateValue);
         // free(current->name);
         free(current);
         current = tmp;
     }
+    free(current->stateValue->waitingTime);
     free(current->stateValue);
     free(current);
 }
