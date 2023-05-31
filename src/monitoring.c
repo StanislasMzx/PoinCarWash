@@ -44,8 +44,8 @@ void monitoring_file_write(char *fileName, Timeline_all_stations_t *timeline, Ta
         // For each tick
         while (current_station != NULL)
         {
-            fprintf(fp, ",%d/%d", current_station->stateValue->numberVehicle, table_get(table, current_station->name)->plugs_number);
-            // fprintf(fp, ",%f", (double)current_station->stateValue->numberVehicle / (double)table_get(table, current_station->name)->plugs_number);
+            // fprintf(fp, ",%d/%d", current_station->stateValue->numberVehicle, table_get(table, current_station->name)->plugs_number);
+            fprintf(fp, ",%f", (double)current_station->stateValue->numberVehicle / (double)table_get(table, current_station->name)->plugs_number);
             current_station = current_station->next;
         }
         fprintf(fp, "\n");
@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
     printf("\33[2m\u2502\u00a0\u00a0 \u2514\u2500\u2500 Table destroyed.\33[0m\n");
 
     // End monitoring process
-    printf("\33[2m\u2514\u2500\u2500 \33[32mMonitoring successfully ended.\33[0m\n");
+    printf("\u2514\u2500\u2500 \33[32mMonitoring successfully ended.\33[0m\n");
 
     return 0;
 }

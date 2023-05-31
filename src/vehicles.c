@@ -49,13 +49,6 @@ Vehicle_t *vehicle_find_by_name(char *name)
         }
 
     }
-    
-    if (strcasestr(vehicle_name, name) == NULL){
-        // vehicle not found
-        vehicle_destroy(vehicle);
-        return NULL;
-    }
-    
 
     fclose(fp);
 
